@@ -60,6 +60,7 @@
                                         <br>
                                         WA: You like literally never go anywhere-
                                     </span>
+                                    <span>This is some bullshit</span>
                                 </div>
                             </div>
                         </div>
@@ -71,14 +72,15 @@
 
     <script src="jquery.js"></script>
     <script>
+        //MAIN SCRIPT
         const chatlog = document.getElementById('content');
         recurseContent(chatlog);
 
+        //DOM TRAVERSAL
         function recurseContent(element) {
             //BASE CASE ONE: a simple span tag
             if (element.nodeName === 'SPAN' && element.children.length === 0) { //span with no children - easy to check!
-                console.log("Found base!");
-                //fixQuirk(element);
+                element.textContent = fixQuirk(element.textContent);
                 return;
             }
 
@@ -95,8 +97,14 @@
                 //check for the one irritating case where a single span has a chunk of br tags
                 //because people don't know how to act
                 if (isMultiLinePesterLog(currentNode)) {
-                    
-                    currentNode.textContent = "Found multiline";
+                    const splitUpLines = currentNode.innerHTML.split("<br>").map(str => str = str.trim());
+                    currentNode.innerHTML = '';
+                    splitUpLines.forEach(line => {
+                        let newSpan = document.createElement('span');
+                        newSpan.textContent = fixQuirk(line);
+                        currentNode.appendChild(newSpan);
+                        currentNode.appendChild(document.createElement('br'));
+                    });
                 }
                 else {
                     //otherwise, just keep on recursin'
@@ -115,7 +123,7 @@
             let numChildren = node.children.length;
 
             for (let i = 0; i < numChildren; i++) {
-                if(node.children[i].nodeName !== 'BR') {
+                if (node.children[i].nodeName !== 'BR') {
                     return false;
                 }
             }
@@ -146,7 +154,12 @@
         //EXPECTS a source string
         //RETURNS a string which has been stripped of quirks
         function fixQuirk(str) {
-           
+            console.log("str");
+            let result = str;
+            let pesterLogID = str.slice(0,3);
+            console.log("Looking for " + peseterLogID);
+
+            return result;
         }
 
         //FIXES FOR QUIRKS
