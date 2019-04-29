@@ -7,7 +7,7 @@
       "matches": [
         "https://mspfa.com/*", "https://www.homestuck.com/*", "https://www.deconreconstruction.com/*"
       ],
-      "js": ["jquery.js", "vastError.js", "mutation.js", "content.js"]
+      "js": ["vastError.js", "mutation.js", "content.js"]
     }
   ]
 }

@@ -1,3 +1,42 @@
+//DETERMINE AND FIX QUIRK (VAST ERROR)
+//EXPECTS a source node (SPAN with no children)
+function fixQuirk(span) {
+    const spanText = span.textContent.trim();
+    let colonIndex = spanText.indexOf(':');
+    if(colonIndex === -1) {
+        return;
+    }
+    let pesterLogID = spanText.slice(0, colonIndex);
+    switch (pesterLogID) {
+        case "UK":
+            fixMurrit(span);
+            break;
+        case "WA":
+            fixLaivan(span);
+            break;
+        case "AH":
+            fixArcjec(span);
+            break;
+        case "DQ":
+            fixAlbion(span);
+            break;
+        case "ALBION":
+            fixAlbion(span);
+            break;
+        case "PO":
+            fixTaz(span);
+            break;
+        case "GUARDIANSPIRIT":
+            fixGuardianSpirit(span);
+            break;
+        case "GD": 
+            fixDismas(span);
+            break;
+        default:
+            break;
+    }
+}
+
 
 function fixMurrit(span) {
     let newText = span.innerText
@@ -44,8 +83,17 @@ function fixTaz(span) {
 
 function fixGuardianSpirit(span) {
     let newText = span.innerText
-    .replace(/\*/g, '')
-    .replace(/\-/g, '');
+        .replace(/\*/g, '')
+        .replace(/\-/g, '');
 
-replaceSpanText(span, newText);
+    replaceSpanText(span, newText);
+}
+
+function fixDismas(span) {
+    let newText = span.innerText
+        .replace(/\/{3}$/, '')
+        .replace(/\\\//, 'v')
+        .replace(/\/\\/g, 'a');
+
+    replaceSpanText(span, newText);
 }

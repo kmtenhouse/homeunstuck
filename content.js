@@ -106,6 +106,9 @@ function fixQuirk(span) {
         case "GUARDIANSPIRIT":
             fixGuardianSpirit(span);
             break;
+        case "GD": 
+            fixDismas(span);
+            break;
         default:
             break;
     }
