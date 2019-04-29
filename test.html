@@ -22,7 +22,7 @@
                         <br>
                         <div class="spoiler closed" id="spoilerHolder">
                             <div style="text-align: center;" id="buttonHolder">
-                                <input type="button" id="myButton" value="Close Skorpelog"
+                                <input class="closed" type="button" id="myButton" value="Close Skorpelog"
                                     style="padding: 1px 6px; border: 1px solid black;">
                                 <!-- <button class="changeOpen">This is a button</button> -->
                             </div>
@@ -35,6 +35,8 @@
                                         everything is going to get demolished, correct?</span>
                                     <br>
                                     <span style="color: #510049;">UK: >([w#at]</span>
+                                    <br>
+                                    <span style="color: #510049;">UK: >([o# rig#t T#OSE t#angs]</span>
                                     <br>
                                     <!--                                     <span style="color: #510049;">
                                         UK: >([omfg you wise ass minilungs]
@@ -59,6 +61,9 @@
                                         <br>
                                         WA: You like literally never go anywhere-
                                     </span>
+                                    <br>
+                                    <span>AH: XDXD I think my text will continue to speak for itself here, do me a favor and imagine an absurdly dragged out and coarse voice for this situation. XDXD</span>
+                                    <br>
                                     <span>This is some bullshit</span>
                                 </div>
                             </div>
@@ -70,118 +75,9 @@
     </div>
 
     <script src="jquery.js"></script>
+    <script src="mutation.js"></script>
     <script src="vastError.js"></script>
-    <script>
-        //MAIN SCRIPT
-        setTimeout(function () {
-            const chatlog = document.getElementById('content');
-            recurseContent(chatlog);
-        }, 2000);
-
-
-        //DOM TRAVERSAL
-        function recurseContent(element) {
-            //BASE CASE ONE: a simple span tag
-            if (element.nodeName === 'SPAN' && element.children.length === 0) { //span with no children - easy to check!
-                fixQuirk(element);
-                return;
-            }
-
-            //BASE CASE TWO: an element that's not a span but still has no children
-            if (!element.hasChildNodes()) {
-                return;
-            }
-
-            //otherwise, traverse the children
-            const numChildren = element.children.length;
-
-            for (let i = 0; i < numChildren; i++) {
-                let currentNode = element.children[i];
-                //check for the one irritating case where a single span has a chunk of br tags
-                //because people don't know how to act
-                if (isMultiLinePesterLog(currentNode)) {
-                    const splitUpLines = currentNode.innerHTML.split("<br>").map(str => str = str.trim());
-                    //clear the current content
-                    currentNode.innerHTML = '';
-                    splitUpLines.forEach((line, index) => {
-                        let newSpan = document.createElement('span');
-                        newSpan.textContent = line;
-                        fixQuirk(newSpan);
-                        currentNode.appendChild(newSpan);
-                        //append a break tag (so long as we're not on the last element)
-                        if (index !== splitUpLines.length - 1) {
-                            currentNode.appendChild(document.createElement('br'));
-                        }
-                    });
-                }
-                else {
-                    //otherwise, just keep on recursin'
-                    recurseContent(element.children[i]);
-                }
-            }
-        }
-
-        //returns TRUE if this particular node is a type of pesterlog span which contains multiple lines of text separated with br
-        //returns FALSE if there are deeper levels than just text & br
-        function isMultiLinePesterLog(node) {
-            if (node.nodeName !== 'SPAN' || node.children.length === 0) {
-                return false;
-            }
-
-            let numChildren = node.children.length;
-            for (let i = 0; i < numChildren; i++) {
-                if (node.children[i].nodeName !== 'BR') {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        //MUTATION CALLBACKS
-        function mutationCallback(mutationList, observer) {
-            //we only want to bother replacing the text if the chatlog is being opened
-            //we also only want to do this once
-            var completedSubstitution = false;
-            mutationList.forEach((mutation) => {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'class' && !completedSubstitution) {
-                    mutation.target.classList.forEach(function (value, index) {
-                        console.log(mutation);
-                        if (value === "open" && !completedSubstitution) {
-                            //CODE GOES HERE
-                            observer.disconnect(); //after we've substituted once, kill the observer
-                            completedSubstitution = true;
-                        }
-                    });
-                }
-            });
-        }
-
-        //DETERMINE AND FIX QUIRK
-        //EXPECTS a source node (SPAN with no children)
-        function fixQuirk(span) {
-            const spanText = span.textContent.trim();
-            let pesterLogID = spanText.slice(0, 3);
-            switch (pesterLogID) {
-                case "UK:":
-                    fixMurrit(span);
-                    break;
-                case "WA:":
-                    fixLaivan(span);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        //FIXES FOR QUIRKS
-        //takes in a basic span and a string of text that should be added to it
-        function replaceSpanText(span, newText) {
-            let newTextNode = document.createTextNode(newText);
-            span.innerHTML = '';
-            span.appendChild(newTextNode);
-        }
-
-    </script>
+    <script src="content.js"></script>
 
 </body>
 
