@@ -1,52 +1,21 @@
 //MAIN SCRIPT
-//Attach an event listener to the Skorpe Log button
-console.log("Extension loaded!");
+//Attach a mutation listener to the skorpe box (if it exists)
+setTimeout(function () {
+    var spoilerDivCollection = document.getElementsByClassName('spoiler');
+    for (div of spoilerDivCollection) {
+        if (div.classList.contains('spoiler') && div.nodeName === 'DIV') {
+            console.log("Observer firing");
+            var observer = new MutationObserver(mutationCallback);
 
-/* setTimeout(function () {
-    const chatlog = document.getElementById('content');
-    console.log("Firing quirk fix");
-    recurseContent(chatlog);
-}, 1000); */
-
-//MUTATION LISTENER
-var observer = new MutationObserver(mutationCallback);
-
-var observerOptions = {
-    childList: false,
-    attributes: true,
-    subtree: false //Omit or set to false to observe only changes to the parent node.
-  }
-
-let spoilerDiv;
-
-var spoilerDivCollection = document.getElementsByClassName('spoiler');
-for(div of spoilerDivCollection) {
-    if(div.classList.contains('spoiler') && div.nodeName === 'DIV') {
-        console.log("Div found");
-        spoilerDiv = div;
-        observer.observe(spoilerDiv, observerOptions);
+            var observerOptions = {
+                childList: false,
+                attributes: true,
+                subtree: true //Omit or set to false to observe only changes to the parent node.
+            }
+            observer.observe(div, observerOptions);
+        }
     }
-}
-
-//BUTTON CLICK
-var button = document.getElementsByTagName('input')[0];
-
-button.addEventListener('click', function() {
-    if(this.classList.contains('closed')) {
-        console.log("Opening");
-        this.classList.remove('closed');
-        this.classList.add('open');
-        spoilerDiv.classList.remove('closed');
-        spoilerDiv.classList.add('open');
-    }
-    else {
-        console.log("Closing");
-        this.classList.remove('open');
-        this.classList.add('closed');
-        spoilerDiv.classList.remove('open');
-        spoilerDiv.classList.add('closed');
-    }
-});
+}, 1000);
 
 //DOM TRAVERSAL
 function recurseContent(element) {
@@ -120,6 +89,9 @@ function fixQuirk(span) {
             break;
         case "AH:":
             fixArcjec(span);
+            break;
+        case "DQ:":
+            fixAlbion(span);
             break;
         default:
             break;

@@ -28,6 +28,12 @@
                             </div>
                             <div id="chatlogHolder">
                                 <div style="text-align: left;" id="chatlog">
+                                    <span>DQ: dating*back*epochs*that*have*led*us*to*this*very*moment*.</span>
+                                    <br>
+                                    <span>DQ: dating*back*epochs*that*have*led*us*to*this*very*moment*!</span>
+                                    <br>
+                                    <span>DQ: dating*back*epochs*that*have*led*us*to*this*very*moment*?</span>
+                                    <br>
                                     --<span style="color: #a00078;">grandioseSaturation [GS]</span> began trolling <span
                                         style="color: #510049;">unclaspedKahuna [UK]</span>
                                     <br>
@@ -62,7 +68,9 @@
                                         WA: You like literally never go anywhere-
                                     </span>
                                     <br>
-                                    <span>AH: XDXD I think my text will continue to speak for itself here, do me a favor and imagine an absurdly dragged out and coarse voice for this situation. XDXD</span>
+                                    <span>AH: XDXD I think my text will continue to speak for itself here, do me a favor
+                                        and imagine an absurdly dragged out and coarse voice for this situation.
+                                        XDXD</span>
                                     <br>
                                     <span>This is some bullshit</span>
                                 </div>
@@ -77,6 +85,35 @@
     <script src="jquery.js"></script>
     <script src="mutation.js"></script>
     <script src="vastError.js"></script>
+    <script>
+        var spoilerDiv = '';
+        var spoilerDivCollectionTwo = document.getElementsByClassName('spoiler');
+        for (div of spoilerDivCollectionTwo) {
+            if (div.classList.contains('spoiler') && div.nodeName === 'DIV') {
+                spoilerDiv = div;
+            }
+        }
+        //BUTTON CLICK
+        var button = document.getElementsByTagName('input')[0];
+
+        button.addEventListener('click', function () {
+            if (this.classList.contains('closed')) {
+                console.log("Opening");
+                this.classList.remove('closed');
+                this.classList.add('open');
+                
+                spoilerDiv.classList.remove('closed');
+                spoilerDiv.classList.add('open');
+            }
+            else {
+                console.log("Closing");
+                this.classList.remove('open');
+                this.classList.add('closed');
+                spoilerDiv.classList.remove('open');
+                spoilerDiv.classList.add('closed');
+            }
+        });
+    </script>
     <script src="content.js"></script>
 
 </body>
