@@ -17,16 +17,18 @@
                 <div id="content">
                     <span>
                         <br>
-                        <!--                         <img src=""> -->
+                        <div id="emptyHolder"></div>
                         <br>
                         <br>
-                        <div class="spoiler closed">
-                            <div style="text-align: center;">
-                                <button class="changeOpen">This is a button</button>
+                        <div class="spoiler closed" id="spoilerHolder">
+                            <div style="text-align: center;" id="buttonHolder">
+                                <input type="button" id="myButton" value="Close Skorpelog"
+                                    style="padding: 1px 6px; border: 1px solid black;">
+                                <!-- <button class="changeOpen">This is a button</button> -->
                             </div>
-                            <div>
+                            <div id="chatlogHolder">
                                 <div style="text-align: left;" id="chatlog">
-
+                                    <!-- 
                                     --<span style="color: #a00078;">grandioseSaturation [GS]</span> began trolling <span
                                         style="color: #510049;">unclaspedKahuna [UK]</span>
                                     <br>
@@ -36,12 +38,27 @@
                                     <span style="color: #510049;">UK: >([w#at]</span>
                                     <br>
                                     <span style="color: #510049;">
-                                        UK: omfg you wise ass minilungs]
-                                        UK: >([you is the ONLY one with the real deal know how on this front and you
-                                        thought im still achin on about small potato fry pseudofeels]
-                                        UK: >([badly rendered gamez where you flap ur arms in a barren void with
-                                        politically undertoned furnishings is my fav kinda game but you know the big
-                                        deal is startin to be pushed out right from under us
+                                        UK: >([omfg you wise ass minilungs]
+                                        UK: >([you is the ONLY one wit# the real deal know #ow on t#is front and you
+                                        t#ought im still ac#in on about small potato fry pseudofeels]
+                                        UK: >([badly rendered gamez w#ere you flap ur arms in a barren void wit#
+                                        politically undertoned furnis#ings is my fav kinda game but you know t#e big
+                                        deal is startin to be pus#ed out rig#t from under us]
+                                    </span> -->
+                                    <br>
+                                    <span style="color: #004696;">WA: Are you alive-?</span>
+                                    <br>
+                                    <span style="color: #004696;">WA: Oh-</span>
+                                    <br>
+                                    <span style="color: #004696;">WA: Alright- I guess I'll just go lay down or
+                                        something-</span>
+                                    <br>
+                                    <span id="wtf" style="color: #004696;">
+                                        WA: Man-
+                                        <br>
+                                        WA: I know you're there-
+                                        <br>
+                                        WA: You like literally never go anywhere-
                                     </span>
                                 </div>
                             </div>
@@ -54,41 +71,55 @@
 
     <script src="jquery.js"></script>
     <script>
-        $(".changeOpen").on("click", function () {
-            console.log("Clicked!");
+        const chatlog = document.getElementById('content');
+        recurseContent(chatlog);
 
-            if ($('.spoiler').hasClass('open')) {
-                console.log("Closing!");
-                $('.spoiler').removeClass('open');
-                $('.spoiler').addClass('closed');
-            }
-            else {
-                console.log("Opening!");
-                console.log("Remove old");
-                $('.spoiler').removeClass('closed');
-                console.log("Add new");
-                $('.spoiler').addClass('open');
-
-            }
-        });
-
-        //MAIN CODE:
-        //1) Look for a block of 'spoiler' text (which is where quirks will be hiding in pesterlogs)
-        //2) If said block exists, set up a mutation listener to check when the 'open' class gets added, as that's when we'll care about changing the text
-        var parentDOM = document.getElementById('content');
-        var targetNode = parentDOM.getElementsByClassName('spoiler')[0]; //there should only be one target Node on the page at a time
-
-        //if we found a spoiler block, set a mutation listener
-        if (targetNode) {
-            //set up the options for mutation - we're only looking at this spoiler block where the chat log lives
-            var observerOptions = {
-                childList: false,
-                attributes: true,
-                subtree: false
+        function recurseContent(element) {
+            //BASE CASE ONE: a simple span tag
+            if (element.nodeName === 'SPAN' && element.children.length === 0) { //span with no children - easy to check!
+                console.log("Found base!");
+                //fixQuirk(element);
+                return;
             }
 
-            var observer = new MutationObserver(mutationCallback);
-            observer.observe(targetNode, observerOptions);
+            //BASE CASE TWO: an element that's not a span but still has no children
+            if (!element.hasChildNodes()) {
+                return;
+            }
+
+            //otherwise, traverse the children
+            const numChildren = element.children.length;
+
+            for (let i = 0; i < numChildren; i++) {
+                let currentNode = element.children[i];
+                //check for the one irritating case where a single span has a chunk of br tags
+                //because people don't know how to act
+                if (isMultiLinePesterLog(currentNode)) {
+                    
+                    currentNode.textContent = "Found multiline";
+                }
+                else {
+                    //otherwise, just keep on recursin'
+                    recurseContent(element.children[i]);
+                }
+            }
+        }
+
+        //returns TRUE if this particular node is a type of pesterlog span which contains multiple lines of text separated with br
+        //returns FALSE if there are deeper levels than just text & br
+        function isMultiLinePesterLog(node) {
+            if (node.nodeName !== 'SPAN' || node.children.length === 0) {
+                return false;
+            }
+
+            let numChildren = node.children.length;
+
+            for (let i = 0; i < numChildren; i++) {
+                if(node.children[i].nodeName !== 'BR') {
+                    return false;
+                }
+            }
+            return true;
         }
 
         //MUTATION CALLBACKS
@@ -102,7 +133,7 @@
                         console.log(mutation);
                         if (value === "open" && !completedSubstitution) {
                             console.log("Firing!");
-                            vastErrorFix();
+                            //CODE GOES HERE
                             observer.disconnect(); //after we've substituted once, kill the observer
                             completedSubstitution = true;
                         }
@@ -111,24 +142,16 @@
             });
         }
 
-        //DETERMINE QUIRK
-        function vastErrorFix() {
-            const allSpans = document.querySelectorAll('span'); //REFACTOR THIS
-
-            for (let node of allSpans) {
-                switch (node.innerText.slice(0, 3)) {
-                    case "UK:": fixMurrit(node);
-                        break;
-                    default:
-                        break;
-                }
-            }
+        //DETERMINE AND FIX QUIRK
+        //EXPECTS a source string
+        //RETURNS a string which has been stripped of quirks
+        function fixQuirk(str) {
+           
         }
 
         //FIXES FOR QUIRKS
         function fixMurrit(node) {
             //oh hooray!  let's deal with the utter bullshit that is these spans and how they (don't) work
-            console.log("Fuck you Murrit");
             let allText = node.innerText.split('UK: ');
             allText = allText.map(string => {
                 string = string
@@ -138,15 +161,19 @@
                 console.log(string);
             });
 
-    /*         let newText = node.innerText
-                .replace(/#/g, 'h')
-                .replace(/UK: \>\(\[/, 'UK: ')
-                .replace(/\]$/, '');
-            let newTextNode = document.createTextNode(newText); */
-            node.innerHTML = '';
-            node.appendChild(newTextNode);
+            /*         let newText = node.innerText
+                        .replace(/#/g, 'h')
+                        .replace(/UK: \>\(\[/, 'UK: ')
+                        .replace(/\]$/, '');
+                    let newTextNode = document.createTextNode(newText); */
+            /*    node.innerHTML = '';
+               node.appendChild(newTextNode); */
         }
 
+        function fixLaivan(textNode) {
+
+            //allText = allText.replace(/-/g, '');
+        }
     </script>
 
 </body>
