@@ -3,12 +3,15 @@
 function fixQuirk(span) {
     const spanText = span.textContent.trim();
     let colonIndex = spanText.indexOf(':');
-    if(colonIndex === -1) {
+    if (colonIndex === -1) {
         return;
     }
     let pesterLogID = spanText.slice(0, colonIndex);
     switch (pesterLogID) {
         case "UK":
+            fixMurrit(span);
+            break;
+        case "BOOBDRONE":
             fixMurrit(span);
             break;
         case "WA":
@@ -29,12 +32,25 @@ function fixQuirk(span) {
         case "GUARDIANSPIRIT":
             fixGuardianSpirit(span);
             break;
-        case "GD": 
+        case "GD":
+            fixDismas(span);
+            break;
+        case "DISMAS":
             fixDismas(span);
             break;
         default:
             break;
     }
+}
+
+//GENERAL HELPERS
+//Accepts a string and determines if any words should be all caps
+function allCapsWords(str) {
+    var allWords = str.split(' ');
+    var fixedWords = allWords.map(word => {
+        return (word.match(/[A-Z]{2,}/) ? word.toUpperCase() : word);
+    });
+    return fixedWords.join(' ');
 }
 
 
@@ -74,11 +90,11 @@ function fixAlbion(span) {
 
 function fixTaz(span) {
     let newText = span.innerText
-        .replace(/\+(?=[A-Z])/, 'T')
-        .replace(/\+/g, 't')
+        .replace(/\+(?=[a-z]{1,}\'*)/g, 't')
+        .replace(/(?![A-Z]\'*)\+/g, 't')
         .replace(/\~/g, '');
 
-    replaceSpanText(span, newText);
+    replaceSpanText(span, allCapsWords(newText));
 }
 
 function fixGuardianSpirit(span) {
@@ -92,7 +108,9 @@ function fixGuardianSpirit(span) {
 function fixDismas(span) {
     let newText = span.innerText
         .replace(/\/{3}$/, '')
-        .replace(/\\\//, 'v')
+        .replace(/^GD:\ \\\//, 'GD: V')
+        .replace(/^GD:\ \/\\/, 'GD: A')
+        .replace(/\\\//g, 'v')
         .replace(/\/\\/g, 'a');
 
     replaceSpanText(span, newText);
