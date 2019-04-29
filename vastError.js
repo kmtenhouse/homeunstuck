@@ -27,7 +27,7 @@ function fixArcjec(span) {
 
 function fixAlbion(span) {
     let newText = span.innerText
-        .replace(/(\*(?=\?)|\*(?=\.))/, '')
+        .replace(/(\*(?=\?)|\*(?=\.)|\*(?=\!))/, '')
         .replace(/\*/g, ' ');
 
     replaceSpanText(span, newText);
@@ -35,8 +35,17 @@ function fixAlbion(span) {
 
 function fixTaz(span) {
     let newText = span.innerText
+        .replace(/\+(?=[A-Z])/, 'T')
         .replace(/\+/g, 't')
         .replace(/\~/g, '');
 
     replaceSpanText(span, newText);
+}
+
+function fixGuardianSpirit(span) {
+    let newText = span.innerText
+    .replace(/\*/g, '')
+    .replace(/\-/g, '');
+
+replaceSpanText(span, newText);
 }

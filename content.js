@@ -79,19 +79,32 @@ function isMultiLinePesterLog(node) {
 //EXPECTS a source node (SPAN with no children)
 function fixQuirk(span) {
     const spanText = span.textContent.trim();
-    let pesterLogID = spanText.slice(0, 3);
+    let colonIndex = spanText.indexOf(':');
+    if(colonIndex === -1) {
+        return;
+    }
+    let pesterLogID = spanText.slice(0, colonIndex);
     switch (pesterLogID) {
-        case "UK:":
+        case "UK":
             fixMurrit(span);
             break;
-        case "WA:":
+        case "WA":
             fixLaivan(span);
             break;
-        case "AH:":
+        case "AH":
             fixArcjec(span);
             break;
-        case "DQ:":
+        case "DQ":
             fixAlbion(span);
+            break;
+        case "ALBION":
+            fixAlbion(span);
+            break;
+        case "PO":
+            fixTaz(span);
+            break;
+        case "GUARDIANSPIRIT":
+            fixGuardianSpirit(span);
             break;
         default:
             break;
@@ -101,6 +114,11 @@ function fixQuirk(span) {
 //TEXT REPLACEMENT
 //takes in a basic span and a string of text that should be added to it
 function replaceSpanText(span, newText) {
+    //last check for any url encodes!
+    newText = newText
+        .replace(/\&lt\;/g,'<')
+        .replace(/\&gt\;/g, '>')
+        .replace(/\&nbsp\;/g, ' ');
     let newTextNode = document.createTextNode(newText);
     span.innerHTML = '';
     span.appendChild(newTextNode);
