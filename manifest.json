@@ -7,7 +7,7 @@
       "matches": [
         "https://mspfa.com/*", "https://www.homestuck.com/*", "https://archiveofourown.org/*"
       ],
-      "js": ["jquery.js", "content.js"]
+      "js": ["vastError.js", "content.js"]
     }
   ]
 }

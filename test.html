@@ -28,7 +28,6 @@
                             </div>
                             <div id="chatlogHolder">
                                 <div style="text-align: left;" id="chatlog">
-                                    <!-- 
                                     --<span style="color: #a00078;">grandioseSaturation [GS]</span> began trolling <span
                                         style="color: #510049;">unclaspedKahuna [UK]</span>
                                     <br>
@@ -37,15 +36,15 @@
                                     <br>
                                     <span style="color: #510049;">UK: >([w#at]</span>
                                     <br>
-                                    <span style="color: #510049;">
+                                    <!--                                     <span style="color: #510049;">
                                         UK: >([omfg you wise ass minilungs]
                                         UK: >([you is the ONLY one wit# the real deal know #ow on t#is front and you
                                         t#ought im still ac#in on about small potato fry pseudofeels]
                                         UK: >([badly rendered gamez w#ere you flap ur arms in a barren void wit#
                                         politically undertoned furnis#ings is my fav kinda game but you know t#e big
                                         deal is startin to be pus#ed out rig#t from under us]
-                                    </span> -->
-                                    <br>
+                                    </span>
+                                    <br> -->
                                     <span style="color: #004696;">WA: Are you alive-?</span>
                                     <br>
                                     <span style="color: #004696;">WA: Oh-</span>
@@ -71,16 +70,20 @@
     </div>
 
     <script src="jquery.js"></script>
+    <script src="vastError.js"></script>
     <script>
         //MAIN SCRIPT
-        const chatlog = document.getElementById('content');
-        recurseContent(chatlog);
+        setTimeout(function () {
+            const chatlog = document.getElementById('content');
+            recurseContent(chatlog);
+        }, 2000);
+
 
         //DOM TRAVERSAL
         function recurseContent(element) {
             //BASE CASE ONE: a simple span tag
             if (element.nodeName === 'SPAN' && element.children.length === 0) { //span with no children - easy to check!
-                element.textContent = fixQuirk(element.textContent);
+                fixQuirk(element);
                 return;
             }
 
@@ -98,12 +101,17 @@
                 //because people don't know how to act
                 if (isMultiLinePesterLog(currentNode)) {
                     const splitUpLines = currentNode.innerHTML.split("<br>").map(str => str = str.trim());
+                    //clear the current content
                     currentNode.innerHTML = '';
-                    splitUpLines.forEach(line => {
+                    splitUpLines.forEach((line, index) => {
                         let newSpan = document.createElement('span');
-                        newSpan.textContent = fixQuirk(line);
+                        newSpan.textContent = line;
+                        fixQuirk(newSpan);
                         currentNode.appendChild(newSpan);
-                        currentNode.appendChild(document.createElement('br'));
+                        //append a break tag (so long as we're not on the last element)
+                        if (index !== splitUpLines.length - 1) {
+                            currentNode.appendChild(document.createElement('br'));
+                        }
                     });
                 }
                 else {
@@ -121,7 +129,6 @@
             }
 
             let numChildren = node.children.length;
-
             for (let i = 0; i < numChildren; i++) {
                 if (node.children[i].nodeName !== 'BR') {
                     return false;
@@ -140,7 +147,6 @@
                     mutation.target.classList.forEach(function (value, index) {
                         console.log(mutation);
                         if (value === "open" && !completedSubstitution) {
-                            console.log("Firing!");
                             //CODE GOES HERE
                             observer.disconnect(); //after we've substituted once, kill the observer
                             completedSubstitution = true;
@@ -151,42 +157,30 @@
         }
 
         //DETERMINE AND FIX QUIRK
-        //EXPECTS a source string
-        //RETURNS a string which has been stripped of quirks
-        function fixQuirk(str) {
-            console.log("str");
-            let result = str;
-            let pesterLogID = str.slice(0,3);
-            console.log("Looking for " + peseterLogID);
-
-            return result;
+        //EXPECTS a source node (SPAN with no children)
+        function fixQuirk(span) {
+            const spanText = span.textContent.trim();
+            let pesterLogID = spanText.slice(0, 3);
+            switch (pesterLogID) {
+                case "UK:":
+                    fixMurrit(span);
+                    break;
+                case "WA:":
+                    fixLaivan(span);
+                    break;
+                default:
+                    break;
+            }
         }
 
         //FIXES FOR QUIRKS
-        function fixMurrit(node) {
-            //oh hooray!  let's deal with the utter bullshit that is these spans and how they (don't) work
-            let allText = node.innerText.split('UK: ');
-            allText = allText.map(string => {
-                string = string
-                    .replace(/#/g, 'h')
-                    .replace(/\>\(\[/, 'UK: ')
-                    .replace(/\]$/, '');
-                console.log(string);
-            });
-
-            /*         let newText = node.innerText
-                        .replace(/#/g, 'h')
-                        .replace(/UK: \>\(\[/, 'UK: ')
-                        .replace(/\]$/, '');
-                    let newTextNode = document.createTextNode(newText); */
-            /*    node.innerHTML = '';
-               node.appendChild(newTextNode); */
+        //takes in a basic span and a string of text that should be added to it
+        function replaceSpanText(span, newText) {
+            let newTextNode = document.createTextNode(newText);
+            span.innerHTML = '';
+            span.appendChild(newTextNode);
         }
 
-        function fixLaivan(textNode) {
-
-            //allText = allText.replace(/-/g, '');
-        }
     </script>
 
 </body>

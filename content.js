@@ -1,70 +1,109 @@
-//MAIN CODE:
-//1) Look for a block of 'spoiler' text (which is where quirks will be hiding in pesterlogs)
-//2) If said block exists, set up a mutation listener to check when the 'open' class gets added, as that's when we'll care about changing the text
- 
-setTimeout(function() {
-    console.log("Fixing");
-    vastErrorFix();
-}, 10000);
-
-/* var parentDOM = document.getElementById('content');
-console.log("Loaded extension!");
-console.log(parentDOM);
- 
-//if we found a spoiler block, set a mutation listener
-
-//set up the options for mutation - we're only looking at this spoiler block where the chat log lives
-     var observerOptions = {
-        childList: false,
-        attributes: true,
-        subtree: false
-    }
-
-    var observer = new MutationObserver(mutationCallback);
-    observer.observe(targetNode, observerOptions); */
+        //MAIN SCRIPT
+        setTimeout(function () {
+            const chatlog = document.getElementById('content');
+            console.log("Firing quirk fix");
+            recurseContent(chatlog);
+        }, 5000);
 
 
-//MUTATION CALLBACKS
-function mutationCallback(mutationList, observer) {
-    //we only want to bother replacing the text if the chatlog is being opened
-    //we also only want to do this once
-    var completedSubstitution = false;
-    mutationList.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'class' && !completedSubstitution) {
-            mutation.target.classList.forEach(function (value, index) {
-                console.log(mutation);
-                if (value === "open" && !completedSubstitution) {
-                    console.log("Firing!");
-                    vastErrorFix();
-                    observer.disconnect(); //after we've substituted once, kill the observer
-                    completedSubstitution = true;
+        //DOM TRAVERSAL
+        function recurseContent(element) {
+            //BASE CASE ONE: a simple span tag
+            if (element.nodeName === 'SPAN' && element.children.length === 0) { //span with no children - easy to check!
+                fixQuirk(element);
+                return;
+            }
+
+            //BASE CASE TWO: an element that's not a span but still has no children
+            if (!element.hasChildNodes()) {
+                return;
+            }
+
+            //otherwise, traverse the children
+            const numChildren = element.children.length;
+
+            for (let i = 0; i < numChildren; i++) {
+                let currentNode = element.children[i];
+                //check for the one irritating case where a single span has a chunk of br tags
+                //because people don't know how to act
+                if (isMultiLinePesterLog(currentNode)) {
+                    const splitUpLines = currentNode.innerHTML.split("<br>").map(str => str = str.trim());
+                    //clear the current content
+                    currentNode.innerHTML = '';
+                    splitUpLines.forEach((line, index) => {
+                        let newSpan = document.createElement('span');
+                        newSpan.textContent = line;
+                        fixQuirk(newSpan);
+                        currentNode.appendChild(newSpan);
+                        //append a break tag (so long as we're not on the last element)
+                        if (index !== splitUpLines.length - 1) {
+                            currentNode.appendChild(document.createElement('br'));
+                        }
+                    });
+                }
+                else {
+                    //otherwise, just keep on recursin'
+                    recurseContent(element.children[i]);
+                }
+            }
+        }
+
+        //returns TRUE if this particular node is a type of pesterlog span which contains multiple lines of text separated with br
+        //returns FALSE if there are deeper levels than just text & br
+        function isMultiLinePesterLog(node) {
+            if (node.nodeName !== 'SPAN' || node.children.length === 0) {
+                return false;
+            }
+
+            let numChildren = node.children.length;
+            for (let i = 0; i < numChildren; i++) {
+                if (node.children[i].nodeName !== 'BR') {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        //MUTATION CALLBACKS
+        function mutationCallback(mutationList, observer) {
+            //we only want to bother replacing the text if the chatlog is being opened
+            //we also only want to do this once
+            var completedSubstitution = false;
+            mutationList.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class' && !completedSubstitution) {
+                    mutation.target.classList.forEach(function (value, index) {
+                        console.log(mutation);
+                        if (value === "open" && !completedSubstitution) {
+                            //CODE GOES HERE
+                            observer.disconnect(); //after we've substituted once, kill the observer
+                            completedSubstitution = true;
+                        }
+                    });
                 }
             });
         }
-    });
-}
 
-//DETERMINE QUIRK
-function vastErrorFix() {
-    const allSpans = document.querySelectorAll('span'); //REFACTOR THIS
-
-    for (let node of allSpans) {
-        switch (node.innerText.slice(0, 3)) {
-            case "UK:": fixMurrit(node);
-                break;
-            default:
-                break;
+        //DETERMINE AND FIX QUIRK
+        //EXPECTS a source node (SPAN with no children)
+        function fixQuirk(span) {
+            const spanText = span.textContent.trim();
+            let pesterLogID = spanText.slice(0, 3);
+            switch (pesterLogID) {
+                case "UK:":
+                    fixMurrit(span);
+                    break;
+                case "WA:":
+                    fixLaivan(span);
+                    break;
+                default:
+                    break;
+            }
         }
-    }
-}
 
-//FIXES FOR QUIRKS
-function fixMurrit(node) {
-    let newText = node.innerText
-        .replace(/#/g, 'h')
-        .replace(/UK: \>\(\[/, 'UK: ')
-        .replace(/\]$/, '');
-    let newTextNode = document.createTextNode(newText);
-    node.innerHTML = '';
-    node.appendChild(newTextNode);
-}
+        //FIXES FOR QUIRKS
+        //takes in a basic span and a string of text that should be added to it
+        function replaceSpanText(span, newText) {
+            let newTextNode = document.createTextNode(newText);
+            span.innerHTML = '';
+            span.appendChild(newTextNode);
+        }
