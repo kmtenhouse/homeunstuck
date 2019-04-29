@@ -5,9 +5,9 @@
   "content_scripts": [
     {
       "matches": [
-        "https://mspfa.com/*", "https://www.homestuck.com/*", "https://www.deconreconstruction.com/*"
+        "https://mspfa.com/*", "https://www.deconreconstruction.com/*"
       ],
-      "js": ["vastError.js", "mutation.js", "content.js"]
+      "js": ["vastError.js", "content.js"]
     }
   ]
 }
