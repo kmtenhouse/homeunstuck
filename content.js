@@ -1,21 +1,31 @@
 //MAIN SCRIPT
-//Attach a mutation listener to the skorpe box (if it exists)
-setTimeout(function () {
-    var spoilerDivCollection = document.getElementsByClassName('spoiler');
-    for (div of spoilerDivCollection) {
-        if (div.classList.contains('spoiler') && div.nodeName === 'DIV') {
-            console.log("Observer firing");
-            var observer = new MutationObserver(mutationCallback);
-
-            var observerOptions = {
-                childList: false,
-                attributes: true,
-                subtree: true //Omit or set to false to observe only changes to the parent node.
+//Attach a mutation listener to the content tree
+var observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+        if (mutation.type === 'childList') {
+            if (mutation.addedNodes.length >= 1) {
+                if (mutation.addedNodes[0].nodeName !== '#text') {
+                    observer.disconnect(); //temporarily turn off our observer because we're going to be manipulating the DOM too
+                    const mainContent = document.getElementById('content');
+                    console.log("Firing quirk fix");
+                    recurseContent(mainContent);
+                    observer.observe(targetNode, observerConfig); //reup the observer since these sites load out of order sometimes
+                }
             }
-            observer.observe(div, observerOptions);
         }
-    }
-}, 1000);
+    });
+});
+
+var observerConfig = {
+    subtree: true,
+    childList: true
+};
+
+// Listen to all changes to body and child nodes
+var targetNode = document.getElementById('content');
+
+observer.observe(targetNode, observerConfig);
+
 
 //DOM TRAVERSAL
 function recurseContent(element) {
@@ -81,7 +91,8 @@ function isMultiLinePesterLog(node) {
 function replaceSpanText(span, newText) {
     //last check for any url encodes!
     newText = newText
-        .replace(/\&lt\;/g,'<')
+        .replace(/\&lt\;/g, '<')
+        .replace(/&lt\;3/g, '<3')
         .replace(/\&gt\;/g, '>')
         .replace(/\&nbsp\;/g, ' ');
     let newTextNode = document.createTextNode(newText);

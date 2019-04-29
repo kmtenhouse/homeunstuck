@@ -29,11 +29,19 @@
                             <div id="chatlogHolder">
                                 <div style="text-align: left;" id="chatlog">
                                     <span>PO: +ha+ doesn'+ make sense</span>
+                                    <br>
+                                    <span>
+                                        <span>SA: (i know tonight is a pretty big deal and you’re probably busy, but i
+                                            thought i would at least hear something from you?</span>
+                                    </spaN>
+                                    <br>
                                     <span>PO: ISN'+ GUNNA HAPPEN +HOUGH</span>
                                     <br>
-                                    <span>GD: \/777777777777777777777777777777777777777777Your l/\me pseudo-critic/\l shooting session c/\n w/\it /\ little while///</span>
+                                    <span>GD: \/777777777777777777777777777777777777777777Your l/\me pseudo-critic/\l
+                                        shooting session c/\n w/\it /\ little while///</span>
                                     <br>
-                                    <span>GD: /\Your l/\me pseudo-critic/\l shooting session c/\n w/\it /\ little while///</span>
+                                    <span>GD: /\Your l/\me pseudo-critic/\l shooting session c/\n w/\it /\ little
+                                        while///</span>
                                     <br>
                                     <span>GUARDIANSPIRIT: ******we know now the truth of our form*****-</span>
                                     <br>
@@ -94,36 +102,26 @@
     <script src="jquery.js"></script>
     <script src="mutation.js"></script>
     <script src="vastError.js"></script>
-    <script>
-        var spoilerDiv = '';
-        var spoilerDivCollectionTwo = document.getElementsByClassName('spoiler');
-        for (div of spoilerDivCollectionTwo) {
-            if (div.classList.contains('spoiler') && div.nodeName === 'DIV') {
-                spoilerDiv = div;
-            }
-        }
-        //BUTTON CLICK
-        var button = document.getElementsByTagName('input')[0];
-
-        button.addEventListener('click', function () {
-            if (this.classList.contains('closed')) {
-                console.log("Opening");
-                this.classList.remove('closed');
-                this.classList.add('open');
-                
-                spoilerDiv.classList.remove('closed');
-                spoilerDiv.classList.add('open');
-            }
-            else {
-                console.log("Closing");
-                this.classList.remove('open');
-                this.classList.add('closed');
-                spoilerDiv.classList.remove('open');
-                spoilerDiv.classList.add('closed');
-            }
-        });
-    </script>
     <script src="content.js"></script>
+    <script>
+     
+        // Let's add a sample node to see what the MutationRecord looks like
+        setTimeout(function () {
+            var newSpan = $('<span>');
+            newSpan.text('WA: Some new text-');
+            newSpan.attr('id', 'mutagen');
+            $('#chatlog').append(newSpan);
+        }, 2000);
+
+        setTimeout(function () {
+            var newSpan = $('<span>');
+            newSpan.text('SA: (some additional text)');
+            newSpan.attr('id', 'mutagenTwo');
+            $('#chatlog').append(newSpan);
+        }, 4000);
+
+    </script>
+    
 
 </body>
 

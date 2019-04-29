@@ -7,11 +7,12 @@ function mutationCallback(mutationList, observer) {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class' && !completedSubstitution) {
             mutation.target.classList.forEach(function (value, index) {
                 if (value === "open" && !completedSubstitution) {
+                    
                     const mainContent = document.getElementById('content');
                     console.log("Firing quirk fix");
                     recurseContent(mainContent);
-                    observer.disconnect(); //after we've substituted once, kill the observer
-                    completedSubstitution = true;
+                    //observer.disconnect(); //after we've substituted once, kill the observer
+                   // completedSubstitution = true;
                 }
             });
         }

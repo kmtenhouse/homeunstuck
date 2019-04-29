@@ -17,6 +17,9 @@ function fixQuirk(span) {
         case "WA":
             fixLaivan(span);
             break;
+        case "BLUE GUY":
+            fixLaivan(span);
+            break;
         case "AH":
             fixArcjec(span);
             break;
@@ -29,6 +32,9 @@ function fixQuirk(span) {
         case "PO":
             fixTaz(span);
             break;
+        case "PD":
+            fixSerpaz(span);
+            break;
         case "GUARDIANSPIRIT":
             fixGuardianSpirit(span);
             break;
@@ -37,6 +43,9 @@ function fixQuirk(span) {
             break;
         case "DISMAS":
             fixDismas(span);
+            break;
+        case "SA": 
+            fixSovara(span);
             break;
         default:
             break;
@@ -53,7 +62,6 @@ function allCapsWords(str) {
     return fixedWords.join(' ');
 }
 
-
 function fixMurrit(span) {
     let newText = span.innerText
         .replace(/(\#(?=[A-Z]))/g, 'H')
@@ -67,6 +75,7 @@ function fixMurrit(span) {
 
 function fixLaivan(span) {
     let newText = span.innerText
+        .replace(/\-$/, '.')
         .replace(/\-/g, '');
 
     replaceSpanText(span, newText);
@@ -114,4 +123,16 @@ function fixDismas(span) {
         .replace(/\/\\/g, 'a');
 
     replaceSpanText(span, newText);
+}
+
+function fixSerpaz(span) {
+    span.setAttribute("style", 'font-family: "courier", "monospace";');
+}
+
+function fixSovara(span) {
+    let newText = span.innerText
+    .replace(/^SA:\s\(/, 'SA: ')
+    .replace(/\)$/, '');
+    replaceSpanText(span, newText);
+    span.setAttribute('style', 'font-style: normal');
 }
