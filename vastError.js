@@ -47,6 +47,12 @@ function fixQuirk(span) {
         case "SA": 
             fixSovara(span);
             break;
+        case "EO":
+            fixEllsee(span); 
+            break;
+        case "ME":
+            fixOcceus(span);
+            break;
         default:
             break;
     }
@@ -135,4 +141,19 @@ function fixSovara(span) {
     .replace(/\)$/, '');
     replaceSpanText(span, newText);
     span.setAttribute('style', 'font-style: normal');
+}
+
+function fixEllsee(span) {
+    let newText = span.innerText
+    .replace(/\Σ/g, 'e')
+    .replace(/\¡/g, '!')
+    .replace(/\¿/g, '?');
+    replaceSpanText(span, newText);
+}
+
+function fixOcceus(span) {
+    let newText = span.innerText
+    .replace(/\.o\./g, 'o')
+    .replace(/(eye|Eye)/g, 'I');
+    replaceSpanText(span, newText);
 }
