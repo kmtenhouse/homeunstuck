@@ -1,15 +1,29 @@
 //VAST ERROR QUIRK SETTINGS
 //INDIVIDUAL TROLLS
 var murrit = {
-    case: 'all lowercase',
-    firstWordCapitalized: false,
+    sentenceCase: 'varies',
     shouts: true,
-    prefix: '>([',
-    suffix: ')',
+    firstWordCapitalized: false,
+    prefix: /^\>\(\[/,
+    suffix: /\]$/,
+    separator: ' ',
     substitions: [
-        { original: /#/g, replaceWith: 'h', caseSensitive: true}
-    ],
-    test: 'yo whats poppin'
+        { original: /#/g, replaceWith: 'h'}
+    ]
+};
+
+var terezi = {
+    sentenceCase: 'lowercase',
+    shouts: false,
+    firstWordCapitalized: true,
+    prefix: null,
+    suffix: null,
+    separator: ' ',     
+    substitions: [
+        { original: /1/g, replaceWith: 'I'},
+        { original: /3/g, replaceWith: 'E'},
+        { original: /4/g, replaceWith: 'A'}
+    ]
 };
 
 
@@ -17,6 +31,7 @@ var murrit = {
 var vastErrorQuirks = {
     "UK": murrit,
     "BOOBDRONE": murrit,
-    "MURRIT": murrit
+    "MURRIT": murrit,
+    "TZ": terezi
 };
 
