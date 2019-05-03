@@ -9,7 +9,8 @@ var murrit = {
     separator: ' ',
     substitions: [
         { original: /#/g, replaceWith: 'h'}
-    ]
+    ],
+    addPeriods: false
 };
 
 var laivan = {
@@ -20,11 +21,11 @@ var laivan = {
     suffix: /\-$/,
     separator: ' ',
     substitions: [
-        { original: /\-[^?!]/g, replaceWith: '.'},
+        { original: /\-[^?!]/g, replaceWith: '. '},
         { original: /\-[?]/g, replaceWith: '?'},
         { original: /\-[!]/g, replaceWith: '!'}
-
-    ]
+    ],
+    addPeriods: true
 };
 
 //MAP OF PESTERLOGIDS TO TROLLS
