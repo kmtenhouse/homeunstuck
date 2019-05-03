@@ -8,7 +8,7 @@ var observer = new MutationObserver(function (mutations) {
                     observer.disconnect(); //temporarily turn off our observer because we're going to be manipulating the DOM too
                     const mainContent = document.getElementById('content');
                     console.log("Firing quirk fix");
-                    recurseDOM(mainContent);
+                    traverseDOM(mainContent);
                     observer.observe(targetNode, observerConfig); //reup the observer since these sites load out of order sometimes
                 }
             }
@@ -41,12 +41,13 @@ function traverseDOM(targetNode) {
     var node;
 
     while (node = treeWalker.nextNode()) {
-        //only grab text nodes that aren't whitespace
+        //only grab text nodes that aren't whitespace, and also make sure we haven't touched this element before
         if ((/^(\s*)(\S+)/).test(node.nodeValue)) {
             let fixedQuirk = fixQuirk(node.nodeValue); 
             
             if(fixedQuirk!==null) {
                 node.nodeValue = fixedQuirk;
+                node.parentElement.setAttribute('data-homeunstuck', 'fixed');
             }
         }
     }

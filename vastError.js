@@ -12,26 +12,27 @@ var murrit = {
     ]
 };
 
-var terezi = {
-    sentenceCase: 'lowercase',
-    shouts: false,
+var laivan = {
+    sentenceCase: 'varies',
+    shouts: true,
     firstWordCapitalized: true,
     prefix: null,
-    suffix: null,
-    separator: ' ',     
+    suffix: /\-$/,
+    separator: ' ',
     substitions: [
-        { original: /1/g, replaceWith: 'I'},
-        { original: /3/g, replaceWith: 'E'},
-        { original: /4/g, replaceWith: 'A'}
+        { original: /\-[^?!]/g, replaceWith: '.'},
+        { original: /\-[?]/g, replaceWith: '?'},
+        { original: /\-[!]/g, replaceWith: '!'}
+
     ]
 };
-
 
 //MAP OF PESTERLOGIDS TO TROLLS
 var vastErrorQuirks = {
     "UK": murrit,
     "BOOBDRONE": murrit,
     "MURRIT": murrit,
-    "TZ": terezi
+    "WA": laivan,
+    "BLUE GUY": laivan
 };
 
