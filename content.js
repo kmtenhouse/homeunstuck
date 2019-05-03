@@ -8,7 +8,7 @@ var observer = new MutationObserver(function (mutations) {
                     observer.disconnect(); //temporarily turn off our observer because we're going to be manipulating the DOM too
                     const mainContent = document.getElementById('content');
                     console.log("Firing quirk fix");
-                    recurseContent(mainContent);
+                    recurseDOM(mainContent);
                     observer.observe(targetNode, observerConfig); //reup the observer since these sites load out of order sometimes
                 }
             }
@@ -26,17 +26,29 @@ var targetNode = document.getElementById('content');
 
 observer.observe(targetNode, observerConfig);
 
+// HELPER FUNCTIONS
+//
+//
+//DOM TRAVERSAL (with native treewalker)
+function traverseDOM(targetNode) {
+    var treeWalker = document.createTreeWalker(
+        targetNode, 
+        NodeFilter.SHOW_TEXT,
+        null,
+        false
+    );
 
-//TEXT REPLACEMENT
-//takes in a basic span and a string of text that should be added to it
-function replaceSpanText(span, newText) {
-    //last check for any url encodes!
-    newText = newText
-        .replace(/\&lt\;/g, '<')
-        .replace(/&lt\;3/g, '<3')
-        .replace(/\&gt\;/g, '>')
-        .replace(/\&nbsp\;/g, ' ');
-    let newTextNode = document.createTextNode(newText);
-    span.innerHTML = '';
-    span.appendChild(newTextNode);
+    var node;
+
+    while (node = treeWalker.nextNode()) {
+        //only grab text nodes that aren't whitespace
+        if ((/^(\s*)(\S+)/).test(node.nodeValue)) {
+            let fixedQuirk = fixQuirk(node.nodeValue); 
+            
+            if(fixedQuirk!==null) {
+                node.nodeValue = fixedQuirk;
+            }
+        }
+    }
 }
+
