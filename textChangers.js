@@ -31,16 +31,15 @@ function parseQuirk(str, characterQuirk) {
     }
 
     //fix any other separators
-    if (characterQuirk.separator !== ' ') {
+    if (characterQuirk.separator) {
+        console.log("Separator needed!");
         str = str.replace(characterQuirk.separator, ' ');
     }
 
     //perform replacements, if necessary
     if (characterQuirk.substitions) {
         if (characterQuirk.shouts === true || characterQuirk.firstWordCapitalized === true) {
-            console.log(str);
             str = caseSensitiveReplace(str, characterQuirk);
-            console.log(str);
         }
         else { //save some cycles if we don't have to care about the case
             str = simpleReplace(str, characterQuirk);
@@ -64,6 +63,7 @@ function parseQuirk(str, characterQuirk) {
     }
 
     //and literally at the end of all things...
+    str = str.trim();
     if (characterQuirk.addPeriods === true) {
         if (/([^!?,.]$)/.test(str)) {
             str = str + ".";
@@ -79,7 +79,7 @@ function caseSensitiveReplace(str, characterQuirk) {
     //first, get the full list of replacements we should exclude from our SHOUT search
     var exclusionList = '';
     characterQuirk.substitions.forEach(function (pattern) {
-        exclusionList = exclusionList + pattern.original;
+        exclusionList = exclusionList + pattern.original + pattern.replaceWith;
     });
 
     //now map out which words are SHOUTING prior to any substitutions
@@ -88,11 +88,11 @@ function caseSensitiveReplace(str, characterQuirk) {
             if (isProperCase(word)) {
                 return 'p';
             }
-            else if (isLowerCase(word)) {
-                return 'l';
+            else if (!isLowerCase(word)) {
+                return 'u';
             }
             else {
-                return 'u';
+                return 'l';
             }
         }
     );
@@ -108,7 +108,6 @@ function caseSensitiveReplace(str, characterQuirk) {
         else {
             return (caseMap[index] === 'l' ? word.toLowerCase() : word.toUpperCase());
         }
-        // return (shoutedWords[index] === true ? word.toUpperCase() : word.toLowerCase())
     }).join(' ');
 }
 
@@ -140,11 +139,10 @@ function isLowerCase(str, exceptions = []) {
 //Tests if a particular string is Proper Case (first letter capitalized; remaining letters lowercase)
 //NOTE: if the initial character is indeterminate (like a number or hash) we err on the side of NOT proper cased
 function isProperCase(str, exceptions = []) {
-    /*     console.log(str);
-        console.log(/[A-Z]/.test(str.charAt(0)));
-        console.log(str.charAt(0) === str.charAt(0).toUpperCase());
-        console.log(isLowerCase(str.slice(1), exceptions)); */
-    /*    console.log("FINAL: " + str + " - " + (/[A-Z]/.test(str.charAt(0)) && str.charAt(0) === str.charAt(0).toUpperCase() && isLowerCase(str.slice(1), exceptions))); */
-    return (/[A-Z]/.test(str.charAt(0)) && str.charAt(0) === str.charAt(0).toUpperCase() && isLowerCase(str.slice(1), exceptions));
+    return (
+        /[A-Z]/.test(str.charAt(0)) &&
+        str.charAt(0) === str.charAt(0).toUpperCase() &&
+        isLowerCase(str.slice(1), exceptions)
+    );
 }
 
