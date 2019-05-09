@@ -8,7 +8,7 @@ var murrit = {
     suffix: /\]$/,
     separator: null,
     substitions: [
-        { original: /#/g, replaceWith: 'h' }
+        { original: /#/g, replaceWith: 'h', caseSensitive: true }
     ],
     addPeriods: false
 };
@@ -21,9 +21,9 @@ var laivan = {
     suffix: /\-$/,
     separator: null,
     substitions: [
-        { original: /\-[^?!]/g, replaceWith: '. ' },
-        { original: /\-[?]/g, replaceWith: '?' },
-        { original: /\-[!]/g, replaceWith: '!' }
+        { original: /\-[^?!]/g, replaceWith: '. ', caseSensitive: false },
+        { original: /\-[?]/g, replaceWith: '?', caseSensitive: false },
+        { original: /\-[!]/g, replaceWith: '!', caseSensitive: false }
     ],
     addPeriods: true
 };
@@ -47,7 +47,7 @@ var tazsia = {
     suffix: /\~$/,
     separator: null,
     substitions: [
-        { original: /\+/g, replaceWith: 't' }
+        { original: /\+/g, replaceWith: 't', caseSensitive: true }
     ],
     addPeriods: true
 };
@@ -60,9 +60,9 @@ var albion = {
     suffix: /\*$/,
     separator: /\*/g,
     substitions: [
-        { original: /\s\./, replaceWith: '.' },
-        { original: /\s\!/, replaceWith: '!' },
-        { original: /\s\?/, replaceWith: '?' }
+        { original: /\s\./, replaceWith: '.', caseSensitive: false },
+        { original: /\s\!/, replaceWith: '!', caseSensitive: false },
+        { original: /\s\?/, replaceWith: '?', caseSensitive: false }
     ],
     addPeriods: false
 };
@@ -75,9 +75,9 @@ var ellsee = {
     suffix: null,
     separator: null,
     substitions: [
-        { original: /\Σ/g, replaceWith: 'e' },
-        { original: /\¡/g, replaceWith: '!' },
-        { original: /\¿/g, replaceWith: '?' }
+        { original: /\Σ/g, replaceWith: 'e', caseSensitive: true },
+        { original: /\¡/g, replaceWith: '!', caseSensitive: false },
+        { original: /\¿/g, replaceWith: '?', caseSensitive: false }
     ],
     addPeriods: false
 };
@@ -90,11 +90,37 @@ var occeus = {
     suffix: null,
     separator: null,
     substitions: [
-        { original: /\.o\./g, replaceWith: 'o' },
-        { original: /(eye|Eye)/g, replaceWith: 'I' }
+        { original: /\.o\./g, replaceWith: 'o', caseSensitive: true},
+        { original: /\.oo\./g, replaceWith: 'oo', caseSensitive: true },
+        { original: /(eye|Eye)/g, replaceWith: 'I', caseSensitive: false }
     ],
     addPeriods: false
 
+};
+
+var sovara = {
+    sentenceCase: 'lowercase',
+    shouts: false,
+    firstWordCapitalized: false,
+    prefix: /^\(/,
+    suffix: /\)$/,
+    separator: null,
+    substitions: [],
+    addPeriods: false
+};
+
+var dismas = {
+    sentenceCase: 'varies',
+    shouts: false,
+    firstWordCapitalized: true,
+    prefix: null,
+    suffix: /\/{3}$/,
+    separator: null,
+    substitions: [
+        { original:/\\\//g, replaceWith: 'v', caseSensitive: true },
+        { original: /\/\\/g, replaceWith: 'a', caseSensitive: true }
+    ],
+    addPeriods: true
 };
 
 //MAP OF PESTERLOGIDS TO TROLLS
@@ -104,14 +130,22 @@ var vastErrorQuirks = {
     "MURRIT": murrit,
     "WA": laivan,
     "BLUE GUY": laivan,
+    "LAIVAN": laivan,
     "AH": arcjec,
     "ARCJEC": arcjec,
+    "KIDJEC": arcjec,
     "PO": tazsia,
     "TAZ": tazsia,
     "TAZSIA": tazsia,
     "DQ": albion,
     "ALBION": albion,
     "EO": ellsee,
-    "ME": occeus
+    "ELLSEE": ellsee,
+    "ME": occeus,
+    "OCCEUS": occeus,
+    "DISMAS": dismas,
+    "GD": dismas,
+    "SA": sovara,
+    "SOVARA": sovara
 };
 
