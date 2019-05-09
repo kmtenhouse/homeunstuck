@@ -23,6 +23,9 @@ function fixQuirk(span) {
         case "AH":
             fixArcjec(span);
             break;
+        case "ARCJEC":
+            fixArcjec(span);
+            break;
         case "DQ":
             fixAlbion(span);
             break;
@@ -44,11 +47,11 @@ function fixQuirk(span) {
         case "DISMAS":
             fixDismas(span);
             break;
-        case "SA": 
+        case "SA":
             fixSovara(span);
             break;
         case "EO":
-            fixEllsee(span); 
+            fixEllsee(span);
             break;
         case "ME":
             fixOcceus(span);
@@ -137,23 +140,23 @@ function fixSerpaz(span) {
 
 function fixSovara(span) {
     let newText = span.innerText
-    .replace(/^SA:\s\(/, 'SA: ')
-    .replace(/\)$/, '');
+        .replace(/^SA:\s\(/, 'SA: ')
+        .replace(/\)$/, '');
     replaceSpanText(span, newText);
     span.setAttribute('style', 'font-style: normal');
 }
 
 function fixEllsee(span) {
     let newText = span.innerText
-    .replace(/\Σ/g, 'e')
-    .replace(/\¡/g, '!')
-    .replace(/\¿/g, '?');
+        .replace(/\Σ/g, 'e')
+        .replace(/\¡/g, '!')
+        .replace(/\¿/g, '?');
     replaceSpanText(span, newText);
 }
 
 function fixOcceus(span) {
     let newText = span.innerText
-    .replace(/\.o\./g, 'o')
-    .replace(/(eye|Eye)/g, 'I');
+        .replace(/\.o\./g, 'o')
+        .replace(/(eye|Eye)/g, 'I');
     replaceSpanText(span, newText);
 }

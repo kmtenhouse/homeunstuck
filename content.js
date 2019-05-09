@@ -78,7 +78,8 @@ function isMultiLinePesterLog(node) {
 
     let numChildren = node.children.length;
     for (let i = 0; i < numChildren; i++) {
-        if (node.children[i].nodeName !== 'BR') {
+        //Complex multiline pesterlogs MAY include break tags and links and yet still be valid pesterlogs bc of course they are smh
+        if (node.children[i].nodeName !== 'BR' && node.children[i].nodeName!== 'A') {
             return false;
         }
     }
