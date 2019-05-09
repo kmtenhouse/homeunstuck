@@ -1,162 +1,117 @@
-//DETERMINE AND FIX QUIRK (VAST ERROR)
-//EXPECTS a source node (SPAN with no children)
-function fixQuirk(span) {
-    const spanText = span.textContent.trim();
-    let colonIndex = spanText.indexOf(':');
-    if (colonIndex === -1) {
-        return;
-    }
-    let pesterLogID = spanText.slice(0, colonIndex);
-    switch (pesterLogID) {
-        case "UK":
-            fixMurrit(span);
-            break;
-        case "BOOBDRONE":
-            fixMurrit(span);
-            break;
-        case "WA":
-            fixLaivan(span);
-            break;
-        case "BLUE GUY":
-            fixLaivan(span);
-            break;
-        case "AH":
-            fixArcjec(span);
-            break;
-        case "ARCJEC":
-            fixArcjec(span);
-            break;
-        case "DQ":
-            fixAlbion(span);
-            break;
-        case "ALBION":
-            fixAlbion(span);
-            break;
-        case "PO":
-            fixTaz(span);
-            break;
-        case "PD":
-            fixSerpaz(span);
-            break;
-        case "GUARDIANSPIRIT":
-            fixGuardianSpirit(span);
-            break;
-        case "GD":
-            fixDismas(span);
-            break;
-        case "DISMAS":
-            fixDismas(span);
-            break;
-        case "SA":
-            fixSovara(span);
-            break;
-        case "EO":
-            fixEllsee(span);
-            break;
-        case "ME":
-            fixOcceus(span);
-            break;
-        default:
-            break;
-    }
-}
+//VAST ERROR QUIRK SETTINGS
+//INDIVIDUAL TROLLS
+var murrit = {
+    sentenceCase: 'varies',
+    shouts: true,
+    firstWordCapitalized: false,
+    prefix: /^\>\(\[/,
+    suffix: /\]$/,
+    separator: null,
+    substitions: [
+        { original: /#/g, replaceWith: 'h' }
+    ],
+    addPeriods: false
+};
 
-//GENERAL HELPERS
-//Accepts a string and determines if any words should be all caps
-function allCapsWords(str) {
-    var allWords = str.split(' ');
-    var fixedWords = allWords.map(word => {
-        return (word.match(/[A-Z]{2,}/) ? word.toUpperCase() : word);
-    });
-    return fixedWords.join(' ');
-}
+var laivan = {
+    sentenceCase: 'varies',
+    shouts: true,
+    firstWordCapitalized: true,
+    prefix: null,
+    suffix: /\-$/,
+    separator: null,
+    substitions: [
+        { original: /\-[^?!]/g, replaceWith: '. ' },
+        { original: /\-[?]/g, replaceWith: '?' },
+        { original: /\-[!]/g, replaceWith: '!' }
+    ],
+    addPeriods: true
+};
 
-function fixMurrit(span) {
-    let newText = span.innerText
-        .replace(/(\#(?=[A-Z]))/g, 'H')
-        .replace(/#/g, 'h')
-        .replace(/\>\(\[/, ' ')
-        .replace(/\&gt;\(\[/, ' ')
-        .replace(/\]$/, '');
+var arcjec = {
+    sentenceCase: 'varies',
+    shouts: true,
+    firstWordCapitalized: true,
+    prefix: /^XDXD/,
+    suffix: /XDXD$/,
+    separator: null,
+    substitions: [],
+    addPeriods: true
+};
 
-    replaceSpanText(span, newText);
-}
+var tazsia = {
+    sentenceCase: 'varies',
+    shouts: true,
+    firstWordCapitalized: false,
+    prefix: /^\~/,
+    suffix: /\~$/,
+    separator: null,
+    substitions: [
+        { original: /\+/g, replaceWith: 't' }
+    ],
+    addPeriods: true
+};
 
-function fixLaivan(span) {
-    let newText = span.innerText
-        .replace(/\-$/, '.')
-        .replace(/\-/g, '');
+var albion = {
+    sentenceCase: 'varies',
+    shouts: true,
+    firstWordCapitalized: false,
+    prefix: /^\*/,
+    suffix: /\*$/,
+    separator: /\*/g,
+    substitions: [
+        { original: /\s\./, replaceWith: '.' },
+        { original: /\s\!/, replaceWith: '!' },
+        { original: /\s\?/, replaceWith: '?' }
+    ],
+    addPeriods: false
+};
 
-    replaceSpanText(span, newText);
-}
+var ellsee = {
+    sentenceCase: 'varies',
+    shouts: false,
+    firstWordCapitalized: false,
+    prefix: null,
+    suffix: null,
+    separator: null,
+    substitions: [
+        { original: /\Σ/g, replaceWith: 'e' },
+        { original: /\¡/g, replaceWith: '!' },
+        { original: /\¿/g, replaceWith: '?' }
+    ],
+    addPeriods: false
+};
 
-function fixArcjec(span) {
-    let newText = span.innerText
-        .replace(/(XDXD?\s)/, '')
-        .replace(/\s(XDXD)$/, '');
+var occeus = {
+    sentenceCase: 'varies',
+    shouts: false,
+    firstWordCapitalized: false,
+    prefix: null,
+    suffix: null,
+    separator: null,
+    substitions: [
+        { original: /\.o\./g, replaceWith: 'o' },
+        { original: /(eye|Eye)/g, replaceWith: 'I' }
+    ],
+    addPeriods: false
 
-    replaceSpanText(span, newText);
-}
+};
 
-function fixAlbion(span) {
-    let newText = span.innerText
-        .replace(/(\*(?=\?)|\*(?=\.)|\*(?=\!))/, '')
-        .replace(/\*/g, ' ');
+//MAP OF PESTERLOGIDS TO TROLLS
+var vastErrorQuirks = {
+    "UK": murrit,
+    "BOOBDRONE": murrit,
+    "MURRIT": murrit,
+    "WA": laivan,
+    "BLUE GUY": laivan,
+    "AH": arcjec,
+    "ARCJEC": arcjec,
+    "PO": tazsia,
+    "TAZ": tazsia,
+    "TAZSIA": tazsia,
+    "DQ": albion,
+    "ALBION": albion,
+    "EO": ellsee,
+    "ME": occeus
+};
 
-    replaceSpanText(span, newText);
-}
-
-function fixTaz(span) {
-    let newText = span.innerText
-        .replace(/\+(?=[a-z]{1,}\'*)/g, 't')
-        .replace(/(?![A-Z]\'*)\+/g, 't')
-        .replace(/\~/g, '');
-
-    replaceSpanText(span, allCapsWords(newText));
-}
-
-function fixGuardianSpirit(span) {
-    let newText = span.innerText
-        .replace(/\*/g, '')
-        .replace(/\-/g, '');
-
-    replaceSpanText(span, newText);
-}
-
-function fixDismas(span) {
-    let newText = span.innerText
-        .replace(/\/{3}$/, '')
-        .replace(/^GD:\ \\\//, 'GD: V')
-        .replace(/^GD:\ \/\\/, 'GD: A')
-        .replace(/\\\//g, 'v')
-        .replace(/\/\\/g, 'a');
-
-    replaceSpanText(span, newText);
-}
-
-function fixSerpaz(span) {
-    span.setAttribute("style", 'font-family: "courier", "monospace";');
-}
-
-function fixSovara(span) {
-    let newText = span.innerText
-        .replace(/^SA:\s\(/, 'SA: ')
-        .replace(/\)$/, '');
-    replaceSpanText(span, newText);
-    span.setAttribute('style', 'font-style: normal');
-}
-
-function fixEllsee(span) {
-    let newText = span.innerText
-        .replace(/\Σ/g, 'e')
-        .replace(/\¡/g, '!')
-        .replace(/\¿/g, '?');
-    replaceSpanText(span, newText);
-}
-
-function fixOcceus(span) {
-    let newText = span.innerText
-        .replace(/\.o\./g, 'o')
-        .replace(/(eye|Eye)/g, 'I');
-    replaceSpanText(span, newText);
-}
