@@ -32,13 +32,12 @@ function parseQuirk(str, characterQuirk) {
 
     //fix any other separators
     if (characterQuirk.separator) {
-        console.log("Separator needed!");
         str = str.replace(characterQuirk.separator, ' ');
     }
 
-    //perform replacements, if necessary
+    //perform individual replacements, if necessary
     if (characterQuirk.substitions) {
-        str = simpleReplace(str, characterQuirk);
+        str = caseSensitiveReplace(str, characterQuirk);
     }
 
     //finally, check for any overall case situations
@@ -68,44 +67,7 @@ function parseQuirk(str, characterQuirk) {
     return str;
 }
 
-//performs a case sensitive replacement that pays attention to Proper Case and SHOUTING
-//a character SHOUTS when they periodically make entire words upper case
-function caseSensitiveReplace(str, characterQuirk) {
-    //first, get the full list of replacements we should exclude from our SHOUT search
-    var exclusionList = '';
-    characterQuirk.substitions.forEach(function (pattern) {
-        exclusionList = exclusionList + pattern.original + pattern.replaceWith;
-    });
-
-    //now map out which words are SHOUTING prior to any substitutions
-    var caseMap = str.split(' ').map(
-        function (word) {
-            if (isProperCase(word)) {
-                return 'p';
-            }
-            else if (!isLowerCase(word)) {
-                return 'u';
-            }
-            else {
-                return 'l';
-            }
-        }
-    );
-
-    //make the basic substitution
-    str = simpleReplace(str, characterQuirk);
-
-    //and finally return the SHOUT adjusted version
-    return str.split(' ').map(function (word, index) {
-        if (caseMap[index] === 'p') {
-            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-        }
-        else {
-            return (caseMap[index] === 'l' ? word.toLowerCase() : word.toUpperCase());
-        }
-    }).join(' ');
-}
-
+//performs a simple replace
 function simpleReplace(str, characterQuirk) {
     for (let i = 0; i < characterQuirk.substitions.length; i++) {
         let originalPattern = characterQuirk.substitions[i].original;
@@ -115,29 +77,64 @@ function simpleReplace(str, characterQuirk) {
     return str;
 }
 
-//Tests if a particular string is lower case (excluding any characters provided as exceptions, because some typing quirks are mixed-case on purpose (Ex: 'HOW ARE YOu THE uNIVERSE LOVES YOu'))
-function isLowerCase(str, exceptions = []) {
-    var allLetters = str.split('');
-    for (let i = 0; i < allLetters.length; i++) {
-        let currentLetter = allLetters[i];
-        if (!exceptions || !exceptions.includes(currentLetter)) {
-            //if there are no exceptions, or if the exceptions list doesn't include this particular letter, check if the letter is uppercase
-            if (currentLetter !== currentLetter.toLowerCase() && currentLetter === currentLetter.toUpperCase()) {
-                //as soon as we hit an uppercase letter, bomb out of the evalution
-                return false;
+//takes in a string and quirk definition; spits out a str with case-sensitive replacements
+function caseSensitiveReplace(str, characterQuirk) {
+    //start by doing the replacements we would have done anyway
+    str = simpleReplace(str, characterQuirk);
+    var allWords = str.split(' ');
+    //grab a list of exceptions, based on characters we have already swapped out
+    //(ex: if we did a case-insensitive swap from # to 'h', ignore 'h' because its case is not necessarily correct)
+    var exceptions = characterQuirk.substitions.map(function (pattern) {
+        return pattern.replaceWith;
+    });
+    //based on the mapped out 
+    var caseMap = allWords.map(function (word) {
+        if (isAllUpperCase(word, exceptions)) {
+            return word.toUpperCase();
+        }
+        else {
+            return word;
+            //note: we don't call toLowerCase because we want to preserve any random casing already in play
+        }
+    });
+
+    return caseMap.join(' ');
+}
+
+//NOTE: default assumption is that words are not uppercase
+function isAllUpperCase(word, exceptions) {
+    var upperCaseCount = 0;
+    var lowerCaseCount = 0;
+    console.log(word + ":\n Exceptions:" + exceptions);
+    for (let i = 0; i < word.length; i++) {
+        let currentLetter = word[i];
+        console.log(currentLetter + ": " + exceptions.includes(currentLetter));
+        if (!exceptions.includes[currentLetter]) { //BUG: perhaps this isn't working?  why
+            if (isUpperCaseLetter(currentLetter)) {
+                upperCaseCount++;
+            }
+            else if (word[i].match(/[a-z]/g)) { //BUG: this is finding the lowercase letters, why
+                lowerCaseCount++;
             }
         }
     }
-    return true;
+
+    //special case: word initial uppercase we still treat as lowercase (bc sentence capitalization is handled elsewhere)
+    if (upperCaseCount === 1 && !isUpperCaseLetter(word.charAt(0))) {
+        console.log("uppercase, not word initial");
+        return true;
+    }
+    else if (upperCaseCount > 1) { //otherwise if we had multiple uppercase letters it's time to count that word as SHOUTING
+        return true;
+    }
+    return false;
 }
 
-//Tests if a particular string is Proper Case (first letter capitalized; remaining letters lowercase)
-//NOTE: if the initial character is indeterminate (like a number or hash) we err on the side of NOT proper cased
-function isProperCase(str, exceptions = []) {
-    return (
-        /[A-Z]/.test(str.charAt(0)) &&
-        str.charAt(0) === str.charAt(0).toUpperCase() &&
-        isLowerCase(str.slice(1), exceptions)
-    );
+function isUpperCaseLetter(letter) {
+    if (letter === letter.toUpperCase()
+        && letter !== letter.toLowerCase()) {
+        return true;
+    } else {
+        return false;
+    }
 }
-
