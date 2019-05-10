@@ -94,7 +94,20 @@ var occeus = {
         { original: /(eye|Eye)/g, replaceWith: 'I' }
     ],
     addPeriods: false
+};
 
+var dismas = {
+    sentenceCase: 'varies',
+    shouts: true,
+    firstWordCapitalized: true,
+    prefix: null,
+    suffix: /\/\/\/$/,
+    separator: null,
+    substitions: [
+        { original: /\\\//g, replaceWith: 'v' },
+        { original: /\/\\/g, replaceWith: 'a' }
+    ],
+    addPeriods: false
 };
 
 //MAP OF PESTERLOGIDS TO TROLLS
@@ -112,6 +125,8 @@ var vastErrorQuirks = {
     "DQ": albion,
     "ALBION": albion,
     "EO": ellsee,
-    "ME": occeus
+    "ME": occeus,
+    "GD": dismas,
+    "DISMAS": dismas 
 };
 

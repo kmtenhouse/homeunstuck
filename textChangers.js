@@ -32,18 +32,18 @@ function parseQuirk(str, characterQuirk) {
 
     //fix any other separators
     if (characterQuirk.separator) {
-        console.log("Separator needed!");
         str = str.replace(characterQuirk.separator, ' ');
     }
 
     //perform replacements, if necessary
     if (characterQuirk.substitions) {
-        if (characterQuirk.shouts === true || characterQuirk.firstWordCapitalized === true) {
+        str = simpleReplace(str, characterQuirk);
+     /*    if (characterQuirk.shouts === true || characterQuirk.firstWordCapitalized === true) {
             str = caseSensitiveReplace(str, characterQuirk);
         }
         else { //save some cycles if we don't have to care about the case
             str = simpleReplace(str, characterQuirk);
-        }
+        } */
     }
 
     //finally, check for any overall case situations
