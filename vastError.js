@@ -8,7 +8,7 @@ var murrit = {
     suffix: /\]$/,
     separator: null,
     substitions: [
-        { original: /#/g, replaceWith: 'h' }
+       { original: /\#/g, replaceWith: 'h'}
     ],
     addPeriods: false
 };
@@ -90,7 +90,8 @@ var occeus = {
     suffix: null,
     separator: null,
     substitions: [
-        { original: /\.o\./g, replaceWith: 'o' },
+        { original: /\.o\./g, replaceWith: 'o'},
+        { original: /\.oo\./g, replaceWith: 'oo' },
         { original: /(eye|Eye)/g, replaceWith: 'I' }
     ],
     addPeriods: false
@@ -110,6 +111,31 @@ var dismas = {
     addPeriods: false
 };
 
+var sovara = {
+    sentenceCase: 'lowercase',
+    shouts: false,
+    firstWordCapitalized: false,
+    prefix: /^\(/,
+    suffix: /\)$/,
+    separator: null,
+    substitions: [],
+    addPeriods: false
+};
+
+var dismas = {
+    sentenceCase: 'varies',
+    shouts: false,
+    firstWordCapitalized: true,
+    prefix: null,
+    suffix: /\/{3}$/,
+    separator: null,
+    substitions: [
+        { original:/\\\//g, replaceWith: 'v' },
+        { original: /\/\\/g, replaceWith: 'a' }
+    ],
+    addPeriods: true
+};
+
 //MAP OF PESTERLOGIDS TO TROLLS
 var vastErrorQuirks = {
     "UK": murrit,
@@ -117,16 +143,22 @@ var vastErrorQuirks = {
     "MURRIT": murrit,
     "WA": laivan,
     "BLUE GUY": laivan,
+    "LAIVAN": laivan,
     "AH": arcjec,
     "ARCJEC": arcjec,
+    "KIDJEC": arcjec,
     "PO": tazsia,
     "TAZ": tazsia,
     "TAZSIA": tazsia,
     "DQ": albion,
     "ALBION": albion,
     "EO": ellsee,
+    "ELLSEE": ellsee,
     "ME": occeus,
+    "OCCEUS": occeus,
+    "DISMAS": dismas,
     "GD": dismas,
-    "DISMAS": dismas 
+    "SA": sovara,
+    "SOVARA": sovara
 };
 
