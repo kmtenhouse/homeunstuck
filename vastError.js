@@ -25,13 +25,12 @@ var laivan = {
     suffix: /\-$/,
     separator: {
         replace: false,
-        original: '-',
-        replaceWith: ' '
+        original: ' ',
+        replaceWith: null
     },
     substitions: [
-        { original: /\-[^?!]/g, replaceWith: '. ', isCaseSensitive: false },
-        { original: /\-[?]/g, replaceWith: '?', isCaseSensitive: false },
-        { original: /\-[!]/g, replaceWith: '!', isCaseSensitive: false }
+        { original: /\-(?=[\!\?\,\;\.\!])/g, replaceWith: '', isCaseSensitive: false },
+        { original: /\-[\s]{1,}/g, replaceWith: '. ', isCaseSensitive: false }
     ],
     addPeriods: true
 };
