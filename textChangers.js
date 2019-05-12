@@ -31,8 +31,8 @@ function parseQuirk(str, characterQuirk) {
     }
 
     //fix any other separators
-    if (characterQuirk.separator) {
-        str = str.replace(characterQuirk.separator, ' ');
+    if (characterQuirk.separator.replace) {
+        str = str.replace(characterQuirk.separator.original, characterQuirk.separator.replaceWith);
     }
 
     //perform individual replacements, if necessary
@@ -87,10 +87,14 @@ function simpleReplace(str, characterQuirk) {
 
 //CASE SENSITIVE TEXT REPLACER
 //takes in a string and quirk definition; spits out a str with case-sensitive replacements
+//note: this approach ASSUMES you have already done the replacement for any separators between words
 function caseSensitiveReplace(str, characterQuirk) {
     //start by doing the replacements we would have done anyway
+    
+    var charToSplitOn = (characterQuirk.separator.replace ? characterQuirk.separator.replaceWith : characterQuirk.separator.original); 
+
     str = simpleReplace(str, characterQuirk);
-    var allWords = str.split(' ');
+    var allWords = str.split(charToSplitOn);
     //grab a list of exceptions, based on characters we have already swapped out
     //(ex: if we did a case-insensitive swap from # to 'h', ignore 'h' because its case is not necessarily correct)
     var exceptions = characterQuirk.substitions.map(function (pattern) {
@@ -106,7 +110,7 @@ function caseSensitiveReplace(str, characterQuirk) {
             return word;
         }
     });
-    return caseMap.join(' '); //note: replace this with 'separator' in the future!
+    return caseMap.join(charToSplitOn); //note: replace this with 'separator' in the future!
 }
 
 //Takes in a word and an (optional) array of characters that should be considered exceptions to the rule
