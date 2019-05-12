@@ -57,11 +57,10 @@ function parseQuirk(str, characterQuirk) {
 
     //swap out any special characters as necessary
     if (characterQuirk.substitions) {
+        str = replaceText(str, characterQuirk);
+
         if (caseSensitiveSubstitutions(characterQuirk)) {
-            str = caseSensitiveReplaceText(str, characterQuirk);
-        }
-        else {
-            str = replaceText(str, characterQuirk);
+            str = adjustWordCases(str, characterQuirk);
         }
     }
 
@@ -107,7 +106,7 @@ function replaceText(str, characterQuirk) {
     }
 }
 
-//BASIC TEXT REPLACER
+//TEXT REPLACER (NO WHITE LIST)
 //Simplest form of text replacement:
 //Takes in a string and a quirk object
 //Returns a string that has had all text substitutions peformed
@@ -121,11 +120,11 @@ function simpleReplace(str, characterQuirk) {
     return str;
 }
 
-//TEXT REPLACER WITH WHITE LIST
+//TEXT REPLACER (WITH WHITE LIST)
 //Takes in a string and a quirk object
 //Returns a string that has had all text substitutions performed, sans any words that are whitelisted
 //Ex: quirk with a substituion for + => t, EXCEPT for the whitelisted emoji +m+
-//"+his is a string +m+"  => "this is a string +m+"
+//"+his is a s+ring +m+"  => "this is a string +m+"
 //Note: assumes that separator substitutions have been completed first
 function whiteListReplace(str, characterQuirk) {
     //start by breaking the string apart on its separator
@@ -145,12 +144,9 @@ function whiteListReplace(str, characterQuirk) {
 
 //CASE ADJUSTMENT 
 //takes in a string and quirk definition; spits out a str with case-sensitive replacements
-//Note: assumes that separator substitutions have been completed first
-function caseSensitiveReplaceText(str, characterQuirk) {
-    //start by doing the replacements we would have done anyway
-    str = replaceText(str, characterQuirk);
-
-    //next, split the sentence on whatever separator we are using -- either a custom one, or a simple space
+//Note: assumes that all substitutions have been completed first
+function adjustWordCases(str, characterQuirk) {
+    //start by splitting the sentence on whatever separator we are using -- either a custom one, or a simple space
     var currentSeparator = (characterQuirk.separator.replace ? characterQuirk.separator.replaceWith : characterQuirk.separator.original);
     var allWords = str.split(currentSeparator);
 
@@ -226,13 +222,12 @@ function isAllUpperCase(word, exceptions = []) {
                 upperCaseCount++;
             }
             //regular expression will match any of the following special characters: ~`!#$%\^&*+=-[]\;,'/{}|":<>?"0123456789
-            else if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?0123456789]/g.test(currentLetter)) {
+            else if (/[\.~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?0123456789]/g.test(currentLetter)) {
                 specialCharacterCount++;
             }
             else {
                 lowerCaseCount++;
             }
-            //otherwise it's a lowercase character - we don't need to keep track of that count, but this is where we would
         }
         else {
             excludedCount++;
