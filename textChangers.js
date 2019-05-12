@@ -32,10 +32,21 @@ function parseQuirk(str, characterQuirk) {
 
     //fix any other separators
     if (characterQuirk.separator.replace) {
-        //go through the substitions array for the separator
-        for(let x = 0; x < characterQuirk.separator.substitions.length; x++) {
-            str = str.replace(characterQuirk.separator.substitions[x].original, characterQuirk.separator.substitions[x].replaceWith);
-        }
+    
+        var escapedOriginal = escapeRegExp(characterQuirk.separator.original);         
+        var replaceWith = characterQuirk.separator.replaceWith;
+        //Case One: punctuation  
+        //We remove the separator and then leave the punctuation itself
+        //Example (quirk: -): I guess I'm fine-!  =>  I guess I'm fine!
+        
+        var separatorBeforePunctuation = new RegExp(escapedOriginal+'(?=[\!\?\,\;\.\!])', 'g');
+        str = str.replace(separatorBeforePunctuation, '');
+        
+        //Case Two (quirk *): in between word spacing
+        //Remove the current separator and replace with the new one
+        //Example: I*am*happy. => I am happy.
+         var betweenWords = new RegExp(escapedOriginal, 'g');
+         str = str.replace(betweenWords, replaceWith);
     }
 
     //perform individual replacements, if necessary
@@ -164,6 +175,11 @@ function isUpperCaseLetter(letter) {
     } else {
         return false;
     }
+}
+
+//escapes a string to prep it for regular expressions
+function escapeRegExp(str){
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 function caseSensitiveSubstitutions(characterQuirk) {

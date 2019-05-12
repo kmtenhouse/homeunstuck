@@ -9,7 +9,7 @@ var murrit = {
     separator: {
         replace: false,
         original: ' ',
-        substitions: []
+        replaceWith: null
     },
     substitions: [
         { original: /\#/g, replaceWith: 'h', isCaseSensitive: true }
@@ -25,8 +25,8 @@ var laivan = {
     suffix: /\-$/,
     separator: {
         replace: false,
-        original: ' ',
-        substitions: []
+        original: '-',
+        replaceWith: ' '
     },
     substitions: [
         { original: /\-[^?!]/g, replaceWith: '. ', isCaseSensitive: false },
@@ -45,7 +45,7 @@ var arcjec = {
     separator: {
         replace: false,
         original: ' ',
-        substitions: []
+        replaceWith: null
     },
     substitions: [],
     addPeriods: true
@@ -60,7 +60,7 @@ var tazsia = {
     separator: {
         replace: false,
         original: ' ',
-        substitions: []
+        replaceWith: null
     },
     substitions: [
         { original: /\+/g, replaceWith: 't', isCaseSensitive: true }
@@ -77,16 +77,9 @@ var albion = {
     separator: {
         replace: true,
         original: '*', 
-        replaceWith: ' ',
-        substitions: [
-            { original: /\*\./, replaceWith: '.', isCaseSensitive: false },
-            { original: /\*\!/, replaceWith: '!', isCaseSensitive: false },
-            { original: /\*\?/, replaceWith: '?', isCaseSensitive: false },
-            { original: /\*/g, replaceWith: ' ', isCaseSensitive: false }
-        ] 
+        replaceWith: ' '
     },
     substitions: [
-        { original: /\#/g, replaceWith: 'h', isCaseSensitive: true }
     ],
     addPeriods: false
 };
@@ -100,7 +93,7 @@ var ellsee = {
     separator: {
         replace: false,
         original: ' ',
-        substitions: []
+        replaceWith: null
     },
     substitions: [
         { original: /\Σ/g, replaceWith: 'e', isCaseSensitive: true },
@@ -119,7 +112,7 @@ var occeus = {
     separator: {
         replace: false,
         original: ' ',
-        substitions: []
+        replaceWith: null
     },
     substitions: [
         { original: /\.o\./g, replaceWith: 'o', isCaseSensitive: true },
@@ -138,7 +131,7 @@ var dismas = {
     separator: {
         replace: false,
         original: ' ',
-        substitions: []
+        replaceWith: null
     },
     substitions: [
         { original: /\\\//g, replaceWith: 'v', isCaseSensitive: true },
@@ -156,7 +149,7 @@ var sovara = {
     separator: {
         replace: false,
         original: ' ',
-        substitions: []
+        replaceWith: null
     },
     substitions: [],
     addPeriods: false
@@ -171,7 +164,7 @@ var dismas = {
     separator: {
         replace: false,
         original: ' ',
-        substitions: []
+        replaceWith: null
     },
     substitions: [
         { original: /\\\//g, replaceWith: 'v', isCaseSensitive: true },
