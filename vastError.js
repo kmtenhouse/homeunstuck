@@ -149,7 +149,7 @@ var dismas = {
 
 var sovara = {
     sentences: {
-        enforceCase: 'lowercase',
+        enforceCase: 'propercase',
         capitalizeSentences: false,
         addMissingPeriods: false
     },

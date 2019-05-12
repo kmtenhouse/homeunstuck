@@ -66,16 +66,20 @@ function parseQuirk(str, characterQuirk) {
     }
 
     //finally, check for any overall case situations
-    if (characterQuirk.sentences.enforceCase === 'lowercase' || characterQuirk.sentences.enforceCase === 'propercase') {
+    if (characterQuirk.sentences.enforceCase === 'lowercase') {
         str = str.toLowerCase();
     }
-    else if (characterQuirk.sentences.enforceCase === 'uppercase' || characterQuirk.sentences.enforceCase === 'propercase') {
+    else if (characterQuirk.sentences.enforceCase === 'uppercase') {
         str = str.toUpperCase();
+    }
+    else if (characterQuirk.sentences.enforceCase === 'propercase') {
+        //special case: make sure we change any lowercase i's to I
+        str = str.replace(/\bi\b/g, 'I');
     }
 
     //capitalize sentences as needed
     if (characterQuirk.sentences.capitalizeSentences === true || characterQuirk.sentences.enforceCase === 'propercase') {
-        str = properCase(str, characterQuirk);
+        str = capitalizeSentences(str, characterQuirk);
     }
 
     //and literally at the end of all things...make sure we're not missing any trailing periods
@@ -139,7 +143,7 @@ function caseSensitiveReplace(str, characterQuirk) {
 //
 //
 //Takes in a string with multiple sentences and changes each sentence to proper case
-function properCase(str, characterQuirk) {
+function capitalizeSentences(str, characterQuirk) {
     //first, grab the punctuation marks so we preserve them
     let punctuationMarks = str.match(/[\!\.\?]{1,}/g) || [];
     let allSentences = str.split(/[\!\.\?]{1,}/);
@@ -194,7 +198,7 @@ function isAllUpperCase(word, exceptions = []) {
     //now we adjust for the things we excluded (special characters and purposefully excluded characters)
     var adjustedWordLength = word.length - specialCharacterCount - excludedCount;
 
-    if (upperCaseCount === adjustedWordLength) {
+    if (upperCaseCount === adjustedWordLength) { 
         return true;
     }
     else {
