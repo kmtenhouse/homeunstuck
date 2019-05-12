@@ -2,6 +2,7 @@
 //a valid pesterlog begins with an identifer, separated from the remainder of the string by a colon
 //Ex: 
 //KK: I DON'T KNOW WHAT WE'RE YELLING ABOUT, DAVE.
+//Pesterlog ID is 'KK'; pesterlog text is "I DON'T KNOW WHAT WE'RE YELLING ABOUT, DAVE."
 function fixQuirk(str) {
     str = str.trim(); //make sure to remove any extraneous whitespace
     let colonIndex = str.indexOf(':');
@@ -17,10 +18,15 @@ function fixQuirk(str) {
     }
 
     let characterQuirk = vastErrorQuirks[pesterLogID];
+
     return pesterLogID + ": " + parseQuirk(pesterLogText, characterQuirk);
 }
 
+//QUIRK PARSING
+//Takes in a string and a quirk object
+//Based on the settings in the object, returns a transformed string
 function parseQuirk(str, characterQuirk) {
+    //start by trimming the incoming string of any excess whitespace
     str = str.trim();
     //remove any prefixes and suffixes first for simplicity
     if (characterQuirk.prefix) {
@@ -32,24 +38,24 @@ function parseQuirk(str, characterQuirk) {
 
     //fix any other separators
     if (characterQuirk.separator.replace) {
-    
-        var escapedOriginal = escapeRegExp(characterQuirk.separator.original);         
+
+        var escapedOriginal = escapeRegExp(characterQuirk.separator.original);
         var replaceWith = characterQuirk.separator.replaceWith;
         //Case One: punctuation  
         //We remove the separator and then leave the punctuation itself
         //Example (quirk: -): I guess I'm fine-!  =>  I guess I'm fine!
-        
-        var separatorBeforePunctuation = new RegExp(escapedOriginal+'(?=[\!\?\,\;\.\!])', 'g');
+
+        var separatorBeforePunctuation = new RegExp(escapedOriginal + '(?=[\!\?\,\;\.\!])', 'g');
         str = str.replace(separatorBeforePunctuation, '');
 
         //Case Two (quirk *): in between word spacing
         //Remove the current separator and replace with the new one
         //Example: I*am*happy. => I am happy.
-         var betweenWords = new RegExp(escapedOriginal, 'g');
-         str = str.replace(betweenWords, replaceWith);
+        var betweenWords = new RegExp(escapedOriginal, 'g');
+        str = str.replace(betweenWords, replaceWith);
     }
 
-    //perform individual replacements, if necessary
+    //swap out any special characters as necessary
     if (characterQuirk.substitions) {
         if (caseSensitiveSubstitutions(characterQuirk)) {
             str = caseSensitiveReplace(str, characterQuirk);
@@ -60,38 +66,21 @@ function parseQuirk(str, characterQuirk) {
     }
 
     //finally, check for any overall case situations
-    if (characterQuirk.sentenceCase === 'lowercase') {
+    if (characterQuirk.sentences.enforceCase === 'lowercase' || characterQuirk.sentences.enforceCase === 'propercase') {
         str = str.toLowerCase();
     }
-    else if (characterQuirk.sentenceCase === 'uppercase') {
+    else if (characterQuirk.sentences.enforceCase === 'uppercase' || characterQuirk.sentences.enforceCase === 'propercase') {
         str = str.toUpperCase();
     }
 
     //capitalize sentences as needed
-    if (characterQuirk.capitalizeSentences === true) {
-        //first, grab the punctuation marks so we preserve them
-        let punctuationMarks = str.match(/[\!\.\?]/g);
-        let allSentences = str.split(/[\!\.\?]/);
-        
-        console.log(punctuationMarks);
-        str = allSentences.map(function (sentence) {
-            sentence = sentence.trim();
-            //figure out which type of punctuation to add, if any
-            var currentPunctuation = '';
-            if(punctuationMarks.length > 0) {
-                currentPunctuation = punctuationMarks.shift();
-            }
-            else if(characterQuirk.addPeriods) {
-                currentPunctuation = '.';
-            }
-
-            return sentence.charAt(0).toUpperCase() + sentence.slice(1) + currentPunctuation;
-        }).join(' ');
+    if (characterQuirk.sentences.capitalizeSentences === true || characterQuirk.sentences.enforceCase === 'propercase') {
+        str = properCase(str, characterQuirk);
     }
 
     //and literally at the end of all things...make sure we're not missing any trailing periods
-    str = str.trim();
-    if (characterQuirk.addPeriods === true) {
+    if (characterQuirk.sentences.addMissingPeriods === true) {
+        str = str.trim();
         if (/([^!?,.]$)/.test(str)) {
             str = str + ".";
         }
@@ -101,6 +90,9 @@ function parseQuirk(str, characterQuirk) {
 }
 
 //TEXT REPLACERS
+//
+//
+//BASIC TEXT REPLACER
 //Takes in a string and a quirk object
 //Returns a string that has had all substitutions peformed
 //performs a simple replace, ignores case
@@ -119,7 +111,7 @@ function simpleReplace(str, characterQuirk) {
 function caseSensitiveReplace(str, characterQuirk) {
     //start by doing the replacements we would have done anyway
     str = simpleReplace(str, characterQuirk);
-    
+
     //next, split the sentence on whatever separator we are using -- either a custom one, or a simple space
     var currentSeparator = (characterQuirk.separator.replace ? characterQuirk.separator.replaceWith : characterQuirk.separator.original);
     var allWords = str.split(currentSeparator);
@@ -132,7 +124,6 @@ function caseSensitiveReplace(str, characterQuirk) {
 
     var caseMap = allWords.map(function (word) {
         if (isAllUpperCase(word, exceptions)) {
-            
             return word.toUpperCase();
         }
         else {
@@ -141,9 +132,40 @@ function caseSensitiveReplace(str, characterQuirk) {
         }
     });
 
-    return caseMap.join(currentSeparator ); //note: because .join cannot take a regexp, we have to store the original character
+    return caseMap.join(currentSeparator); //note: because .join cannot take a regexp, we have to store the original character
 }
 
+//SENTENCE CASE
+//
+//
+//Takes in a string with multiple sentences and changes each sentence to proper case
+function properCase(str, characterQuirk) {
+    //first, grab the punctuation marks so we preserve them
+    let punctuationMarks = str.match(/[\!\.\?]{1,}/g) || [];
+    let allSentences = str.split(/[\!\.\?]{1,}/);
+
+    str = allSentences.map(function (sentence) {
+        sentence = sentence.trim();
+        if(sentence === '') { //if the 'sentence' was just extra whitespace, return a truncated string
+            return '';
+        }
+        //figure out which type of punctuation to add, if any
+        var currentPunctuation = '';
+        if (punctuationMarks.length > 0) {
+            currentPunctuation = punctuationMarks.shift();
+        }
+        else if (characterQuirk.sentences.addMissingPeriods) {
+            currentPunctuation = '.';
+        }
+        return sentence.charAt(0).toUpperCase() + sentence.slice(1) + currentPunctuation;
+    }).join(' ');
+
+    return str;
+}
+
+//STRING VALIDATORS
+//
+//
 //Takes in a word and an (optional) array of characters that should be considered exceptions to the rule
 //Output: boolean that indicates if a word is all UPPER CASE
 //Examples of upper case words: "HEY", "HELLO, WORLD!"
@@ -191,16 +213,28 @@ function isUpperCaseLetter(letter) {
     }
 }
 
-//escapes a string to prep it for regular expressions
-function escapeRegExp(str){
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-}
-
+//TEXT REPLACER HELPERS
+//
+//
+//takes in a quirk object and determines if we should use case sensitive or insensitive substitution 
+//swaps will NOT be case sensitive if the entire string will be forcibly set to a specific case 
+//swaps will also NOT be case sensitive if there is a case-sensitive substition that must be done
 function caseSensitiveSubstitutions(characterQuirk) {
+    if (characterQuirk.sentences.enforceCase === 'uppercase' || characterQuirk.sentences.enforceCase === 'lowercase') {
+        return false;
+    }
     for (let i = 0; i < characterQuirk.substitions.length; i++) {
         if (characterQuirk.substitions[i].isCaseSensitive) {
             return true;
         }
     }
     return false;
+}
+
+//REGULAR EXPRESSION HELPERS
+//
+//
+//escapes a string to prep it for regular expressions
+function escapeRegExp(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }

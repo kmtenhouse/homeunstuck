@@ -1,8 +1,11 @@
 //VAST ERROR QUIRK SETTINGS
 //INDIVIDUAL TROLLS
 var murrit = {
-    sentenceCase: 'varies',
-    capitalizeSentences: false,
+    sentences: {
+        enforceCase: null,
+        capitalizeSentences: false,
+        addMissingPeriods: false
+    },
     prefix: /^\>\(\[/,
     suffix: /\]$/,
     separator: {
@@ -12,13 +15,15 @@ var murrit = {
     },
     substitions: [
         { original: /\#/g, replaceWith: 'h', isCaseSensitive: true }
-    ],
-    addPeriods: false
+    ]
 };
 
 var laivan = {
-    sentenceCase: 'varies',
-    capitalizeSentences: true,
+    sentences: {
+        enforceCase: null,
+        capitalizeSentences: true,
+        addMissingPeriods: true
+    },
     prefix: null,
     suffix: /\-$/,
     separator: {
@@ -29,13 +34,15 @@ var laivan = {
     substitions: [
         { original: /\-(?=[\!\?\,\;\.\!])/g, replaceWith: '', isCaseSensitive: false },
         { original: /\-[\s]{1,}/g, replaceWith: '. ', isCaseSensitive: false }
-    ],
-    addPeriods: true
+    ]
 };
 
 var arcjec = {
-    sentenceCase: 'varies',
-    capitalizeSentences: true,
+    sentences: {
+        enforceCase: null,
+        capitalizeSentences: true,
+        addMissingPeriods: true
+    },
     prefix: /^XDXD/,
     suffix: /XDXD$/,
     separator: {
@@ -43,13 +50,15 @@ var arcjec = {
         original: ' ',
         replaceWith: null
     },
-    substitions: [],
-    addPeriods: true
+    substitions: []
 };
 
 var tazsia = {
-    sentenceCase: 'varies',
-    capitalizeSentences: false,
+    sentences: {
+        enforceCase: null,
+        capitalizeSentences: false,
+        addMissingPeriods: true
+    },
     prefix: /^\~/,
     suffix: /\~$/,
     separator: {
@@ -59,13 +68,15 @@ var tazsia = {
     },
     substitions: [
         { original: /\+/g, replaceWith: 't', isCaseSensitive: true }
-    ],
-    addPeriods: true
+    ]
 };
 
 var albion = {
-    sentenceCase: 'varies',
-    capitalizeSentences: false,
+    sentences: {
+        enforceCase: null,
+        capitalizeSentences: false,
+        addMissingPeriods: false
+    },
     prefix: /^\*/,
     suffix: /\*$/,
     separator: {
@@ -74,13 +85,15 @@ var albion = {
         replaceWith: ' '
     },
     substitions: [
-    ],
-    addPeriods: false
+    ]
 };
 
 var ellsee = {
-    sentenceCase: 'varies',
-    capitalizeSentences: true,
+    sentences: {
+        enforceCase: null,
+        capitalizeSentences: true,
+        addMissingPeriods: true
+    },
     prefix: null,
     suffix: null,
     separator: {
@@ -92,13 +105,15 @@ var ellsee = {
         { original: /\Σ/g, replaceWith: 'e', isCaseSensitive: true },
         { original: /\¡/g, replaceWith: '!', isCaseSensitive: false },
         { original: /\¿/g, replaceWith: '?', isCaseSensitive: false }
-    ],
-    addPeriods: false
+    ]
 };
 
 var occeus = {
-    sentenceCase: 'varies',
-    capitalizeSentences: false,
+    sentences: {
+        enforceCase: null,
+        capitalizeSentences: false,
+        addMissingPeriods: false
+    },
     prefix: null,
     suffix: null,
     separator: {
@@ -110,13 +125,15 @@ var occeus = {
         { original: /\.o\./g, replaceWith: 'o', isCaseSensitive: true },
         { original: /\.oo\./g, replaceWith: 'oo', isCaseSensitive: true },
         { original: /(eye|Eye)/g, replaceWith: 'I', isCaseSensitive: false }
-    ],
-    addPeriods: false
+    ]
 };
 
 var dismas = {
-    sentenceCase: 'varies',
-    capitalizeSentences: true,
+    sentences: {
+        enforceCase: null,
+        capitalizeSentences: true,
+        addMissingPeriods: false
+    },
     prefix: null,
     suffix: /\/\/\/$/,
     separator: {
@@ -127,13 +144,15 @@ var dismas = {
     substitions: [
         { original: /\\\//g, replaceWith: 'v', isCaseSensitive: true },
         { original: /\/\\/g, replaceWith: 'a', isCaseSensitive: true }
-    ],
-    addPeriods: false
+    ]
 };
 
 var sovara = {
-    sentenceCase: 'lowercase',
-    capitalizeSentences: false,
+    sentences: {
+        enforceCase: 'lowercase',
+        capitalizeSentences: false,
+        addMissingPeriods: false
+    },
     prefix: /^\(/,
     suffix: /\)$/,
     separator: {
@@ -141,13 +160,15 @@ var sovara = {
         original: ' ',
         replaceWith: null
     },
-    substitions: [],
-    addPeriods: false
+    substitions: []
 };
 
 var dismas = {
-    sentenceCase: 'varies',
-    capitalizeSentences: true,
+    sentences: {
+        enforceCase: null,
+        capitalizeSentences: true,
+        addMissingPeriods: true
+    },
     prefix: null,
     suffix: /\/{3}$/,
     separator: {
@@ -158,8 +179,7 @@ var dismas = {
     substitions: [
         { original: /\\\//g, replaceWith: 'v', isCaseSensitive: true },
         { original: /\/\\/g, replaceWith: 'a', isCaseSensitive: true }
-    ],
-    addPeriods: true
+    ]
 };
 
 //MAP OF PESTERLOGIDS TO TROLLS
