@@ -2,8 +2,7 @@
 //INDIVIDUAL TROLLS
 var murrit = {
     sentenceCase: 'varies',
-    shouts: true,
-    firstWordCapitalized: false,
+    capitalizeSentences: false,
     prefix: /^\>\(\[/,
     suffix: /\]$/,
     separator: {
@@ -19,8 +18,7 @@ var murrit = {
 
 var laivan = {
     sentenceCase: 'varies',
-    shouts: true,
-    firstWordCapitalized: true,
+    capitalizeSentences: true,
     prefix: null,
     suffix: /\-$/,
     separator: {
@@ -37,8 +35,7 @@ var laivan = {
 
 var arcjec = {
     sentenceCase: 'varies',
-    shouts: true,
-    firstWordCapitalized: true,
+    capitalizeSentences: true,
     prefix: /^XDXD/,
     suffix: /XDXD$/,
     separator: {
@@ -52,8 +49,7 @@ var arcjec = {
 
 var tazsia = {
     sentenceCase: 'varies',
-    shouts: true,
-    firstWordCapitalized: false,
+    capitalizeSentences: false,
     prefix: /^\~/,
     suffix: /\~$/,
     separator: {
@@ -69,8 +65,7 @@ var tazsia = {
 
 var albion = {
     sentenceCase: 'varies',
-    shouts: true,
-    firstWordCapitalized: false,
+    capitalizeSentences: false,
     prefix: /^\*/,
     suffix: /\*$/,
     separator: {
@@ -85,8 +80,7 @@ var albion = {
 
 var ellsee = {
     sentenceCase: 'varies',
-    shouts: false,
-    firstWordCapitalized: false,
+    capitalizeSentences: true,
     prefix: null,
     suffix: null,
     separator: {
@@ -104,8 +98,7 @@ var ellsee = {
 
 var occeus = {
     sentenceCase: 'varies',
-    shouts: false,
-    firstWordCapitalized: false,
+    capitalizeSentences: false,
     prefix: null,
     suffix: null,
     separator: {
@@ -123,8 +116,7 @@ var occeus = {
 
 var dismas = {
     sentenceCase: 'varies',
-    shouts: true,
-    firstWordCapitalized: true,
+    capitalizeSentences: true,
     prefix: null,
     suffix: /\/\/\/$/,
     separator: {
@@ -141,8 +133,7 @@ var dismas = {
 
 var sovara = {
     sentenceCase: 'lowercase',
-    shouts: false,
-    firstWordCapitalized: false,
+    capitalizeSentences: false,
     prefix: /^\(/,
     suffix: /\)$/,
     separator: {
@@ -156,8 +147,7 @@ var sovara = {
 
 var dismas = {
     sentenceCase: 'varies',
-    shouts: false,
-    firstWordCapitalized: true,
+    capitalizeSentences: true,
     prefix: null,
     suffix: /\/{3}$/,
     separator: {

@@ -41,7 +41,7 @@ function parseQuirk(str, characterQuirk) {
         
         var separatorBeforePunctuation = new RegExp(escapedOriginal+'(?=[\!\?\,\;\.\!])', 'g');
         str = str.replace(separatorBeforePunctuation, '');
-        
+
         //Case Two (quirk *): in between word spacing
         //Remove the current separator and replace with the new one
         //Example: I*am*happy. => I am happy.
@@ -67,15 +67,29 @@ function parseQuirk(str, characterQuirk) {
         str = str.toUpperCase();
     }
 
-    if (characterQuirk.firstWordCapitalized === true) {
-        let allSentences = str.split('.');
+    //capitalize sentences as needed
+    if (characterQuirk.capitalizeSentences === true) {
+        //first, grab the punctuation marks so we preserve them
+        let punctuationMarks = str.match(/[\!\.\?]/g);
+        let allSentences = str.split(/[\!\.\?]/);
+        
+        console.log(punctuationMarks);
         str = allSentences.map(function (sentence) {
             sentence = sentence.trim();
-            return sentence.charAt(0).toUpperCase() + sentence.slice(1);
-        }).join('. ');
+            //figure out which type of punctuation to add, if any
+            var currentPunctuation = '';
+            if(punctuationMarks.length > 0) {
+                currentPunctuation = punctuationMarks.shift();
+            }
+            else if(characterQuirk.addPeriods) {
+                currentPunctuation = '.';
+            }
+
+            return sentence.charAt(0).toUpperCase() + sentence.slice(1) + currentPunctuation;
+        }).join(' ');
     }
 
-    //and literally at the end of all things...
+    //and literally at the end of all things...make sure we're not missing any trailing periods
     str = str.trim();
     if (characterQuirk.addPeriods === true) {
         if (/([^!?,.]$)/.test(str)) {
