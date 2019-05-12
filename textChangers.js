@@ -58,10 +58,10 @@ function parseQuirk(str, characterQuirk) {
     //swap out any special characters as necessary
     if (characterQuirk.substitions) {
         if (caseSensitiveSubstitutions(characterQuirk)) {
-            str = caseSensitiveReplace(str, characterQuirk);
+            str = caseSensitiveReplaceText(str, characterQuirk);
         }
         else {
-            str = simpleReplace(str, characterQuirk);
+            str = replaceText(str, characterQuirk);
         }
     }
 
@@ -96,7 +96,19 @@ function parseQuirk(str, characterQuirk) {
 //TEXT REPLACERS
 //
 //
+//MAIN TEXT REPLACER
+//determines which form of text replacement to perform, based on the whitelist
+function replaceText(str, characterQuirk) {
+    if(characterQuirk.whiteList.length === 0) {
+        return simpleReplace(str, characterQuirk);
+    }
+    else {
+        return whiteListReplace(str, characterQuirk);
+    }
+}
+
 //BASIC TEXT REPLACER
+//Simplest form of text replacement:
 //Takes in a string and a quirk object
 //Returns a string that has had all text substitutions peformed
 //Note: assumes that separator substitutions have been completed first
@@ -121,7 +133,7 @@ function whiteListReplace(str, characterQuirk) {
     var allWords = str.split(separator);
 
     var fixedWords = allWords.map(function(word) { 
-        if(characterQuirk.emoji.length > 0 && !characterQuirk.emoji.includes(word)) {
+        if(characterQuirk.whiteList.length > 0 && !characterQuirk.whiteList.includes(word)) {
             word = simpleReplace(word, characterQuirk);
         }
         return word;
@@ -130,12 +142,13 @@ function whiteListReplace(str, characterQuirk) {
     return fixedWords.join(separator);
 }
 
-//CASE SENSITIVE TEXT REPLACER
+
+//CASE ADJUSTMENT 
 //takes in a string and quirk definition; spits out a str with case-sensitive replacements
 //Note: assumes that separator substitutions have been completed first
-function caseSensitiveReplace(str, characterQuirk) {
+function caseSensitiveReplaceText(str, characterQuirk) {
     //start by doing the replacements we would have done anyway
-    str = whiteListReplace(str, characterQuirk);
+    str = replaceText(str, characterQuirk);
 
     //next, split the sentence on whatever separator we are using -- either a custom one, or a simple space
     var currentSeparator = (characterQuirk.separator.replace ? characterQuirk.separator.replaceWith : characterQuirk.separator.original);
@@ -149,7 +162,7 @@ function caseSensitiveReplace(str, characterQuirk) {
 
     var caseMap = allWords.map(function (word) {
         //special case: make sure the word isn't a known emoji; we don't mess with those
-        if(characterQuirk.emoji.includes(word)) {
+        if(characterQuirk.whiteList.length > 0 && characterQuirk.whiteList.includes(word)) {
             return word;
         }
 
