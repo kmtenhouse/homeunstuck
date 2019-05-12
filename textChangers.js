@@ -22,7 +22,7 @@ function fixQuirk(str) {
 
 function parseQuirk(str, characterQuirk) {
     str = str.trim();
-    //remove prefixes and suffixes first for simplicity
+    //remove any prefixes and suffixes first for simplicity
     if (characterQuirk.prefix) {
         str = str.replace(characterQuirk.prefix, '');
     }
@@ -37,7 +37,12 @@ function parseQuirk(str, characterQuirk) {
 
     //perform individual replacements, if necessary
     if (characterQuirk.substitions) {
-        str = caseSensitiveReplace(str, characterQuirk);
+        if (caseSensitiveSubstitutions(characterQuirk)) {
+            str = caseSensitiveReplace(str, characterQuirk);
+        }
+        else {
+            str = simpleReplace(str, characterQuirk);
+        }
     }
 
     //finally, check for any overall case situations
@@ -67,6 +72,9 @@ function parseQuirk(str, characterQuirk) {
     return str;
 }
 
+//TEXT REPLACERS
+//Takes in a string and a quirk object
+//Returns a string that has had all substitutions peformed
 //performs a simple replace, ignores case
 function simpleReplace(str, characterQuirk) {
     for (let i = 0; i < characterQuirk.substitions.length; i++) {
@@ -77,6 +85,7 @@ function simpleReplace(str, characterQuirk) {
     return str;
 }
 
+//CASE SENSITIVE TEXT REPLACER
 //takes in a string and quirk definition; spits out a str with case-sensitive replacements
 function caseSensitiveReplace(str, characterQuirk) {
     //start by doing the replacements we would have done anyway
@@ -87,7 +96,7 @@ function caseSensitiveReplace(str, characterQuirk) {
     var exceptions = characterQuirk.substitions.map(function (pattern) {
         return pattern.replaceWith;
     });
-    
+
     var caseMap = allWords.map(function (word) {
         if (isAllUpperCase(word, exceptions)) {
             return word.toUpperCase();
@@ -100,8 +109,11 @@ function caseSensitiveReplace(str, characterQuirk) {
     return caseMap.join(' '); //note: replace this with 'separator' in the future!
 }
 
-//NOTE: default assumption is that words are not uppercase
-function isAllUpperCase(word, exceptions) {
+//Takes in a word and an (optional) array of characters that should be considered exceptions to the rule
+//Output: boolean that indicates if a word is all UPPER CASE
+//Examples of upper case words: "HEY", "HELLO, WORLD!"
+//If the exceptions array ["u"] is passed in: upper case words include "YOu"
+function isAllUpperCase(word, exceptions = []) {
     var upperCaseCount = 0;
     var excludedCount = 0;
     var specialCharacterCount = 0;
@@ -111,10 +123,11 @@ function isAllUpperCase(word, exceptions) {
             if (isUpperCaseLetter(currentLetter)) {
                 upperCaseCount++;
             }
-            else if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(currentLetter)) {
+            //regular expression will match any of the following special characters: ~`!#$%\^&*+=-[]\;,'/{}|":<>?"0123456789
+            else if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?0123456789]/g.test(currentLetter)) {
                 specialCharacterCount++;
             }
-            //otherwise it's a lowercase character - we don't need to keep track of it, but this is where we would
+            //otherwise it's a lowercase character - we don't need to keep track of that count, but this is where we would
         }
         else {
             excludedCount++;
@@ -141,4 +154,13 @@ function isUpperCaseLetter(letter) {
     } else {
         return false;
     }
+}
+
+function caseSensitiveSubstitutions(characterQuirk) {
+    for (let i = 0; i < characterQuirk.substitions.length; i++) {
+        if (characterQuirk.substitions[i].isCaseSensitive) {
+            return true;
+        }
+    }
+    return false;
 }

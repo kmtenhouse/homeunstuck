@@ -8,7 +8,7 @@ var murrit = {
     suffix: /\]$/,
     separator: null,
     substitions: [
-       { original: /\#/g, replaceWith: 'h'}
+       { original: /\#/g, replaceWith: 'h', isCaseSensitive: true }
     ],
     addPeriods: false
 };
@@ -21,9 +21,9 @@ var laivan = {
     suffix: /\-$/,
     separator: null,
     substitions: [
-        { original: /\-[^?!]/g, replaceWith: '. ' },
-        { original: /\-[?]/g, replaceWith: '?' },
-        { original: /\-[!]/g, replaceWith: '!' }
+        { original: /\-[^?!]/g, replaceWith: '. ', isCaseSensitive: false  },
+        { original: /\-[?]/g, replaceWith: '?', isCaseSensitive: false  },
+        { original: /\-[!]/g, replaceWith: '!', isCaseSensitive: false  }
     ],
     addPeriods: true
 };
@@ -47,7 +47,7 @@ var tazsia = {
     suffix: /\~$/,
     separator: null,
     substitions: [
-        { original: /\+/g, replaceWith: 't' }
+        { original: /\+/g, replaceWith: 't', isCaseSensitive: true }
     ],
     addPeriods: true
 };
@@ -60,9 +60,9 @@ var albion = {
     suffix: /\*$/,
     separator: /\*/g,
     substitions: [
-        { original: /\s\./, replaceWith: '.' },
-        { original: /\s\!/, replaceWith: '!' },
-        { original: /\s\?/, replaceWith: '?' }
+        { original: /\s\./, replaceWith: '.', isCaseSensitive: false },
+        { original: /\s\!/, replaceWith: '!', isCaseSensitive: false },
+        { original: /\s\?/, replaceWith: '?', isCaseSensitive: false }
     ],
     addPeriods: false
 };
@@ -75,9 +75,9 @@ var ellsee = {
     suffix: null,
     separator: null,
     substitions: [
-        { original: /\Σ/g, replaceWith: 'e' },
-        { original: /\¡/g, replaceWith: '!' },
-        { original: /\¿/g, replaceWith: '?' }
+        { original: /\Σ/g, replaceWith: 'e', isCaseSensitive: true },
+        { original: /\¡/g, replaceWith: '!', isCaseSensitive: false },
+        { original: /\¿/g, replaceWith: '?', isCaseSensitive: false }
     ],
     addPeriods: false
 };
@@ -90,9 +90,9 @@ var occeus = {
     suffix: null,
     separator: null,
     substitions: [
-        { original: /\.o\./g, replaceWith: 'o'},
-        { original: /\.oo\./g, replaceWith: 'oo' },
-        { original: /(eye|Eye)/g, replaceWith: 'I' }
+        { original: /\.o\./g, replaceWith: 'o', isCaseSensitive: true},
+        { original: /\.oo\./g, replaceWith: 'oo', isCaseSensitive: true },
+        { original: /(eye|Eye)/g, replaceWith: 'I', isCaseSensitive: false }
     ],
     addPeriods: false
 };
@@ -105,8 +105,8 @@ var dismas = {
     suffix: /\/\/\/$/,
     separator: null,
     substitions: [
-        { original: /\\\//g, replaceWith: 'v' },
-        { original: /\/\\/g, replaceWith: 'a' }
+        { original: /\\\//g, replaceWith: 'v', isCaseSensitive: true },
+        { original: /\/\\/g, replaceWith: 'a', isCaseSensitive: true }
     ],
     addPeriods: false
 };
@@ -130,8 +130,8 @@ var dismas = {
     suffix: /\/{3}$/,
     separator: null,
     substitions: [
-        { original:/\\\//g, replaceWith: 'v' },
-        { original: /\/\\/g, replaceWith: 'a' }
+        { original:/\\\//g, replaceWith: 'v', isCaseSensitive: true },
+        { original: /\/\\/g, replaceWith: 'a', isCaseSensitive: true }
     ],
     addPeriods: true
 };
