@@ -32,7 +32,10 @@ function parseQuirk(str, characterQuirk) {
 
     //fix any other separators
     if (characterQuirk.separator.replace) {
-        str = str.replace(characterQuirk.separator.original, characterQuirk.separator.replaceWith);
+        //go through the substitions array for the separator
+        for(let x = 0; x < characterQuirk.separator.substitions.length; x++) {
+            str = str.replace(characterQuirk.separator.substitions[x].original, characterQuirk.separator.substitions[x].replaceWith);
+        }
     }
 
     //perform individual replacements, if necessary
@@ -90,12 +93,13 @@ function simpleReplace(str, characterQuirk) {
 //note: this approach ASSUMES you have already done the replacement for any separators between words
 function caseSensitiveReplace(str, characterQuirk) {
     //start by doing the replacements we would have done anyway
-    
-    var charToSplitOn = (characterQuirk.separator.replace ? characterQuirk.separator.replaceWith : characterQuirk.separator.original); 
-
     str = simpleReplace(str, characterQuirk);
-    var allWords = str.split(charToSplitOn);
-    //grab a list of exceptions, based on characters we have already swapped out
+    
+    //next, split the sentence on whatever separator we are using -- either a custom one, or a simple space
+    var currentSeparator = (characterQuirk.separator.replace ? characterQuirk.separator.replaceWith : characterQuirk.separator.original);
+    var allWords = str.split(currentSeparator);
+
+    //finally, grab a list of exceptions, based on characters we have already swapped out
     //(ex: if we did a case-insensitive swap from # to 'h', ignore 'h' because its case is not necessarily correct)
     var exceptions = characterQuirk.substitions.map(function (pattern) {
         return pattern.replaceWith;
@@ -103,6 +107,7 @@ function caseSensitiveReplace(str, characterQuirk) {
 
     var caseMap = allWords.map(function (word) {
         if (isAllUpperCase(word, exceptions)) {
+            
             return word.toUpperCase();
         }
         else {
@@ -110,7 +115,8 @@ function caseSensitiveReplace(str, characterQuirk) {
             return word;
         }
     });
-    return caseMap.join(charToSplitOn); //note: replace this with 'separator' in the future!
+
+    return caseMap.join(currentSeparator ); //note: because .join cannot take a regexp, we have to store the original character
 }
 
 //Takes in a word and an (optional) array of characters that should be considered exceptions to the rule
