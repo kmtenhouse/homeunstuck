@@ -15,7 +15,8 @@ var murrit = {
     },
     substitions: [
         { original: /\#/g, replaceWith: 'h', isCaseSensitive: true }
-    ]
+    ],
+    whiteList: []
 };
 
 var laivan = {
@@ -34,7 +35,8 @@ var laivan = {
     substitions: [
         { original: /\-(?=[\!\?\,\;\.\!])/g, replaceWith: '', isCaseSensitive: false },
         { original: /\-[\s]{1,}/g, replaceWith: '. ', isCaseSensitive: false }
-    ]
+    ],
+    whiteList: []
 };
 
 var arcjec = {
@@ -50,7 +52,8 @@ var arcjec = {
         original: ' ',
         replaceWith: null
     },
-    substitions: []
+    substitions: [],
+    whiteList: []
 };
 
 var tazsia = {
@@ -68,7 +71,8 @@ var tazsia = {
     },
     substitions: [
         { original: /\+/g, replaceWith: 't', isCaseSensitive: true }
-    ]
+    ],
+    whiteList: ['+m+']
 };
 
 var albion = {
@@ -85,7 +89,8 @@ var albion = {
         replaceWith: ' '
     },
     substitions: [
-    ]
+    ],
+    whiteList: []
 };
 
 var ellsee = {
@@ -105,7 +110,8 @@ var ellsee = {
         { original: /\Σ/g, replaceWith: 'e', isCaseSensitive: true },
         { original: /\¡/g, replaceWith: '!', isCaseSensitive: false },
         { original: /\¿/g, replaceWith: '?', isCaseSensitive: false }
-    ]
+    ],
+    whiteList: []
 };
 
 var occeus = {
@@ -125,7 +131,8 @@ var occeus = {
         { original: /\.o\./g, replaceWith: 'o', isCaseSensitive: true },
         { original: /\.oo\./g, replaceWith: 'oo', isCaseSensitive: true },
         { original: /(eye|Eye)/g, replaceWith: 'I', isCaseSensitive: false }
-    ]
+    ],
+    whiteList: []
 };
 
 var dismas = {
@@ -144,7 +151,8 @@ var dismas = {
     substitions: [
         { original: /\\\//g, replaceWith: 'v', isCaseSensitive: true },
         { original: /\/\\/g, replaceWith: 'a', isCaseSensitive: true }
-    ]
+    ],
+    whiteList: []
 };
 
 var sovara = {
@@ -160,7 +168,8 @@ var sovara = {
         original: ' ',
         replaceWith: null
     },
-    substitions: []
+    substitions: [],
+    whiteList: []
 };
 
 var dismas = {
@@ -179,7 +188,8 @@ var dismas = {
     substitions: [
         { original: /\\\//g, replaceWith: 'v', isCaseSensitive: true },
         { original: /\/\\/g, replaceWith: 'a', isCaseSensitive: true }
-    ]
+    ],
+    whiteList: []
 };
 
 //MAP OF PESTERLOGIDS TO TROLLS

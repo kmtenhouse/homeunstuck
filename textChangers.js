@@ -41,10 +41,10 @@ function parseQuirk(str, characterQuirk) {
 
         var escapedOriginal = escapeRegExp(characterQuirk.separator.original);
         var replaceWith = characterQuirk.separator.replaceWith;
+        
         //Case One: punctuation  
         //We remove the separator and then leave the punctuation itself
         //Example (quirk: -): I guess I'm fine-!  =>  I guess I'm fine!
-
         var separatorBeforePunctuation = new RegExp(escapedOriginal + '(?=[\!\?\,\;\.\!])', 'g');
         str = str.replace(separatorBeforePunctuation, '');
 
@@ -98,8 +98,8 @@ function parseQuirk(str, characterQuirk) {
 //
 //BASIC TEXT REPLACER
 //Takes in a string and a quirk object
-//Returns a string that has had all substitutions peformed
-//performs a simple replace, ignores case
+//Returns a string that has had all text substitutions peformed
+//Note: assumes that separator substitutions have been completed first
 function simpleReplace(str, characterQuirk) {
     for (let i = 0; i < characterQuirk.substitions.length; i++) {
         let originalPattern = characterQuirk.substitions[i].original;
@@ -109,12 +109,33 @@ function simpleReplace(str, characterQuirk) {
     return str;
 }
 
+//TEXT REPLACER WITH WHITE LIST
+//Takes in a string and a quirk object
+//Returns a string that has had all text substitutions performed, sans any words that are whitelisted
+//Ex: quirk with a substituion for + => t, EXCEPT for the whitelisted emoji +m+
+//"+his is a string +m+"  => "this is a string +m+"
+//Note: assumes that separator substitutions have been completed first
+function whiteListReplace(str, characterQuirk) {
+    //start by breaking the string apart on its separator
+    var separator = (characterQuirk.separator.replace===true ? characterQuirk.separator.replaceWith : characterQuirk.separator.original);
+    var allWords = str.split(separator);
+
+    var fixedWords = allWords.map(function(word) { 
+        if(characterQuirk.emoji.length > 0 && !characterQuirk.emoji.includes(word)) {
+            word = simpleReplace(word, characterQuirk);
+        }
+        return word;
+    });
+
+    return fixedWords.join(separator);
+}
+
 //CASE SENSITIVE TEXT REPLACER
 //takes in a string and quirk definition; spits out a str with case-sensitive replacements
-//note: this approach ASSUMES you have already done the replacement for any separators between words
+//Note: assumes that separator substitutions have been completed first
 function caseSensitiveReplace(str, characterQuirk) {
     //start by doing the replacements we would have done anyway
-    str = simpleReplace(str, characterQuirk);
+    str = whiteListReplace(str, characterQuirk);
 
     //next, split the sentence on whatever separator we are using -- either a custom one, or a simple space
     var currentSeparator = (characterQuirk.separator.replace ? characterQuirk.separator.replaceWith : characterQuirk.separator.original);
@@ -127,11 +148,16 @@ function caseSensitiveReplace(str, characterQuirk) {
     });
 
     var caseMap = allWords.map(function (word) {
+        //special case: make sure the word isn't a known emoji; we don't mess with those
+        if(characterQuirk.emoji.includes(word)) {
+            return word;
+        }
+
         if (isAllUpperCase(word, exceptions)) {
             return word.toUpperCase();
         }
         else {
-            //note: we don't call toLowerCase bc we want to preserve any  casing already in play
+            //note: we don't call toLowerCase bc we want to preserve any casing already in play
             return word;
         }
     });
@@ -176,10 +202,12 @@ function capitalizeSentences(str, characterQuirk) {
 //If the exceptions array ["u"] is passed in: upper case words include "YOu"
 function isAllUpperCase(word, exceptions = []) {
     var upperCaseCount = 0;
+    var lowerCaseCount = 0;
     var excludedCount = 0;
     var specialCharacterCount = 0;
     for (let i = 0; i < word.length; i++) {
         let currentLetter = word[i];
+        
         if (!exceptions.includes(currentLetter)) {
             if (isUpperCaseLetter(currentLetter)) {
                 upperCaseCount++;
@@ -187,6 +215,9 @@ function isAllUpperCase(word, exceptions = []) {
             //regular expression will match any of the following special characters: ~`!#$%\^&*+=-[]\;,'/{}|":<>?"0123456789
             else if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?0123456789]/g.test(currentLetter)) {
                 specialCharacterCount++;
+            }
+            else {
+                lowerCaseCount++;
             }
             //otherwise it's a lowercase character - we don't need to keep track of that count, but this is where we would
         }
@@ -198,7 +229,7 @@ function isAllUpperCase(word, exceptions = []) {
     //now we adjust for the things we excluded (special characters and purposefully excluded characters)
     var adjustedWordLength = word.length - specialCharacterCount - excludedCount;
 
-    if (upperCaseCount === adjustedWordLength) { 
+    if (upperCaseCount === adjustedWordLength && word.length > 1 || word.length===1 && isUpperCaseLetter(word)) {
         return true;
     }
     else {
