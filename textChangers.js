@@ -57,7 +57,14 @@ function parseQuirk(str, characterQuirk) {
 
     //swap out any special characters as necessary
     if (characterQuirk.substitions) {
-        str = replaceText(str, characterQuirk);
+        //if we have no whitelist, and we're going to enforce the case to ALL UPPER or all lower anyway, we can do fast replacements
+        if (characterQuirk.whiteList.length === 0 && !caseSensitiveSubstitutions(characterQuirk)) {
+            str = simpleReplace(str, characterQuirk);
+        }
+        //otherwise we have to do the more computationally expensive word-by-word replacement
+        else {
+            str = wordByWordReplace(str, characterQuirk);
+        }
     }
 
     //finally, check for any overall case situations
@@ -91,20 +98,7 @@ function parseQuirk(str, characterQuirk) {
 //TEXT REPLACERS
 //
 //
-//MAIN TEXT REPLACER
-//determines which form of text replacement to perform, based on the whitelist
-function replaceText(str, characterQuirk) {
-    //if we have no whitelist, and we're going to enforce the case to ALL UPPER or all lower anyway
-    if (characterQuirk.whiteList.length === 0 && !caseSensitiveSubstitutions(characterQuirk)) {
-        return simpleReplace(str, characterQuirk);
-    }
-    //otherwise we have to do the more computationally expensive word-by-word replacement
-    else {
-        return wordByWordReplace(str, characterQuirk);
-    }
-}
-
-//TEXT REPLACER (NO WHITE LIST)
+//BASIC TEXT REPLACER (NO WHITE LIST)
 //Simplest form of text replacement:
 //Takes in a string and a quirk object
 //Returns a string that has had all text substitutions peformed

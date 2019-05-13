@@ -1,23 +1,5 @@
 //MAIN SCRIPT
-//Attach a mutation listener to the content tree
-//ORIGINAL
-/* var observer = new MutationObserver(function (mutations) {
-    mutations.forEach(function (mutation) {
-        if (mutation.type === 'childList') {
-            if (mutation.addedNodes.length >= 1) {
-                if (mutation.addedNodes[0].nodeName !== '#text') {
-                    observer.disconnect(); //temporarily turn off our observer because we're going to be manipulating the DOM too
-                    const mainContent = document.getElementById('content');
-                    console.log("Firing quirk fix");
-                    traverseDOM(mainContent);
-                    observer.observe(targetNode, observerConfig); //reup the observer since these sites load out of order sometimes
-                }
-            }
-        }
-    });
-}); */
-
-//NEW
+//Attach a mutation listener to the entire document
 var observer = new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
         if (mutation.target.nodeName !== 'SCRIPT') {
@@ -31,18 +13,13 @@ var observerConfig = {
     childList: true
 };
 
-// Listen to all changes to body and child nodes
-//ORIGINAL
-//var targetNode = document.getElementById('content');
-//NEW
+// Listen to all changes to the entire body
 var targetNode = document.documentElement || document.body;
 observer.observe(targetNode, observerConfig);
 
 // HELPER FUNCTIONS
 //
 //
-//DOM TRAVERSAL (breadth-first)
-
 //DOM TRAVERSAL (with native treewalker)
 function traverseDOM(targetNode) {
     var treeWalker = document.createTreeWalker(
@@ -61,7 +38,6 @@ function traverseDOM(targetNode) {
 
             if (fixedQuirk !== null) {
                 node.nodeValue = fixedQuirk;
-                node.parentElement.setAttribute('data-homeunstuck', 'fixed');
             }
         }
     }

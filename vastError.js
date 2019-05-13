@@ -125,7 +125,7 @@ var occeus = {
     sentences: {
         enforceCase: null,
         capitalizeSentences: false,
-        addMissingPeriods: false
+        addMissingPeriods: true
     },
     prefix: null,
     suffix: null,
