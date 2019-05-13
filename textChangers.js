@@ -75,12 +75,14 @@ function parseQuirk(str, characterQuirk) {
         str = str.toUpperCase();
     }
     else if (characterQuirk.sentences.enforceCase === 'propercase') {
+        str = str.toLowerCase();   
+        str = capitalizeSentences(str, characterQuirk);
         //special case: make sure we change any lowercase i's to I
         str = str.replace(/\bi\b/g, 'I');
     }
 
     //capitalize sentences as needed
-    if (characterQuirk.sentences.capitalizeSentences === true || characterQuirk.sentences.enforceCase === 'propercase') {
+    if (characterQuirk.sentences.capitalizeSentences === true) {
         str = capitalizeSentences(str, characterQuirk);
     }
 
@@ -241,7 +243,7 @@ function isUpperCaseLetter(letter) {
 //swaps will NOT be case sensitive if the entire string will be forcibly set to a specific case 
 //swaps will also NOT be case sensitive if there is a case-sensitive substition that must be done
 function caseSensitiveSubstitutions(characterQuirk) {
-    if (characterQuirk.sentences.enforceCase === 'uppercase' || characterQuirk.sentences.enforceCase === 'lowercase') {
+    if (characterQuirk.sentences.enforceCase !==null) {
         return false;
     }
     for (let i = 0; i < characterQuirk.substitions.length; i++) {

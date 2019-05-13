@@ -202,6 +202,27 @@ var dismas = {
     whiteList: []
 };
 
+var arcjecDenizens= {
+    name: "Snake denizens",
+    sentences: {
+        enforceCase: 'lowercase',
+        capitalizeSentences: true,
+        addMissingPeriods: true
+    },
+    prefix: null,
+    suffix: /\/{3}$/,
+    separator: {
+        replace: false,
+        original: ' ',
+        replaceWith: null
+    },
+    substitions: [
+        { original: /\\\//g, replaceWith: 'v', isCaseSensitive: true },
+        { original: /\/\\/g, replaceWith: 'a', isCaseSensitive: true }
+    ],
+    whiteList: []
+};
+
 //MAP OF PESTERLOGIDS TO TROLLS
 var vastErrorQuirks = {
     "UK": murrit,
@@ -225,6 +246,7 @@ var vastErrorQuirks = {
     "DISMAS": dismas,
     "GD": dismas,
     "SA": sovara,
-    "SOVARA": sovara
+    "SOVARA": sovara, 
+    "COLORFUL SNAKE": arcjecDenizens
 };
 

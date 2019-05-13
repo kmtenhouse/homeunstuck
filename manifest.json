@@ -1,13 +1,23 @@
 {
-  "manifest_version": 2,
-  "name": "HomeUnstuck",
-  "version": "0.2",
-  "content_scripts": [
-    {
-      "matches": [
-        "https://mspfa.com/?s=2302*", "https://www.deconreconstruction.com/*"
+    "manifest_version": 2,
+    "name": "HomeUnstuck",
+    "version": "0.3",
+    "permissions": [
+        "storage"
       ],
-      "js": ["vastError.js", "homestuck.js", "textChangers.js", "content.js"]
-    }
-  ]
+    "options_page": "options.html",
+    "content_scripts": [
+        {
+            "matches": [
+                "https://mspfa.com/?s=2302*",
+                "https://www.deconreconstruction.com/*"
+            ],
+            "js": [
+                "vastError.js",
+                "homestuck.js",
+                "textChangers.js",
+                "content.js"
+            ]
+        }
+    ]
 }

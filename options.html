@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HomeUnstuck Options</title>
+</head>
+
+<style>
+    body {
+        background-color: rgb(83, 83, 83);
+    }
+
+    .wrapper {
+        background-color: rgb(255, 255, 255);
+        padding: 20px 20px;
+    }
+
+    .characterLabel {
+        font-weight: 700;
+        font-size: 120%;
+        width: 50px;
+        display: inline-block;
+    }
+
+    .characterAliases {
+        margin-left: 5px;
+        width: 300px;
+    }
+
+    .save {
+        margin: 10px 0px;
+    }
+
+    input[type=checkbox]+label+.characterAliases {
+        color: #ccc;
+        font-style: italic;
+        pointer-events: none;
+    }
+
+    input[type=checkbox]:checked+.characterLabel+.characterAliases {
+        color: #f00;
+        font-style: normal;
+        pointer-events: auto;
+    }
+</style>
+
+<body>
+
+    <div class="wrapper">
+
+        <div class="settings">
+            <h2>Vast Error Quirks</h2>
+            <div class="characterSettings">
+                <input id="dismas" type="checkbox" value="DISMAS">
+                <label for="dismas" class="characterLabel">Dismas</label>
+                <input id="dismas-aliases" type="text" value="GD, DISMAS" class="characterAliases">
+            </div>
+            <div class="characterSettings">
+                <input id="murrit" type="checkbox" value="MURRIT">
+                <label for="murrit" class="characterLabel">Murrit</label>
+                <input id="murrit-aliases" type="text" value="UK, MURRIT, BOOBDRONE" class="characterAliases">
+            </div>
+        </div>
+
+        <div class="save">
+            <button id="save">Save</button>
+            <p id="status"></p>
+        </div>
+
+    </div>
+
+    <script src="options.js"></script>
+
+</body>
+
+</html>
