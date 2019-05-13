@@ -1,6 +1,7 @@
 //VAST ERROR QUIRK SETTINGS
 //INDIVIDUAL TROLLS
 var murrit = {
+    name: "Murrit",
     sentences: {
         enforceCase: null,
         capitalizeSentences: false,
@@ -20,6 +21,7 @@ var murrit = {
 };
 
 var laivan = {
+    name: "Laivan",
     sentences: {
         enforceCase: null,
         capitalizeSentences: true,
@@ -40,6 +42,7 @@ var laivan = {
 };
 
 var arcjec = {
+    name: "Arcjec",
     sentences: {
         enforceCase: null,
         capitalizeSentences: true,
@@ -57,6 +60,7 @@ var arcjec = {
 };
 
 var tazsia = {
+    name: "Tazsia",
     sentences: {
         enforceCase: null,
         capitalizeSentences: false,
@@ -76,6 +80,7 @@ var tazsia = {
 };
 
 var albion = {
+    name: "Albion",
     sentences: {
         enforceCase: null,
         capitalizeSentences: false,
@@ -94,6 +99,7 @@ var albion = {
 };
 
 var ellsee = {
+    name: "Ellsee",
     sentences: {
         enforceCase: null,
         capitalizeSentences: true,
@@ -115,6 +121,7 @@ var ellsee = {
 };
 
 var occeus = {
+    name: "Occeus",
     sentences: {
         enforceCase: null,
         capitalizeSentences: false,
@@ -136,6 +143,7 @@ var occeus = {
 };
 
 var dismas = {
+    name: "Dismas",
     sentences: {
         enforceCase: null,
         capitalizeSentences: true,
@@ -156,6 +164,7 @@ var dismas = {
 };
 
 var sovara = {
+    name: "Sovara",
     sentences: {
         enforceCase: 'propercase',
         capitalizeSentences: false,
@@ -173,6 +182,7 @@ var sovara = {
 };
 
 var dismas = {
+    name: "Dismas",
     sentences: {
         enforceCase: null,
         capitalizeSentences: true,
