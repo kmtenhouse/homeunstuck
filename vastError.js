@@ -203,7 +203,7 @@ var dismas = {
 };
 
 var arcjecDenizens= {
-    name: "Snake denizens",
+    name: "snakeDenizens",
     sentences: {
         enforceCase: 'lowercase',
         capitalizeSentences: true,
@@ -223,10 +223,84 @@ var arcjecDenizens= {
     whiteList: []
 };
 
+var albionGuardian= {
+    name: "Guardianspirit",
+    sentences: {
+        enforceCase: 'lowercase',
+        capitalizeSentences: false,
+        addMissingPeriods: false
+    },
+    prefix: /^\*{6}/,
+    suffix: /\*{5}\-$/,
+    separator: {
+        replace: false,
+        original: ' ',
+        replaceWith: null
+    },
+    substitions: [],
+    whiteList: []
+};
+
+var hamifi = {
+    name: "Hamifi",
+    sentences: {
+        enforceCase: null,
+        capitalizeSentences: false,
+        addMissingPeriods: false
+    },
+    prefix: null,   
+    suffix: '∞',
+    separator: {
+        replace: false,
+        original: ' ',
+        replaceWith: null
+    },
+    substitions: [],
+    whiteList: [] 
+}
+
+var sestro = {
+    name: "Sestro",
+    sentences: {
+        enforceCase: 'propercase',
+        capitalizeSentences: true,
+        addMissingPeriods: false
+    },
+    prefix: '∞',   
+    suffix: null,
+    separator: {
+        replace: false,
+        original: ' ',
+        replaceWith: null
+    },
+    substitions: [],
+    whiteList: [] 
+}
+
+var rodere = {
+    name: "Rodere",
+    sentences: {
+        enforceCase: 'propercase',
+        capitalizeSentences: true,
+        addMissingPeriods: true
+    },
+    prefix: '-',   
+    suffix: '--x',
+    separator: {
+        replace: true,
+        original: '-',
+        replaceWith: ' '
+    },
+    substitions: [],
+    whiteList: [] 
+}
+
+
 //MAP OF PESTERLOGIDS TO TROLLS
 var vastErrorQuirks = {
     "UK": murrit,
     "BOOBDRONE": murrit,
+    "BOOBDROBE": murrit,
     "MURRIT": murrit,
     "WA": laivan,
     "BLUE GUY": laivan,
@@ -247,6 +321,12 @@ var vastErrorQuirks = {
     "GD": dismas,
     "SA": sovara,
     "SOVARA": sovara, 
-    "COLORFUL SNAKE": arcjecDenizens
+    "COLORFUL SNAKE": arcjecDenizens,
+    "GUY": arcjecDenizens,
+    "LADY": arcjecDenizens,
+    "GUARDIANSPIRIT": albionGuardian,
+    "HAMIFI": hamifi,
+    "SESTRO": sestro,
+    "RODERE": rodere
 };
 
