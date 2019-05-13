@@ -202,7 +202,7 @@ function isAllUpperCase(word, exceptions = []) {
                 upperCaseCount++;
             }
             //regular expression will match any of the following special characters: ~`!#$%\^&*+=-[]\;,'/{}|":<>?"0123456789
-            else if (/[\.~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?0123456789]/g.test(currentLetter)) {
+            else if (/[\’\.~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?0123456789]/g.test(currentLetter)) {
                 specialCharacterCount++;
             }
             else {
