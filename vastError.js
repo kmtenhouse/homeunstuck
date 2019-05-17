@@ -295,6 +295,26 @@ var rodere = {
     whiteList: [] 
 }
 
+var vellia = {
+    name: "Vellia",
+    sentences: {
+        enforceCase: null,
+        capitalizeSentences: false,
+        addMissingPeriods: false
+    },
+    prefix: '=',   
+    suffix: '=',
+    separator: {
+        replace: false,
+        original: ' ',
+        replaceWith: null
+    },
+    substitions: [
+        { original: /\:t\:/g, replaceWith: 't', isCaseSensitive: false }
+    ],
+    whiteList: [] 
+}
+
 
 //MAP OF PESTERLOGIDS TO TROLLS
 var vastErrorQuirks = {
@@ -327,6 +347,7 @@ var vastErrorQuirks = {
     "GUARDIANSPIRIT": albionGuardian,
     "HAMIFI": hamifi,
     "SESTRO": sestro,
-    "RODERE": rodere
+    "RODERE": rodere,
+    "VELLIA": vellia
 };
 

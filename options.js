@@ -11,61 +11,62 @@ function prepareHandles(str) {
         currentTag = currentTag.trim();
         if (currentTag !== '') {
             //make sure that we only allow a-z, 0-9, and spaces in trolltag names
-            if (/[a-z0-9\s]/gi.test(currentTag) === false || /[\W|_]/g.test(currentTag)===true) {
-                return null;
+            if (/[a-z0-9\s]/gi.test(currentTag) !== false && /[\W|_]/g.test(currentTag) !== true) {
+                results.push(currentTag);
             }
-            results.push(currentTag);
         }
     }
     return results;
 }
 
 function save_options() {
-    var dismas = document.getElementById('dismas').checked;
-    var murrit = document.getElementById('murrit').checked;
-    var murritAliases = document.getElementById('murrit-aliases').value;
-    var dismasAliases = document.getElementById('dismas-aliases').value;
 
     var characterSettings = document.getElementsByClassName('characterSettings');
-    for(let i = 0; i < characterSettings.length; i++) {
-        //iterate through the children looking for the two we want
-        let children = characterSettings[i].children; 
-        for(let j = 0; j < children.length; j++) {
-            if(children[j].nodeName==='INPUT') {
-                console.log(children[j]);
+    var allCharacterSettings = [];
+    for (let settingsBlock of characterSettings) {
+        //create a new variable to store the settings for our new character
+        var newCharacter = {};
+        for (let child of settingsBlock.children) {
+            if (child.classList.contains('character-name')) {
+                newCharacter.name = child.value;
+                newCharacter.enabled = (child.checked ? true : false);
+            }
+            else if (child.classList.contains('character-aliases')) {
+                let arrayOfAliases = prepareHandles(child.value);
+                newCharacter.aliases = arrayOfAliases;
+                //reset the form
+                //(TO-DO: Put form validation elsewhere before this even happens)
+                child.value = arrayOfAliases.join(", ");
             }
         }
+
+        if (newCharacter.name !== undefined && newCharacter.aliases !== undefined && newCharacter.enabled !== undefined) {
+            allCharacterSettings.push(newCharacter);
+        }
     }
+    console.log(allCharacterSettings);
 
-   /*  characterSettings.forEach(function(character) {
-        console.log(character);
-    }); */
-
-    //grab all the character settings
-    
-/*         chrome.storage.sync.set({
-          dismas: dismas,
-          murrit: murrit
-        }, function() {
-          // Update status to let user know options were saved.
-          var status = document.getElementById('status');
-          status.textContent = 'Options saved.';
-          setTimeout(function() {
+    //save all our compiled settings into the browser
+    chrome.storage.sync.set({
+        vastErrorSettings: allCharacterSettings
+    }, function () {
+        // Update status to let user know options were saved.
+        var status = document.getElementById('status');
+        status.textContent = 'Options saved.';
+        setTimeout(function () {
             status.textContent = '';
-          }, 2000);
-        });  */ 
+        }, 2000);
+    });
 }
 
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 function restore_options() {
-    /*    chrome.storage.sync.get({
-           dismas: dismas,
-           murrit: murrit
-       }, function(items) {
-         document.getElementById('dismas').checked = items.dismas;
-         document.getElementById('murrit').checked = items.murrit;
-       }); */
+    chrome.storage.sync.get(['vastErrorSettings'], function (result) {
+        console.log(result);
+        //go through all the results and find the right elements, then plop them back on the page
+        //(TO-DO: Refactor so this is more dynamic too)
+    });
 }
 
 //LISTENERS
