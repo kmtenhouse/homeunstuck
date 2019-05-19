@@ -27,7 +27,7 @@ function save_options() {
         //create a new variable to store the settings for our new character
         var newCharacter = {};
         for (let child of settingsBlock.children) {
-            if (child.classList.contains('character-name')) {
+            if (child.classList.contains('character-name') && child.value === settingsBlock.getAttribute('id')) {
                 newCharacter.name = child.value;
                 newCharacter.enabled = (child.checked ? true : false);
             }
@@ -44,7 +44,6 @@ function save_options() {
             allCharacterSettings.push(newCharacter);
         }
     }
-    console.log(allCharacterSettings);
 
     //save all our compiled settings into the browser
     chrome.storage.sync.set({
@@ -62,10 +61,25 @@ function save_options() {
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 function restore_options() {
-    chrome.storage.sync.get(['vastErrorSettings'], function (result) {
-        console.log(result);
+    chrome.storage.sync.get(['vastErrorSettings'], function (savedObj) {
+        if (!savedObj.vastErrorSettings || Array.isArray(savedObj.vastErrorSettings) === false) {
+            return;
+        }
         //go through all the results and find the right elements, then plop them back on the page
-        //(TO-DO: Refactor so this is more dynamic too)
+        for (character of savedObj.vastErrorSettings) {
+            var characterSettingsDIV = document.getElementById(character.name);
+            if (characterSettingsDIV !== null) {
+                for (let child of characterSettingsDIV.children) {
+                    if (child.classList.contains('character-name') && child.value === characterSettingsDIV.getAttribute('id')) {
+                        child.value = character.name;
+                        child.checked = character.enabled;
+                    }
+                    else if (child.classList.contains('character-aliases')) {
+                       child.value = character.aliases.join(", ");
+                    }
+                }
+            }
+        }
     });
 }
 
