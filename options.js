@@ -63,11 +63,12 @@ function save_options() {
 function restore_options() {
     chrome.storage.sync.get(['vastErrorSettings'], function (savedObj) {
         if (!savedObj.vastErrorSettings || Array.isArray(savedObj.vastErrorSettings) === false) {
-            //TO-DO: load default settings (?)
+            //TO-DO: load default settings to both page and object (?)
             return;
         }
         //go through all the results and find the right elements, then plop them back on the page
         for (character of savedObj.vastErrorSettings) {
+            //Now update the settings page to reflect as well
             var characterSettingsDIV = document.getElementById(character.name);
             if (characterSettingsDIV !== null) {
                 for (let child of characterSettingsDIV.children) {

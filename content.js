@@ -1,6 +1,3 @@
-//CREATE MAP OF ALL QUIRKS
-var vastErrorQuirks = createQuirkMap();
-
 //MAIN SCRIPT
 //Attach a mutation listener to the entire document
 var observer = new MutationObserver(function (mutations) {

@@ -317,8 +317,43 @@ var vellia = {
 
 
 //MAP OF PESTERLOGIDS TO TROLLS
+//DEFAULT QUIRKS
+var defaultQuirks = new Map([
+    ["UK", murrit],
+    ["BOOBDRONE", murrit],
+    ["MURRIT", murrit],
+    ["BOOBDROBE", murrit],
+    ["WA", laivan],
+    ["BLUE GUY", laivan],
+    ["LAIVAN", laivan],
+    ["AH", arcjec],
+    ["ARCJEC", arcjec],
+    ["KIDJEC", arcjec],
+    ["PO", tazsia],
+    ["TAZ", tazsia],
+    ["TAZSIA", tazsia],
+    ["DQ", albion],
+    ["ALBION", albion],
+    ["EO", ellsee],
+    ["ELLSEE", ellsee],
+    ["ME", occeus],
+    ["OCCEUS", occeus],
+    ["DISMAS", dismas],
+    ["GD", dismas],
+    ["SA", sovara],
+    ["SOVARA", sovara], 
+    ["COLORFUL SNAKE", arcjecDenizens],
+    ["GUY", arcjecDenizens],
+    ["LADY", arcjecDenizens],
+    ["GUARDIANSPIRIT", albionGuardian],
+    ["HAMIFI", hamifi],
+    ["SESTRO", sestro],
+    ["RODERE", rodere],
+    ["VELLIA", vellia] 
+]);
+
 //intializes the quirk map
-function createQuirkMap() {
+function createDefaultQuirkMap() {
     var quirkMap = new Map([
         ["UK", murrit],
         ["BOOBDRONE", murrit],
@@ -352,7 +387,8 @@ function createQuirkMap() {
         ["RODERE", rodere],
         ["VELLIA", vellia] 
     ]);
-    return quirkMap;
+        return quirkMap;
 }
 
-var vastErrorQuirks = createQuirkMap();
+//CREATE MAP OF ALL QUIRKS
+var vastErrorQuirks = createDefaultQuirkMap();
