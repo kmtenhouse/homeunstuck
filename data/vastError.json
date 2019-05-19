@@ -1,0 +1,19 @@
+{
+    "name": "vellia",
+    "sentences": {
+        "enforceCase": null,
+        "capitalizeSentences": false,
+        "addMissingPeriods": false
+    },
+    "prefix": "=",   
+    "suffix": "=",
+    "separator": {
+        "replace": false,
+        "original": " ",
+        "replaceWith": null
+    },
+    "substitions": [
+        { "original": "/\\:t\\:/g", "replaceWith": "t", "isCaseSensitive": false }
+    ],
+    "whiteList": [] 
+}

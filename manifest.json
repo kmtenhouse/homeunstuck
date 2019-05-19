@@ -4,7 +4,10 @@
     "version": "0.3",
     "permissions": [
         "storage"
-      ],
+    ],
+    "web_accessible_resources": [
+        "data/vastError.json"
+    ],
     "options_page": "options.html",
     "content_scripts": [
         {

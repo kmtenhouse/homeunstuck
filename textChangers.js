@@ -12,12 +12,15 @@ function fixQuirk(str) {
     let pesterLogID = str.slice(0, colonIndex);
     let pesterLogText = str.slice(colonIndex + 1);
 
-    //TO DO: add in logic that checks which quirk file to load 
-    if (!vastErrorQuirks.hasOwnProperty(pesterLogID)) {
+    if (!vastErrorQuirks.has(pesterLogID)) {
         return null;
     }
 
-    let characterQuirk = vastErrorQuirks[pesterLogID];
+    //ORIGINAL
+    //let characterQuirk = vastErrorQuirks[pesterLogID];
+    
+    //WITH MAP
+    let characterQuirk = vastErrorQuirks.get(pesterLogID);
 
     return pesterLogID + ": " + parseQuirk(pesterLogText, characterQuirk);
 }
@@ -75,7 +78,7 @@ function parseQuirk(str, characterQuirk) {
         str = str.toUpperCase();
     }
     else if (characterQuirk.sentences.enforceCase === 'propercase') {
-        str = str.toLowerCase();   
+        str = str.toLowerCase();
         str = capitalizeSentences(str, characterQuirk);
         //special case: make sure we change any lowercase i's to I
         str = str.replace(/\bi\b/g, 'I');
@@ -243,7 +246,7 @@ function isUpperCaseLetter(letter) {
 //swaps will NOT be case sensitive if the entire string will be forcibly set to a specific case 
 //swaps will also NOT be case sensitive if there is a case-sensitive substition that must be done
 function caseSensitiveSubstitutions(characterQuirk) {
-    if (characterQuirk.sentences.enforceCase !==null) {
+    if (characterQuirk.sentences.enforceCase !== null) {
         return false;
     }
     for (let i = 0; i < characterQuirk.substitions.length; i++) {
