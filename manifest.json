@@ -3,9 +3,14 @@
     "name": "HomeUnstuck",
     "version": "0.3",
     "permissions": [
-        "storage"
+        "storage",
+        "webNavigation"
       ],
     "options_page": "options.html",
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+      },
     "content_scripts": [
         {
             "matches": [
