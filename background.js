@@ -11,11 +11,12 @@ chrome.runtime.onInstalled.addListener(function () {
                 vastErrorSettings: allCharactersJSON
             }, function () {
                 // Update status to let user know options were saved.
-                if (chrome.runtime.openOptionsPage) {
+                console.log("HomeUnstuck v0.4 loaded");              
+                /*   if (chrome.runtime.openOptionsPage) {
                     chrome.runtime.openOptionsPage();
                   } else {
                     window.open(chrome.runtime.getURL('options.html'));
-                  }
+                  } */
             });
         });
 
