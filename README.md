@@ -10,7 +10,7 @@ Homestuck and its spinoffs are known for representing conversations between char
 While traditional text replacement extensions do exist, the complexity of many quirks makes it difficult for many users to simply 'search and replace'. Additionally, as replacement needs vary depending on the specific character currently speaking, global search and replace will not provide the desired outcome.
 
 ## Installation
-* HomeUnstuck is still in alpha, but if you'd like to sign up to try it, contact me at kmtenhouse@gmail.com.
+* HomeUnstuck is still in alpha, but if you'd like to assist, please contact me here on GitHub.
 
 
 
