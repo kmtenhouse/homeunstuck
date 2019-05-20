@@ -1,11 +1,14 @@
 {
     "manifest_version": 2,
     "name": "HomeUnstuck",
-    "version": "0.3",
+    "version": "0.4",
     "permissions": [
         "storage",
         "webNavigation"
       ],
+    "web_accessible_resources": [
+        "data/vastError.json"
+    ],
     "options_page": "options.html",
     "background": {
         "scripts": ["background.js"],
@@ -19,7 +22,6 @@
             ],
             "js": [
                 "vastError.js",
-                "homestuck.js",
                 "textChangers.js",
                 "content.js"
             ]
