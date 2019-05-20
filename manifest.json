@@ -3,8 +3,7 @@
     "name": "HomeUnstuck",
     "version": "0.4",
     "permissions": [
-        "storage",
-        "webNavigation"
+        "storage"
       ],
     "web_accessible_resources": [
         "data/vastError.json"

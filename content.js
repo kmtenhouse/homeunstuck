@@ -1,3 +1,8 @@
+//LOAD QUIRKS
+/* chrome.storage.sync.get(['vastErrorSettings'], function (result) {
+    console.log('Value currently is '+ result);
+}); */
+
 //MAIN SCRIPT
 //Attach a mutation listener to the entire document
 var observer = new MutationObserver(function (mutations) {

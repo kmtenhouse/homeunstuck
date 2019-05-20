@@ -1,19 +1,448 @@
-{
-    "name": "vellia",
-    "sentences": {
-        "enforceCase": null,
-        "capitalizeSentences": false,
-        "addMissingPeriods": false
+[
+    {
+        "name": "murrit",
+        "enabled": true,
+        "aliases": [
+            "UK",
+            "MURRIT",
+            "BOOBDRONE",
+            "BOOBDROBE"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": null,
+                "capitalizeSentences": false,
+                "addMissingPeriods": false
+            },
+            "prefix": "/^\\>\\(\\[/",
+            "suffix": "/\\]$/",
+            "separator": {
+                "replace": false,
+                "original": " ",
+                "replaceWith": null
+            },
+            "substitions": [
+                {
+                    "original": "/\\#/g",
+                    "replaceWith": "h",
+                    "isCaseSensitive": true
+                }
+            ],
+            "whiteList": []
+        }
     },
-    "prefix": "=",   
-    "suffix": "=",
-    "separator": {
-        "replace": false,
-        "original": " ",
-        "replaceWith": null
+    {
+        "name": "laivan",
+        "enabled": true,
+        "aliases": [
+            "WA",
+            "LAIVAN",
+            "BLUE GUY"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": null,
+                "capitalizeSentences": true,
+                "addMissingPeriods": true
+            },
+            "prefix": null,
+            "suffix": "/\\-$/",
+            "separator": {
+                "replace": false,
+                "original": " ",
+                "replaceWith": null
+            },
+            "substitions": [
+                {
+                    "original": "/\\-(?=[\\!\\?\\,\\;\\.\\!])/g",
+                    "replaceWith": "",
+                    "isCaseSensitive": false
+                },
+                {
+                    "original": "/\\-[\\s]{1,}/g",
+                    "replaceWith": ". ",
+                    "isCaseSensitive": false
+                }
+            ],
+            "whiteList": []
+        }
     },
-    "substitions": [
-        { "original": "/\\:t\\:/g", "replaceWith": "t", "isCaseSensitive": false }
-    ],
-    "whiteList": [] 
-}
+    {
+        "name": "arcjec",
+        "enabled": true,
+        "aliases": [
+            "AH",
+            "ARCJEC",
+            "KIDJEC"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": null,
+                "capitalizeSentences": true,
+                "addMissingPeriods": true
+            },
+            "prefix": "/^XDXD/",
+            "suffix": "/XDXD$/",
+            "separator": {
+                "replace": false,
+                "original": " ",
+                "replaceWith": null
+            },
+            "substitions": [],
+            "whiteList": []
+        }
+    },
+    {
+        "name": "tazsia",
+        "enabled": true,
+        "aliases": [
+            "PO",
+            "TAZ",
+            "TAZSIA"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": null,
+                "capitalizeSentences": false,
+                "addMissingPeriods": true
+            },
+            "prefix": "/^\\~/",
+            "suffix": "/\\~$/",
+            "separator": {
+                "replace": false,
+                "original": " ",
+                "replaceWith": null
+            },
+            "substitions": [
+                {
+                    "original": "/\\+/g",
+                    "replaceWith": "t",
+                    "isCaseSensitive": true
+                }
+            ],
+            "whiteList": [
+                "+m+"
+            ]
+        }
+    },
+    {
+        "name": "albion",
+        "enabled": true,
+        "aliases": [
+            "DQ",
+            "ALBION"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": null,
+                "capitalizeSentences": false,
+                "addMissingPeriods": false
+            },
+            "prefix": "/^\\*/",
+            "suffix": "/\\*$/",
+            "separator": {
+                "replace": true,
+                "original": "*",
+                "replaceWith": " "
+            },
+            "substitions": [],
+            "whiteList": []
+        }
+    },
+    {
+        "name": "ellsee",
+        "enabled": true,
+        "aliases": [
+            "EO",
+            "ELLSEE"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": null,
+                "capitalizeSentences": true,
+                "addMissingPeriods": true
+            },
+            "prefix": null,
+            "suffix": null,
+            "separator": {
+                "replace": false,
+                "original": " ",
+                "replaceWith": null
+            },
+            "substitions": [
+                {
+                    "original": "/\\Σ/g",
+                    "replaceWith": "e",
+                    "isCaseSensitive": true
+                },
+                {
+                    "original": "/\\¡/g",
+                    "replaceWith": "!",
+                    "isCaseSensitive": false
+                },
+                {
+                    "original": "/\\¿/g",
+                    "replaceWith": "?",
+                    "isCaseSensitive": false
+                }
+            ],
+            "whiteList": []
+        }
+    },
+    {
+        "name": "occeus",
+        "enabled": true,
+        "aliases": [
+            "ME",
+            "OCCEUS"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": null,
+                "capitalizeSentences": false,
+                "addMissingPeriods": true
+            },
+            "prefix": null,
+            "suffix": null,
+            "separator": {
+                "replace": false,
+                "original": " ",
+                "replaceWith": null
+            },
+            "substitions": [
+                {
+                    "original": "/\\.o\\./g",
+                    "replaceWith": "o",
+                    "isCaseSensitive": true
+                },
+                {
+                    "original": "/\\.oo\\./g",
+                    "replaceWith": "oo",
+                    "isCaseSensitive": true
+                },
+                {
+                    "original": "/(eye|Eye)/g",
+                    "replaceWith": "I",
+                    "isCaseSensitive": false
+                }
+            ],
+            "whiteList": []
+        }
+    },
+    {
+        "name": "dismas",
+        "enabled": true,
+        "aliases": [
+            "GD",
+            "DISMAS"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": null,
+                "capitalizeSentences": true,
+                "addMissingPeriods": false
+            },
+            "prefix": null,
+            "suffix": "/\/\/\/$/",
+            "separator": {
+                "replace": false,
+                "original": " ",
+                "replaceWith": null
+            },
+            "substitions": [
+                {
+                    "original": "/\\\//g",
+                    "replaceWith": "v",
+                    "isCaseSensitive": true
+                },
+                {
+                    "original": "/\/\\/g",
+                    "replaceWith": "a",
+                    "isCaseSensitive": true
+                }
+            ],
+            "whiteList": []
+        }
+    },
+    {
+        "name": "sovara",
+        "enabled": true,
+        "aliases": [
+            "SA",
+            "SOVARA"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": "propercase",
+                "capitalizeSentences": false,
+                "addMissingPeriods": false
+            },
+            "prefix": "/^\\(/",
+            "suffix": "/\\)$/",
+            "separator": {
+                "replace": false,
+                "original": " ",
+                "replaceWith": null
+            },
+            "substitions": [],
+            "whiteList": []
+        }
+    },
+    {
+        "name": "snakepeople",
+        "enabled": true,
+        "aliases": [
+            "COLORFUL SNAKE", 
+            "GUY",
+            "LADY"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": "lowercase",
+                "capitalizeSentences": true,
+                "addMissingPeriods": true
+            },
+            "prefix": null,
+            "suffix": "/\/{3}$/",
+            "separator": {
+                "replace": false,
+                "original": " ",
+                "replaceWith": null
+            },
+            "substitions": [
+                {
+                    "original": "/\\\//g",
+                    "replaceWith": "v",
+                    "isCaseSensitive": true
+                },
+                {
+                    "original": "/\/\\/g",
+                    "replaceWith": "a",
+                    "isCaseSensitive": true
+                }
+            ],
+            "whiteList": []
+        }
+    },
+    {
+        "name": "guardianspirit",
+        "enabled": true,
+        "aliases": [
+            "GUARDIANSPIRIT"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": "lowercase",
+                "capitalizeSentences": false,
+                "addMissingPeriods": false
+            },
+            "prefix": "/^\\*{6}/",
+            "suffix": "/\\*{5}\\-$/",
+            "separator": {
+                "replace": false,
+                "original": " ",
+                "replaceWith": null
+            },
+            "substitions": [],
+            "whiteList": []
+        }
+    },
+    {
+        "name": "hamifi",
+        "enabled": true,
+        "aliases": [
+            "HAMIFI"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": null,
+                "capitalizeSentences": false,
+                "addMissingPeriods": false
+            },
+            "prefix": null,
+            "suffix": "∞",
+            "separator": {
+                "replace": false,
+                "original": " ",
+                "replaceWith": null
+            },
+            "substitions": [],
+            "whiteList": []
+        }
+    },
+    {
+        "name": "sestro",
+        "enabled": true,
+        "aliases": [
+            "SESTRO"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": "propercase",
+                "capitalizeSentences": true,
+                "addMissingPeriods": false
+            },
+            "prefix": "∞",
+            "suffix": null,
+            "separator": {
+                "replace": false,
+                "original": " ",
+                "replaceWith": null
+            },
+            "substitions": [],
+            "whiteList": []
+        }
+    },
+    {
+        "name": "rodere",
+        "enabled": true,
+        "aliases": [
+            "RODERE"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": "propercase",
+                "capitalizeSentences": true,
+                "addMissingPeriods": true
+            },
+            "prefix": "-",
+            "suffix": "--x",
+            "separator": {
+                "replace": true,
+                "original": "-",
+                "replaceWith": " "
+            },
+            "substitions": [],
+            "whiteList": []
+        }
+    },
+    {
+        "name": "vellia",
+        "enabled": true,
+        "aliases": [
+            "VELLIA"
+        ],
+        "quirk": {
+            "sentences": {
+                "enforceCase": null,
+                "capitalizeSentences": false,
+                "addMissingPeriods": false
+            },
+            "prefix": "=",
+            "suffix": "=",
+            "separator": {
+                "replace": false,
+                "original": " ",
+                "replaceWith": null
+            },
+            "substitions": [
+                {
+                    "original": "/\\:t\\:/g",
+                    "replaceWith": "t",
+                    "isCaseSensitive": false
+                }
+            ],
+            "whiteList": []
+        }
+    }
+]

@@ -43,6 +43,10 @@ function save_options() {
         if (newCharacter.name !== undefined && newCharacter.aliases !== undefined && newCharacter.enabled !== undefined) {
             allCharacterSettings.push(newCharacter);
         }
+        else {
+            console.log("Problem!");
+            console.log(newCharacter);
+        }
     }
 
     //save all our compiled settings into the browser
@@ -61,15 +65,18 @@ function save_options() {
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 function restore_options() {
+    console.log("Restoring");
     chrome.storage.sync.get(['vastErrorSettings'], function (savedObj) {
         if (!savedObj.vastErrorSettings || Array.isArray(savedObj.vastErrorSettings) === false) {
             //TO-DO: load default settings to both page and object (?)
+           console.log("Error");
+            // settingsContainer.textContent = "Error: initial settings failed to load!"
             return;
         }
         //go through all the results and find the right elements, then plop them back on the page
         for (character of savedObj.vastErrorSettings) {
             //Now update the settings page to reflect as well
-            var characterSettingsDIV = document.getElementById(character.name);
+            var characterSettingsDIV = document.getElementById(character.name.toLowerCase());
             if (characterSettingsDIV !== null) {
                 for (let child of characterSettingsDIV.children) {
                     if (child.classList.contains('character-name') && child.value === characterSettingsDIV.getAttribute('id')) {
@@ -80,7 +87,7 @@ function restore_options() {
                        child.value = character.aliases.join(", ");
                     }
                 }
-            }
+            } 
         }
     });
 }

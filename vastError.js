@@ -1,5 +1,6 @@
 //VAST ERROR QUIRK SETTINGS
 //INDIVIDUAL TROLLS
+
 var murrit = {
     name: "Murrit",
     sentences: {
@@ -90,7 +91,7 @@ var albion = {
     suffix: /\*$/,
     separator: {
         replace: true,
-        original: '*', 
+        original: '*',
         replaceWith: ' '
     },
     substitions: [
@@ -142,27 +143,6 @@ var occeus = {
     whiteList: []
 };
 
-var dismas = {
-    name: "Dismas",
-    sentences: {
-        enforceCase: null,
-        capitalizeSentences: true,
-        addMissingPeriods: false
-    },
-    prefix: null,
-    suffix: /\/\/\/$/,
-    separator: {
-        replace: false,
-        original: ' ',
-        replaceWith: null
-    },
-    substitions: [
-        { original: /\\\//g, replaceWith: 'v', isCaseSensitive: true },
-        { original: /\/\\/g, replaceWith: 'a', isCaseSensitive: true }
-    ],
-    whiteList: []
-};
-
 var sovara = {
     name: "Sovara",
     sentences: {
@@ -202,7 +182,7 @@ var dismas = {
     whiteList: []
 };
 
-var arcjecDenizens= {
+var arcjecDenizens = {
     name: "snakeDenizens",
     sentences: {
         enforceCase: 'lowercase',
@@ -223,7 +203,7 @@ var arcjecDenizens= {
     whiteList: []
 };
 
-var albionGuardian= {
+var albionGuardian = {
     name: "Guardianspirit",
     sentences: {
         enforceCase: 'lowercase',
@@ -248,7 +228,7 @@ var hamifi = {
         capitalizeSentences: false,
         addMissingPeriods: false
     },
-    prefix: null,   
+    prefix: null,
     suffix: '∞',
     separator: {
         replace: false,
@@ -256,7 +236,7 @@ var hamifi = {
         replaceWith: null
     },
     substitions: [],
-    whiteList: [] 
+    whiteList: []
 }
 
 var sestro = {
@@ -266,7 +246,7 @@ var sestro = {
         capitalizeSentences: true,
         addMissingPeriods: false
     },
-    prefix: '∞',   
+    prefix: '∞',
     suffix: null,
     separator: {
         replace: false,
@@ -274,7 +254,7 @@ var sestro = {
         replaceWith: null
     },
     substitions: [],
-    whiteList: [] 
+    whiteList: []
 }
 
 var rodere = {
@@ -284,7 +264,7 @@ var rodere = {
         capitalizeSentences: true,
         addMissingPeriods: true
     },
-    prefix: '-',   
+    prefix: '-',
     suffix: '--x',
     separator: {
         replace: true,
@@ -292,7 +272,7 @@ var rodere = {
         replaceWith: ' '
     },
     substitions: [],
-    whiteList: [] 
+    whiteList: []
 }
 
 var vellia = {
@@ -302,7 +282,7 @@ var vellia = {
         capitalizeSentences: false,
         addMissingPeriods: false
     },
-    prefix: '=',   
+    prefix: '=',
     suffix: '=',
     separator: {
         replace: false,
@@ -310,50 +290,18 @@ var vellia = {
         replaceWith: null
     },
     substitions: [
-        { original: /\:t\:/g, replaceWith: 't', isCaseSensitive: false }
+         { original: /\:t\:/g, replaceWith: 't', isCaseSensitive: false }
     ],
-    whiteList: [] 
+    whiteList: []
 }
 
 
-//MAP OF PESTERLOGIDS TO TROLLS
-//DEFAULT QUIRKS
-var defaultQuirks = new Map([
-    ["UK", murrit],
-    ["BOOBDRONE", murrit],
-    ["MURRIT", murrit],
-    ["BOOBDROBE", murrit],
-    ["WA", laivan],
-    ["BLUE GUY", laivan],
-    ["LAIVAN", laivan],
-    ["AH", arcjec],
-    ["ARCJEC", arcjec],
-    ["KIDJEC", arcjec],
-    ["PO", tazsia],
-    ["TAZ", tazsia],
-    ["TAZSIA", tazsia],
-    ["DQ", albion],
-    ["ALBION", albion],
-    ["EO", ellsee],
-    ["ELLSEE", ellsee],
-    ["ME", occeus],
-    ["OCCEUS", occeus],
-    ["DISMAS", dismas],
-    ["GD", dismas],
-    ["SA", sovara],
-    ["SOVARA", sovara], 
-    ["COLORFUL SNAKE", arcjecDenizens],
-    ["GUY", arcjecDenizens],
-    ["LADY", arcjecDenizens],
-    ["GUARDIANSPIRIT", albionGuardian],
-    ["HAMIFI", hamifi],
-    ["SESTRO", sestro],
-    ["RODERE", rodere],
-    ["VELLIA", vellia] 
-]);
+//MAP PESTERLOGIDS TO TROLLS
+//creates a quirk map
+function createQuirkMap() {
+    //look through our storage to figure out which quirks are enabled
+    //(TO-DO) FIGURE OUT WHY THIS ISN'T WORKING?
 
-//intializes the quirk map
-function createDefaultQuirkMap() {
     var quirkMap = new Map([
         ["UK", murrit],
         ["BOOBDRONE", murrit],
@@ -377,7 +325,7 @@ function createDefaultQuirkMap() {
         ["DISMAS", dismas],
         ["GD", dismas],
         ["SA", sovara],
-        ["SOVARA", sovara], 
+        ["SOVARA", sovara],
         ["COLORFUL SNAKE", arcjecDenizens],
         ["GUY", arcjecDenizens],
         ["LADY", arcjecDenizens],
@@ -385,10 +333,10 @@ function createDefaultQuirkMap() {
         ["HAMIFI", hamifi],
         ["SESTRO", sestro],
         ["RODERE", rodere],
-        ["VELLIA", vellia] 
+        ["VELLIA", vellia]
     ]);
-        return quirkMap;
+    return quirkMap;
 }
 
 //CREATE MAP OF ALL QUIRKS
-var vastErrorQuirks = createDefaultQuirkMap();
+var vastErrorQuirks = createQuirkMap();
