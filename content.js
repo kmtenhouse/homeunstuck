@@ -6,7 +6,6 @@ initializeQuirkList();
 //Attach a mutation listener to the entire document
 var observer = new MutationObserver(function (mutations) {
     if (vastErrorQuirks === null) {
-        console.log("Quirks need defining!");
         initializeQuirkList();
     } else {
         mutations.forEach(function (mutation) {
@@ -54,56 +53,42 @@ function traverseDOM(targetNode) {
 
 //INITIALIZE VARIABLES
 function initializeQuirkList() {
-    var quirkMap =  new Map([
-        ["UK", murrit],
-        ["BOOBDRONE", murrit],
-        ["MURRIT", murrit],
-        ["BOOBDROBE", murrit],
-        ["WA", laivan],
-        ["BLUE GUY", laivan],
-        ["LAIVAN", laivan],
-        ["AH", arcjec],
-        ["ARCJEC", arcjec],
-        ["KIDJEC", arcjec],
-        ["PO", tazsia],
-        ["TAZ", tazsia],
-        ["TAZSIA", tazsia],
-        ["DQ", albion],
-        ["ALBION", albion],
-        ["EO", ellsee],
-        ["ELLSEE", ellsee],
-        ["ME", occeus],
-        ["OCCEUS", occeus],
-        ["DISMAS", dismas],
-        ["GD", dismas],
-        ["SA", sovara],
-        ["SOVARA", sovara],
-        ["COLORFUL SNAKE", arcjecDenizens],
-        ["GUY", arcjecDenizens],
-        ["LADY", arcjecDenizens],
-        ["GUARDIANSPIRIT", albionGuardian],
-        ["HAMIFI", hamifi],
-        ["SESTRO", sestro],
-        ["RODERE", rodere],
-        ["VELLIA", vellia]
+    var quirkMap = new Map([
+        ["murrit", murrit],
+        ["laivan", laivan],
+        ["arcjec", arcjec],
+        ["tazsia", tazsia],
+        ["albion", albion],
+        ["ellsee", ellsee],
+        ["occeus", occeus],
+        ["dismas", dismas],
+        ["sovara", sovara],
+        ["snakepeople", arcjecDenizens],
+        ["guardianspirit", albionGuardian],
+        ["hamifi", hamifi],
+        ["sestro", sestro],
+        ["rodere", rodere],
+        ["vellia", vellia]
     ]);
- 
+
     getDataFromStorage("vastErrorSettings")
         .then(function (allCharacters) {
-            //TO-DO: make this less ridiculous
-            //go through each quirk and enable (or disable) as needed
+            var resultingMap = new Map();
             for (character of allCharacters) {
-                if (character.enabled === false) {
+                //(TO-DO) grab the current quirk from the character instead
+                //(Right now) grab the current quirk for this character from our ur-map
+                var characterQuirk = quirkMap.get(character.name);
+                if (characterQuirk && character.enabled === true) {
                     for (alias of character.aliases) {
-                        quirkMap.delete(alias);
+                        resultingMap.set(alias, characterQuirk);
                     }
                 }
             }
-            vastErrorQuirks = quirkMap;
+            vastErrorQuirks = resultingMap;
         })
         .catch(function (err) {
             console.log(err.message);
-            vastErrorQuirks = quirkMap; //default
+            //TO-DO: figure out what to do here
         });
 
 }

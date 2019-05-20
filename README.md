@@ -30,5 +30,5 @@ git clone git@github.com:kmtenhouse/homeunstuck.git
 * **Security note**: please remember to always _disable developer mode_ when you have completed testing!
 
 ## Future Releases
-* V0.5 - Enable and disable quirk corrections for each character via extension options
+* V0.5 - Enable/disable quirk replacement via the options page
 * V0.6 - Customize which parts of each quirk are being corrected (and how) 
