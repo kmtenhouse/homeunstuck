@@ -1,16 +1,21 @@
-//LOAD QUIRKS
-/* chrome.storage.sync.get(['vastErrorSettings'], function (result) {
-    console.log('Value currently is '+ result);
-}); */
+//GLOBAL VARIABLES
+var vastErrorQuirks = null;
+initializeQuirkList();
 
 //MAIN SCRIPT
 //Attach a mutation listener to the entire document
 var observer = new MutationObserver(function (mutations) {
-    mutations.forEach(function (mutation) {
-        if (mutation.target.nodeName !== 'SCRIPT') {
-            traverseDOM(mutation.target);
-        }
-    })
+    if (vastErrorQuirks === null) {
+        console.log("Quirks need defining!");
+        initializeQuirkList();
+    } else {
+        mutations.forEach(function (mutation) {
+            if (mutation.target.nodeName !== 'SCRIPT') {
+                //first, make sure the quirk is defined
+                traverseDOM(mutation.target);
+            }
+        });
+    }
 });
 
 var observerConfig = {
@@ -37,7 +42,6 @@ function traverseDOM(targetNode) {
     var node;
 
     while (node = treeWalker.nextNode()) {
-        //only grab text nodes that aren't whitespace, and also make sure we haven't touched this element before
         if ((/^(\s*)(\S+)/).test(node.nodeValue)) {
             let fixedQuirk = fixQuirk(node.nodeValue);
 
@@ -48,3 +52,71 @@ function traverseDOM(targetNode) {
     }
 }
 
+//INITIALIZE VARIABLES
+function initializeQuirkList() {
+    var quirkMap = new Map([
+        ["UK", murrit],
+        ["BOOBDRONE", murrit],
+        ["MURRIT", murrit],
+        ["BOOBDROBE", murrit],
+        ["WA", laivan],
+        ["BLUE GUY", laivan],
+        ["LAIVAN", laivan],
+        ["AH", arcjec],
+        ["ARCJEC", arcjec],
+        ["KIDJEC", arcjec],
+        ["PO", tazsia],
+        ["TAZ", tazsia],
+        ["TAZSIA", tazsia],
+        ["DQ", albion],
+        ["ALBION", albion],
+        ["EO", ellsee],
+        ["ELLSEE", ellsee],
+        ["ME", occeus],
+        ["OCCEUS", occeus],
+        ["DISMAS", dismas],
+        ["GD", dismas],
+        ["SA", sovara],
+        ["SOVARA", sovara],
+        ["COLORFUL SNAKE", arcjecDenizens],
+        ["GUY", arcjecDenizens],
+        ["LADY", arcjecDenizens],
+        ["GUARDIANSPIRIT", albionGuardian],
+        ["HAMIFI", hamifi],
+        ["SESTRO", sestro],
+        ["RODERE", rodere],
+        ["VELLIA", vellia]
+    ]);
+
+    getDataFromStorage("vastErrorSettings")
+        .then(function (allCharacters) {
+            //TO-DO: make this less ridiculous
+            //go through each quirk and enable (or disable) as needed
+            for (character of allCharacters) {
+                if (character.enabled === false) {
+                    for (alias of character.aliases) {
+                        quirkMap.delete(alias);
+                    }
+                }
+            }
+            vastErrorQuirks = quirkMap;
+        })
+        .catch(function (err) {
+            console.log(err.message);
+            vastErrorQuirks = quirkMap; //default
+        });
+
+}
+
+function getDataFromStorage(keyName) {
+    return new Promise(function (resolve, reject) {
+        chrome.storage.sync.get([keyName], function (savedObj) {
+            if (savedObj[keyName] !== null && savedObj[keyName] !== undefined) {
+                resolve(savedObj[keyName]);
+            }
+            else {
+                reject(new Error("No data available"));
+            }
+        });
+    });
+}

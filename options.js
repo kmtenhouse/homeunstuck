@@ -68,7 +68,7 @@ function save_options() {
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 function restore_options() {
-    console.log("Restoring");
+
     chrome.storage.sync.get(['vastErrorSettings'], function (savedObj) {
         if (!savedObj.vastErrorSettings || Array.isArray(savedObj.vastErrorSettings) === false) {
             //TO-DO: load default settings to both page and object (?)

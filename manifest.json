@@ -4,20 +4,26 @@
     "version": "0.4",
     "permissions": [
         "storage"
-      ],
+    ],
     "web_accessible_resources": [
         "data/vastError.json"
     ],
     "options_page": "options.html",
     "background": {
-        "scripts": ["background.js"],
+        "scripts": [
+            "background.js"
+        ],
         "persistent": false
-      },
+    },
     "content_scripts": [
         {
+            "permissions": [
+                "storage"
+            ],
             "matches": [
                 "https://mspfa.com/?s=2302*",
-                "https://www.deconreconstruction.com/*"
+                "https://www.deconreconstruction.com/*", 
+                "file://*"
             ],
             "js": [
                 "vastError.js",
