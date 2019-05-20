@@ -54,7 +54,7 @@ function traverseDOM(targetNode) {
 
 //INITIALIZE VARIABLES
 function initializeQuirkList() {
-    var quirkMap = new Map([
+    var quirkMap =  new Map([
         ["UK", murrit],
         ["BOOBDRONE", murrit],
         ["MURRIT", murrit],
@@ -87,7 +87,7 @@ function initializeQuirkList() {
         ["RODERE", rodere],
         ["VELLIA", vellia]
     ]);
-
+ 
     getDataFromStorage("vastErrorSettings")
         .then(function (allCharacters) {
             //TO-DO: make this less ridiculous

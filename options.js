@@ -1,29 +1,12 @@
-// Saves options to chrome.storage
+//MAIN SCRIPT --
+//LISTENERS
+document.addEventListener('DOMContentLoaded', restore_options);
+document.getElementById('save').addEventListener('click',
+    save_options);
 
-//takes in a string of comma-separated troll handles
-//returns an array of UPPERCASE handles
-//on failure, returns a null
-function prepareHandles(str) {
-    var allTags = str.split(',');
-    var results = [];
-    for (let x = 0; x < allTags.length; x++) {
-        var currentTag = allTags[x];
-        currentTag = currentTag.trim();
-        if (currentTag !== '') {
-            //make sure that we only allow a-z, 0-9, and spaces in trolltag names
-            if (/([A-Z\s])\w+/gi.test(currentTag) !== false) {
-                results.push(currentTag);
-            }
-            else {
-                console.log("Tag error: " + currentTag);
-            }
-        }
-    }
-    return results;
-}
 
+//SAVE AND RESTORE FUNCTIONS
 function save_options() {
-
     var characterSettings = document.getElementsByClassName('characterSettings');
     var allCharacterSettings = [];
     for (let settingsBlock of characterSettings) {
@@ -46,14 +29,10 @@ function save_options() {
         if (newCharacter.name !== undefined && newCharacter.aliases !== undefined && newCharacter.enabled !== undefined) {
             allCharacterSettings.push(newCharacter);
         }
-        else {
-            console.log("Problem!");
-            console.log(newCharacter);
-        }
     }
 
     //save all our compiled settings into the browser
-    chrome.storage.sync.set({
+    chrome.storage.sync.set( {
         vastErrorSettings: allCharacterSettings
     }, function () {
         // Update status to let user know options were saved.
@@ -68,12 +47,10 @@ function save_options() {
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 function restore_options() {
-
     chrome.storage.sync.get(['vastErrorSettings'], function (savedObj) {
         if (!savedObj.vastErrorSettings || Array.isArray(savedObj.vastErrorSettings) === false) {
             //TO-DO: load default settings to both page and object (?)
-           console.log("Error");
-            // settingsContainer.textContent = "Error: initial settings failed to load!"
+            settingsContainer.textContent = "Error: initial settings failed to load!"
             return;
         }
         //go through all the results and find the right elements, then plop them back on the page
@@ -87,15 +64,36 @@ function restore_options() {
                         child.checked = character.enabled;
                     }
                     else if (child.classList.contains('character-aliases')) {
-                       child.value = character.aliases.join(", ");
+                        child.value = character.aliases.join(", ");
                     }
                 }
-            } 
+            }
         }
     });
 }
 
-//LISTENERS
-document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('save').addEventListener('click',
-    save_options);
+
+
+//HELPER FUNCTIONS
+//
+//takes in a string of comma-separated troll handles
+//returns an array of UPPERCASE handles
+//on failure, returns a null
+function prepareHandles(str) {
+    var allTags = str.split(',');
+    var results = [];
+    for (let x = 0; x < allTags.length; x++) {
+        var currentTag = allTags[x];
+        currentTag = currentTag.trim();
+        if (currentTag !== '') {
+            //make sure that we only allow a-z, 0-9, and spaces in trolltag names
+            if (/([A-Z\s])\w+/gi.test(currentTag) !== false) {
+                results.push(currentTag);
+            }
+            else {
+                console.log("Tag error: " + currentTag);
+            }
+        }
+    }
+    return results;
+}
