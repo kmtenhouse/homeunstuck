@@ -11,8 +11,11 @@ function prepareHandles(str) {
         currentTag = currentTag.trim();
         if (currentTag !== '') {
             //make sure that we only allow a-z, 0-9, and spaces in trolltag names
-            if (/[a-z0-9\s]/gi.test(currentTag) !== false && /[\W|_]/g.test(currentTag) !== true) {
+            if (/([A-Z\s])\w+/gi.test(currentTag) !== false) {
                 results.push(currentTag);
+            }
+            else {
+                console.log("Tag error: " + currentTag);
             }
         }
     }
