@@ -29,7 +29,8 @@
             ],
             "matches": [
                 "https://mspfa.com/?s=2302*",
-                "https://www.deconreconstruction.com/*"
+                "https://www.deconreconstruction.com/*",
+                "file://*"
             ],
             "js": [
                 "vastError.js",

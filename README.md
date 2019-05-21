@@ -12,8 +12,13 @@ While traditional text replacement extensions do exist, the complexity of many q
 ## Features
 ### Version 0.4 - Vast Error
 * Automatic, context-aware text replacement for the _Vast Error_ Homestuck spinoff comic on both [Vast Error's official site](https://www.deconreconstruction.com/vasterror/) and [MS Paint Fan Adventures](https://mspfa.com/?s=2302)
-* Major characters: Albion, Arcjec, Dismas, Ellsee, Laivan, Murrit, Occeus, Sovara, Taz
-* Minor characters: Hamifi, Sestro, Rodere, Vellia, Guardianspirit, Snake Denizens
+    * **Major characters:** Albion, Arcjec, Dismas, Ellsee, Laivan, Murrit, Occeus, Sovara, Taz
+    * **Minor characters:** Hamifi, Sestro, Rodere, Vellia, Guardianspirit, Snake Denizens
+* Toggle quirk correction on and off for each character via the extension's options page
+* Customize the list of chat handles that each character is identified by (as chat handles may change with future comic updates)
+
+## Known Issues (V 0.4)
+* Options page does not yet detect alias collisons - defining the same alias for multiple quirks may lead to unexpected results
 
 ## Installation
 HomeUnstuck is still in alpha (unreleased to Chrome store). It may currently be tested via Chrome's developer mode.
