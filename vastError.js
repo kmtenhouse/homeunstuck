@@ -1,5 +1,4 @@
-//VAST ERROR QUIRK SETTINGS
-//INDIVIDUAL TROLLS 
+//VAST ERROR - DEFAULT QUIRK SETTINGS
 function vastErrorDefaultQuirks() {
     var murrit = {
         name: "Murrit",

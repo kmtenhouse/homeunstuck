@@ -60,8 +60,8 @@ function getQuirkMap() {
             if (savedObj['vastErrorSettings'] !== null && savedObj['vastErrorSettings'] !== undefined) {
                 var baseQuirkMap = vastErrorDefaultQuirks();
                 var resultingMap = new Map();
-                for (character of allCharacters) {
-                    //(TO-DO) grab the current quirk from storage instead
+                for (character of savedObj['vastErrorSettings']) {
+                    //(TO-DO) grab the quirk from storage instead
                     //(Right now) grab the current quirk from our uber-map
                     var characterQuirk = baseQuirkMap.get(character.name);
                     if (characterQuirk && character.enabled === true) {
