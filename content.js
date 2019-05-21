@@ -1,12 +1,12 @@
 //GLOBAL VARIABLES
 var vastErrorQuirks = null;
-initializeQuirkList();
+initializeQuirkList(); //to-do: refactor 
 
 //MAIN SCRIPT
 //Attach a mutation listener to the entire document
 var observer = new MutationObserver(function (mutations) {
-    if (vastErrorQuirks === null) {
-        initializeQuirkList();
+    if (vastErrorQuirks === null) { 
+        initializeQuirkList(); //to-do: refactor so this continues with execution after setting
     } else {
         mutations.forEach(function (mutation) {
             if (mutation.target.nodeName !== 'SCRIPT') {
