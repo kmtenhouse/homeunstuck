@@ -49,7 +49,6 @@ function save_options() {
 function restore_options() {
     chrome.storage.sync.get(['vastErrorSettings'], function (savedObj) {
         if (!savedObj.vastErrorSettings || Array.isArray(savedObj.vastErrorSettings) === false) {
-            //TO-DO: load default settings to both page and object (?)
             settingsContainer.textContent = "Error: initial settings failed to load!"
             return;
         }

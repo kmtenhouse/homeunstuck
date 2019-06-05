@@ -15,6 +15,13 @@
     "web_accessible_resources": [
         "data/vastError.json"
     ],
+    "page_action": {
+        "default_icon": {
+            "16": "icon-16.png",
+            "32": "icon-32.png"
+        },
+        "default_title": "HomeUnstuck: making Murrit readable since 2k19"
+    },
     "options_page": "options.html",
     "background": {
         "scripts": [
