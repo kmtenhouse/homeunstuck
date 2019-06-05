@@ -6,19 +6,19 @@
         "storage"
     ],
     "icons": {
-        "16": "icon-16.png",
-        "32": "icon-32.png",
-        "48": "icon-48.png",
-        "64": "icon-64.png",
-        "128": "icon-128.png"
+        "16": "icons/icon-16.png",
+        "32": "icons/icon-32.png",
+        "48": "icons/icon-48.png",
+        "64": "icons/icon-64.png",
+        "128": "icons/icon-128.png"
     },
     "web_accessible_resources": [
         "data/vastError.json"
     ],
     "page_action": {
         "default_icon": {
-            "16": "icon-16.png",
-            "32": "icon-32.png"
+            "16": "icons/icon-16.png",
+            "32": "icons/icon-32.png"
         },
         "default_title": "HomeUnstuck: making Murrit readable since 2k19"
     },
@@ -36,8 +36,7 @@
             ],
             "matches": [
                 "https://mspfa.com/?s=2302*",
-                "https://www.deconreconstruction.com/*",
-                "file://*"
+                "https://www.deconreconstruction.com/*"
             ],
             "js": [
                 "vastError.js",
