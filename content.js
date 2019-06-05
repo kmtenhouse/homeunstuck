@@ -10,7 +10,7 @@ var observer = new MutationObserver(function (mutations) {
             });
         })
         .catch(function (err) {
-            console.log("An error has occurred reading the quirk map!");
+            console.log("An error has occurred reading the quirk map!  Quirks cannot be corrected at this time.");
         });
 });
 

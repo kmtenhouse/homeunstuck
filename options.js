@@ -20,7 +20,6 @@ function save_options() {
             else if (child.classList.contains('character-aliases')) {
                 let arrayOfAliases = prepareHandles(child.value);
                 newCharacter.aliases = arrayOfAliases;
-                //reset the form
                 //(TO-DO: Put form validation elsewhere before this even happens)
                 child.value = arrayOfAliases.join(", ");
             }
@@ -86,8 +85,9 @@ function prepareHandles(str) {
         currentTag = currentTag.trim();
         if (currentTag !== '') {
             //make sure that we only allow a-z, 0-9, and spaces in trolltag names
-            if (/([A-Z\s])\w+/gi.test(currentTag) !== false) {
-                results.push(currentTag);
+            if (/[^\w\s\d]/gi.test(currentTag) === false) {
+                //note: tags are also always stored as allcaps
+                results.push(currentTag.toUpperCase());
             }
             else {
                 console.log("Tag error: " + currentTag);
