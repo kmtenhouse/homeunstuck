@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "HomeUnstuck",
-    "version": "0.4",
+    "version": "0.0.0.4",
     "permissions": [
         "storage"
     ],
