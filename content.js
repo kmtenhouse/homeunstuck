@@ -116,7 +116,7 @@ function parseQuirk(str, characterQuirk) {
         str = str.replace(characterQuirk.suffix, '');
     }
 
-    //fix any word separators
+    //next, fix any word separators
     if (characterQuirk.separator.replace) {
         const originalSeparator = escapeRegExp(characterQuirk.separator.original);
        
