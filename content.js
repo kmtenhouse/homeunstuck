@@ -4,6 +4,7 @@ getQuirkMap()
     .then(quirkMap => {
         //Run the initial pass on the document itself
         const targetNode = document.documentElement || document.body;
+        traverseDOM(targetNode, quirkMap);
         //Attach a mutation listener to the entire document to capture dynamic changes as readers interact with the comic pages
         observeDOM(targetNode, quirkMap);
     })
