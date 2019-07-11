@@ -35,14 +35,14 @@ function observeDOM(targetNode, quirkMap) {
 //
 //DOM TRAVERSAL (with native treewalker)
 function traverseDOM(targetNode, quirkMap) {
-    var treeWalker = document.createTreeWalker(
+    const treeWalker = document.createTreeWalker(
         targetNode,
         NodeFilter.SHOW_TEXT,
         null,
         false
     );
 
-    var node;
+    let node;
 
     while (node = treeWalker.nextNode()) {
         if ((/^(\s*)(\S+)/).test(node.nodeValue)) {
