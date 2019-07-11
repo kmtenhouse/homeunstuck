@@ -1,27 +1,33 @@
-//MAIN SCRIPT
-//Attach a mutation listener to the entire document
-var observer = new MutationObserver(function (mutations) {
-    getQuirkMap()
-        .then(function (quirkMap) {
-            mutations.forEach(function (mutation) {
-                if (mutation.target.nodeName !== 'SCRIPT') {
-                    traverseDOM(mutation.target, quirkMap);
-                }
-            });
-        })
-        .catch(function (err) {
-            console.log("An error has occurred reading the quirk map!  Quirks cannot be corrected at this time.");
+//MAIN SCRIPTS
+//Get the quirk map and then perform an initial pass through the document body to fix any displayed text
+getQuirkMap()
+    .then(quirkMap => {
+        //Run the initial pass on the document itself
+        const targetNode = document.documentElement || document.body;
+        //Attach a mutation listener to the entire document to capture dynamic changes as readers interact with the comic pages
+        observeDOM(targetNode, quirkMap);
+    })
+    .catch(err => {
+        console.log(`${err.name}\nAn error has occurred reading the quirk map!  Quirks cannot be corrected at this time.`);
+    });
+
+//DOM OBSERVATION
+function observeDOM(targetNode, quirkMap) {
+    const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            if (mutation.target.nodeName !== 'SCRIPT') {
+                traverseDOM(mutation.target, quirkMap);
+            }
         });
-});
+    });
 
-var observerConfig = {
-    subtree: true,
-    childList: true
-};
+    const observerConfig = {
+        subtree: true,
+        childList: true
+    };
 
-// Listen to all changes to the entire body
-var targetNode = document.documentElement || document.body;
-observer.observe(targetNode, observerConfig);
+    observer.observe(targetNode, observerConfig);
+}
 
 // HELPER FUNCTIONS
 //
@@ -94,7 +100,7 @@ function fixQuirk(str, quirkMap) {
     if (!quirkMap.has(pesterLogID)) {
         return null;
     }
-    
+
     let characterQuirk = quirkMap.get(pesterLogID);
 
     return pesterLogID + ": " + parseQuirk(pesterLogText, characterQuirk);
