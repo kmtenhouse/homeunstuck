@@ -58,27 +58,22 @@ function traverseDOM(targetNode, quirkMap) {
 //INITIALIZE VARIABLES
 //Promise-based function that initializes a quirk map based on which quirks the user has enabled from the options page
 function getQuirkMap() {
-    return new Promise(function (resolve, reject) {
-        chrome.storage.sync.get('vastErrorSettings', function (savedObj) {
-            if (savedObj['vastErrorSettings'] !== null && savedObj['vastErrorSettings'] !== undefined) {
-                var baseQuirkMap = vastErrorDefaultQuirks();
-                var resultingMap = new Map();
-                for (character of savedObj['vastErrorSettings']) {
-                    //(TO-DO) grab the quirk from storage instead
-                    //(Right now) grab the current quirk from our uber-map
-                    var characterQuirk = baseQuirkMap.get(character.name);
-                    if (characterQuirk && character.enabled === true) {
-                        for (alias of character.aliases) {
-                            resultingMap.set(alias, characterQuirk);
-                        }
-                    }
-                }
-                resolve(resultingMap);
-
-            }
-            else {
+    return new Promise((resolve, reject) => {
+        chrome.storage.sync.get('vastErrorSettings', savedObj => {
+            if (savedObj['vastErrorSettings'] === null && savedObj['vastErrorSettings'] === undefined) {
                 reject(new Error("No data available"));
             }
+            const baseQuirkMap = vastErrorDefaultQuirks();
+            const filteredMap = new Map();
+            for (character of savedObj['vastErrorSettings']) {
+                let characterQuirk = baseQuirkMap.get(character.name);
+                if (characterQuirk && character.enabled === true) {
+                    for (alias of character.aliases) {
+                        filteredMap.set(alias, characterQuirk);
+                    }
+                }
+            }
+            resolve(filteredMap);
         });
     });
 }
