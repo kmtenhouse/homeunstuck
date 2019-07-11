@@ -118,21 +118,20 @@ function parseQuirk(str, characterQuirk) {
 
     //fix any word separators
     if (characterQuirk.separator.replace) {
-
-        var escapedOriginal = escapeRegExp(characterQuirk.separator.original);
-        var replaceWith = characterQuirk.separator.replaceWith;
-
+        const originalSeparator = escapeRegExp(characterQuirk.separator.original);
+       
         //Case One: punctuation  
         //We remove the separator and then leave the punctuation itself
         //Example (quirk: -): I guess I'm fine-!  =>  I guess I'm fine!
-        var separatorBeforePunctuation = new RegExp(escapedOriginal + '(?=[\!\?\,\;\.\!])', 'g');
+        const separatorBeforePunctuation = new RegExp(originalSeparator + '(?=[\!\?\,\;\.\!])', 'g');
         str = str.replace(separatorBeforePunctuation, '');
 
         //Case Two (quirk *): in between word spacing
         //Remove the current separator and replace with the new one
         //Example: I*am*happy. => I am happy.
-        var betweenWords = new RegExp(escapedOriginal, 'g');
-        str = str.replace(betweenWords, replaceWith);
+        const newWordSeparator = characterQuirk.separator.replaceWith;
+        const currentWordSeparator = new RegExp(originalSeparator, 'g');
+        str = str.replace(currentWordSeparator, newWordSeparator);
     }
 
     //swap out any special characters as necessary
