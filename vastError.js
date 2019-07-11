@@ -1,6 +1,6 @@
 //VAST ERROR - DEFAULT QUIRK SETTINGS
 function vastErrorDefaultQuirks() {
-    var murrit = {
+    const murrit = {
         name: "Murrit",
         sentences: {
             enforceCase: null,
@@ -20,7 +20,7 @@ function vastErrorDefaultQuirks() {
         whiteList: []
     };
 
-    var laivan = {
+    const laivan = {
         name: "Laivan",
         sentences: {
             enforceCase: null,
@@ -41,7 +41,7 @@ function vastErrorDefaultQuirks() {
         whiteList: []
     };
 
-    var arcjec = {
+    const arcjec = {
         name: "Arcjec",
         sentences: {
             enforceCase: null,
@@ -59,7 +59,7 @@ function vastErrorDefaultQuirks() {
         whiteList: []
     };
 
-    var tazsia = {
+    const tazsia = {
         name: "Tazsia",
         sentences: {
             enforceCase: null,
@@ -79,7 +79,7 @@ function vastErrorDefaultQuirks() {
         whiteList: ['+m+']
     };
 
-    var albion = {
+    const albion = {
         name: "Albion",
         sentences: {
             enforceCase: null,
@@ -98,7 +98,7 @@ function vastErrorDefaultQuirks() {
         whiteList: []
     };
 
-    var ellsee = {
+    const ellsee = {
         name: "Ellsee",
         sentences: {
             enforceCase: null,
@@ -120,7 +120,7 @@ function vastErrorDefaultQuirks() {
         whiteList: []
     };
 
-    var occeus = {
+    const occeus = {
         name: "Occeus",
         sentences: {
             enforceCase: null,
@@ -142,7 +142,7 @@ function vastErrorDefaultQuirks() {
         whiteList: []
     };
 
-    var sovara = {
+    const sovara = {
         name: "Sovara",
         sentences: {
             enforceCase: 'propercase',
@@ -160,7 +160,7 @@ function vastErrorDefaultQuirks() {
         whiteList: []
     };
 
-    var dismas = {
+    const dismas = {
         name: "Dismas",
         sentences: {
             enforceCase: null,
@@ -181,7 +181,7 @@ function vastErrorDefaultQuirks() {
         whiteList: []
     };
 
-    var arcjecDenizens = {
+    const arcjecDenizens = {
         name: "snakeDenizens",
         sentences: {
             enforceCase: 'lowercase',
@@ -202,7 +202,7 @@ function vastErrorDefaultQuirks() {
         whiteList: []
     };
 
-    var albionGuardian = {
+    const albionGuardian = {
         name: "Guardianspirit",
         sentences: {
             enforceCase: 'lowercase',
@@ -210,7 +210,7 @@ function vastErrorDefaultQuirks() {
             addMissingPeriods: false
         },
         prefix: /^\*{6}/,
-        suffix: /\*{5}\-$/,
+        suffix: /\*{5,}\-$/,
         separator: {
             replace: false,
             original: ' ',
@@ -220,7 +220,7 @@ function vastErrorDefaultQuirks() {
         whiteList: []
     };
 
-    var hamifi = {
+    const hamifi = {
         name: "Hamifi",
         sentences: {
             enforceCase: null,
@@ -238,7 +238,7 @@ function vastErrorDefaultQuirks() {
         whiteList: []
     }
 
-    var sestro = {
+    const sestro = {
         name: "Sestro",
         sentences: {
             enforceCase: 'propercase',
@@ -256,7 +256,7 @@ function vastErrorDefaultQuirks() {
         whiteList: []
     }
 
-    var rodere = {
+    const rodere = {
         name: "Rodere",
         sentences: {
             enforceCase: 'propercase',
@@ -274,7 +274,7 @@ function vastErrorDefaultQuirks() {
         whiteList: []
     }
 
-    var vellia = {
+    const vellia = {
         name: "Vellia",
         sentences: {
             enforceCase: null,
@@ -295,7 +295,7 @@ function vastErrorDefaultQuirks() {
     }
 
     //create a map to all these trolls...
-    var quirkMap = new Map([
+    const quirkMap = new Map([
         ["murrit", murrit],
         ["laivan", laivan],
         ["arcjec", arcjec],
