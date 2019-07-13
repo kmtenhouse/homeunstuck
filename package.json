@@ -1,0 +1,22 @@
+{
+  "name": "homeunstuck",
+  "version": "0.0.6",
+  "description": "A chrome extension to make the webcomic homestuck and its spinoffs more accessible to readers with disabilities.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kmtenhouse/homeunstuck.git"
+  },
+  "keywords": [
+    "accessibility"
+  ],
+  "author": "Katherine Tenhouse",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kmtenhouse/homeunstuck/issues"
+  },
+  "homepage": "https://github.com/kmtenhouse/homeunstuck#readme"
+}
