@@ -3,7 +3,7 @@
 let localConfig = {
   hostname: "localhost",
   port: 3000,
-  staticDir: "./app/public"
+  staticDir: "./server/public"
 };
 
 module.exports = localConfig;

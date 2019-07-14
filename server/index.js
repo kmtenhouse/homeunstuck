@@ -39,6 +39,7 @@ module.exports = function() {
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept"
       );
+      console.log(`Attempting to hit ${req.url}`);
       next();
     });
 
