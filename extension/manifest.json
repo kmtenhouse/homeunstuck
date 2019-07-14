@@ -37,7 +37,7 @@
             "matches": [
                 "https://mspfa.com/?s=2302*",
                 "https://www.deconreconstruction.com/*",
-		        "localhost:*"
+		        "http://localhost/*"
             ],
             "js": [
                 "vastError.js",
